@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Venture Digest</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; margin-bottom: 3rem; padding: 2rem; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); border-radius: 16px; }
+        h1 { font-size: 2.5rem; color: #60a5fa; margin-bottom: 0.5rem; }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .section { background: #1e293b; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .section-title { font-size: 1.3rem; color: #60a5fa; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .challenges { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .challenge-card { background: #334155; padding: 1rem; border-radius: 8px; cursor: pointer; transition: transform 0.2s; }
+        .challenge-card:hover { transform: translateY(-2px); background: #3b4c63; }
+        .challenge-card h3 { color: #f8fafc; margin-bottom: 0.5rem; font-size: 1rem; }
+        .challenge-meta { color: #94a3b8; font-size: 0.85rem; }
+        .article { padding: 1rem; border-bottom: 1px solid #334155; }
+        .article:last-child { border-bottom: none; }
+        .article-title { color: #f8fafc; text-decoration: none; font-weight: 600; display: block; margin-bottom: 0.5rem; }
+        .article-title:hover { color: #60a5fa; }
+        .article-meta { color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .article-summary { color: #cbd5e1; font-size: 0.95rem; }
+        .category-badge { display: inline-block; padding: 0.2rem 0.5rem; background: #3b4c63; border-radius: 4px; font-size: 0.75rem; margin-left: 0.5rem; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #0f172a; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .quick-hit { padding: 0.75rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #334155; }
+        .quick-hit:last-child { border-bottom: none; }
+        .quick-hit a { color: #e2e8f0; text-decoration: none; flex: 1; }
+        .quick-hit a:hover { color: #60a5fa; }
+        .tool-spotlight { display: flex; gap: 1.5rem; align-items: center; }
+        .tool-info { flex: 1; }
+        .tool-info h3 { color: #f8fafc; margin-bottom: 0.5rem; }
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #3b82f6; color: white; text-decoration: none; border-radius: 8px; font-weight: 500; }
+        .btn:hover { background: #2563eb; }
+        #no-video { text-align: center; padding: 3rem; color: #64748b; }
+        .archive-toggle { background: none; border: 1px solid #334155; color: #94a3b8; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .archive-toggle:hover { background: #1e293b; }
+        #archive { display: none; margin-top: 1rem; }
+        #archive.show { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Venture Digest</h1>
+            <p class="subtitle">Your 30-minute morning briefing</p>
+            <p class="subtitle" id="date"></p>
+        </header>
+        <section class="section">
+            <h2 class="section-title">🎯 Pick Today's Challenge</h2>
+            <div class="challenges" id="challenges"></div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">📚 Top 5 Must-Reads</h2>
+            <div id="top5"></div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">🎬 Watch & Learn</h2>
+            <div id="video"></div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">⚡ Quick Hits</h2>
+            <div id="quickhits"></div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">🔧 Tool Spotlight</h2>
+            <div id="tool"></div>
+        </section>
+        <button class="archive-toggle" onclick="toggleArchive()">📁 Show All Articles</button>
+        <div id="archive"></div>
+    </div>
+    <script>
+        async function loadData() {
+            try {
+                const res = await fetch('data/articles.json');
+                const data = await res.json();
+                renderPage(data.articles);
+                document.getElementById('date').textContent = new Date(data.last_updated).toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+            } catch(e) { console.error('Failed to load:', e); }
+        }
+        function renderPage(articles) {
+            const challenges = articles.filter(a => a.category === 'examples').slice(0, 3);
+            document.getElementById('challenges').innerHTML = challenges.map(a => `
+                <div class="challenge-card" onclick="window.open('${a.url}', '_blank')">
+                    <h3>${a.title}</h3>
+                    <p class="challenge-meta">~${Math.ceil(a.summary?.length/200) || 15} min</p>
+                </div>
+            `).join('') || '<p style="color:#64748b">No challenges today</p>';
+            const top5 = articles.filter(a => a.category !== 'examples').slice(0, 5);
+            document.getElementById('top5').innerHTML = top5.map((a, i) => `
+                <div class="article">
+                    <a href="${a.url}" target="_blank" class="article-title">${i+1}. ${a.title}</a>
+                    <p class="article-meta">${a.source}<span class="category-badge">${a.category}</span></p>
+                    <p class="article-summary">${a.summary || ''}</p>
+                </div>
+            `).join('');
+            const videoArticle = articles.find(a => a.url?.includes('youtube.com') || a.url?.includes('youtu.be'));
+            if (videoArticle) {
+                const videoId = videoArticle.url.match(/(?:v=|youtu\.be\/)([^&]+)/)?.[1];
+                if (videoId) {
+                    document.getElementById('video').innerHTML = `
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <p style="margin-top:1rem;color:#94a3b8">${videoArticle.title}</p>
+                    `;
+                }
+            } else {
+                document.getElementById('video').innerHTML = '<p id="no-video">No video content today</p>';
+            }
+            const quickhits = articles.slice(5, 12);
+            document.getElementById('quickhits').innerHTML = quickhits.map(a => `
+                <div class="quick-hit">
+                    <a href="${a.url}" target="_blank">${a.title}</a>
+                    <span class="category-badge">${a.category}</span>
+                </div>
+            `).join('');
+            const tool = articles.find(a => a.category === 'tools');
+            if (tool) {
+                document.getElementById('tool').innerHTML = `
+                    <div class="tool-spotlight">
+                        <div class="tool-info">
+                            <h3>${tool.title}</h3>
+                            <p style="color:#94a3b8;margin-bottom:1rem">${tool.summary || ''}</p>
+                            <a href="${tool.url}" target="_blank" class="btn">Try it →</a>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('archive').innerHTML = articles.map(a => `
+                <div class="quick-hit">
+                    <a href="${a.url}" target="_blank">${a.title}</a>
+                    <span class="category-badge">${a.category}</span>
+                </div>
+            `).join('');
+        }
+        function toggleArchive() {
+            const archive = document.getElementById('archive');
+            archive.classList.toggle('show');
+            event.target.textContent = archive.classList.contains('show') ? '📁 Hide Archive' : '📁 Show All Articles';
+        }
+        loadData();
+    </script>
+</body>
+</html>

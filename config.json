@@ -1,0 +1,32 @@
+{
+  "title": "AI Venture Digest",
+  "subtitle": "Your 30-minute morning briefing",
+  "sources": {
+    "rss_feeds": [
+      {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "reputation": 0.9},
+      {"name": "The Verge AI", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "reputation": 0.85},
+      {"name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/technology-lab", "reputation": 0.85},
+      {"name": "MIT Tech Review", "url": "https://www.technologyreview.com/feed/", "reputation": 0.95},
+      {"name": "VentureBeat AI", "url": "https://venturebeat.com/category/ai/feed/", "reputation": 0.8},
+      {"name": "OpenAI Blog", "url": "https://openai.com/blog/rss.xml", "reputation": 1.0},
+      {"name": "Anthropic Blog", "url": "https://www.anthropic.com/index/rss.xml", "reputation": 1.0},
+      {"name": "Google AI Blog", "url": "https://blog.google/technology/ai/rss/", "reputation": 0.95},
+      {"name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "reputation": 0.9}
+    ],
+    "hacker_news": {"enabled": true, "min_score": 50},
+    "reddit": {"enabled": true, "subreddits": ["MachineLearning", "artificial", "LocalLLaMA"], "min_score": 100}
+  },
+  "filters": {
+    "engagement_weight": 0.3,
+    "reputation_weight": 0.25,
+    "recency_weight": 0.2,
+    "relevance_weight": 0.25,
+    "max_age_hours": 48,
+    "max_articles": 50
+  },
+  "topics": ["llm", "gpt", "claude", "gemini", "ai agent", "langchain", "rag", "fine-tuning", "prompt engineering", "ai startup", "generative ai", "diffusion", "transformer", "neural network"],
+  "newsletter": {
+    "subject_prefix": "AI Venture Digest",
+    "from_name": "AI Venture Digest"
+  }
+}
