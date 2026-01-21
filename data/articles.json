@@ -1,50 +1,505 @@
 {
-  "last_updated": "2026-01-21T07:00:00Z",
+  "last_updated": "2026-01-21T13:22:53.799731Z",
   "articles": [
     {
-      "title": "Claude 4 Released: Anthropic's Most Capable AI Yet",
-      "url": "https://www.anthropic.com/news/claude-4",
-      "source": "Anthropic Blog",
-      "category": "news",
-      "summary": "Anthropic releases Claude 4 with breakthrough reasoning capabilities and improved safety features.",
-      "score": 98,
-      "published": "2026-01-21T06:00:00Z"
+      "title": "The Google guide for holiday help",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/holiday-planning-ai-gemini-tips/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Holiday_Collection_header.max-600x600.format-webp.webp\">Learn more about using Google products like Gemini, Search, Shopping, Pixel and more over the holidays.",
+      "published": "Tue, 25 Nov 2025 18:00:00 +0000",
+      "reputation": 0.95,
+      "score": 52.3,
+      "category": "examples"
     },
     {
-      "title": "Building Voice AI Assistants with Realtime APIs",
-      "url": "https://www.youtube.com/watch?v=example123",
-      "source": "AI Builder",
-      "category": "examples",
-      "summary": "Step-by-step tutorial on building voice-enabled AI assistants using OpenAI's Realtime API.",
-      "score": 92,
-      "published": "2026-01-20T14:00:00Z"
+      "title": "Cisco and OpenAI redefine enterprise engineering with AI agents",
+      "url": "https://openai.com/index/cisco",
+      "source": "OpenAI Blog",
+      "summary": "Cisco and OpenAI redefine enterprise engineering with Codex, an AI software agent embedded in workflows to speed builds, automate defect fixes, and enable AI-native development.",
+      "published": "Tue, 20 Jan 2026 11:00:00 GMT",
+      "reputation": 1.0,
+      "score": 51.8,
+      "category": "news"
     },
     {
-      "title": "RAG Patterns for Production: A Complete Guide",
-      "url": "https://techcrunch.com/rag-patterns-guide",
+      "title": "Our approach to age prediction",
+      "url": "https://openai.com/index/our-approach-to-age-prediction",
+      "source": "OpenAI Blog",
+      "summary": "ChatGPT is rolling out age prediction to estimate if accounts are under or over 18, applying safeguards for teens and refining accuracy over time.",
+      "published": "Tue, 20 Jan 2026 00:00:00 GMT",
+      "reputation": 1.0,
+      "score": 51.8,
+      "category": "news"
+    },
+    {
+      "title": "A business that scales with the value of intelligence",
+      "url": "https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence",
+      "source": "OpenAI Blog",
+      "summary": "OpenAI\u2019s business model scales with intelligence\u2014spanning subscriptions, API, ads, commerce, and compute\u2014driven by deepening ChatGPT adoption.",
+      "published": "Sun, 18 Jan 2026 10:00:00 GMT",
+      "reputation": 1.0,
+      "score": 51.8,
+      "category": "business"
+    },
+    {
+      "title": "The era of agentic chaos and how data will save us",
+      "url": "https://www.technologyreview.com/2026/01/20/1130911/the-era-of-agentic-chaos-and-how-data-will-save-us/",
+      "source": "MIT Tech Review",
+      "summary": "AI agents are moving beyond coding assistants and customer service chatbots into the operational core of the enterprise. The ROI is promising, but autonomy without alignment is a recipe for chaos. Business leaders need to lay the essential foundations now. The agent explosion is coming Agents are in",
+      "published": "Tue, 20 Jan 2026 15:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Going beyond pilots with composable and sovereign AI",
+      "url": "https://www.technologyreview.com/2026/01/19/1131422/going-beyond-pilots-with-composable-and-sovereign-ai/",
+      "source": "MIT Tech Review",
+      "summary": "Today marks an inflection point for enterprise AI adoption. Despite billions invested in generative AI, only 5% of integrated pilots deliver measurable business value and nearly one in two companies abandons AI initiatives before reaching production. The bottleneck is not the models themselves. What",
+      "published": "Mon, 19 Jan 2026 11:59:33 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Building a community-led future for AI in film with Sundance Institute",
+      "url": "https://blog.google/company-news/outreach-and-initiatives/google-org/sundance-institute-ai-education/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Building_a_community-led_future.max-600x600.format-webp.webp\">A look at how Sundance Institute will build a community-led ecosystem for AI education and empowerment, to support creatives.",
+      "published": "Tue, 20 Jan 2026 20:30:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "examples"
+    },
+    {
+      "title": "How Nano Banana got its name",
+      "url": "https://blog.google/products-and-platforms/products/gemini/how-nano-banana-got-its-name/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/NanoBananaName_Hero.max-600x600.format-webp.webp\">We\u2019re peeling back the origin story of Nano Banana, one of Google DeepMind\u2019s most popular models.",
+      "published": "Thu, 15 Jan 2026 16:06:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Learners and educators are AI\u2019s new \u201csuper users\u201d",
+      "url": "https://blog.google/products-and-platforms/products/education/our-life-with-ai-2025/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/aiineducatiuonJan2026_hero_v2.max-600x600.format-webp.webp\">Google\u2019s 2025 Our Life with AI survey found people are using AI tools to learn new things.",
+      "published": "Thu, 15 Jan 2026 11:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Introducing Community Benchmarks on Kaggle",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/kaggle-community-benchmarks/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/hero-final.max-600x600.format-webp.webp\">Community Benchmarks on Kaggle lets the community build, share and run custom evaluations for AI models.",
+      "published": "Wed, 14 Jan 2026 14:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Announcing the winner of the Global AI Film Award",
+      "url": "https://blog.google/company-news/inside-google/around-the-globe/google-middle-east/winner-of-the-global-ai-film-award/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/FAYZ0207.max-600x600.format-webp.webp\">Over the past year, we\u2019ve witnessed how creators globally have been using our AI models and tools to share their stories with the world. That\u2019s why we launched the AI Fi\u2026",
+      "published": "Wed, 14 Jan 2026 10:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Veo 3.1 Ingredients to Video: More consistency, creativity and control",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-ingredients-to-video/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/veo-3-1_keyword_blog_header_209.max-600x600.format-webp.webp\">Today, we\u2019re introducing an enhanced version of Veo 3.1 \u201cIngredients to Video.\u201d",
+      "published": "Tue, 13 Jan 2026 17:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "2025 at Google",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/look-back-2025/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/EOY_2025_Header.max-600x600.format-webp.webp\">Learn more about Google\u2019s launches, milestones and more from 2025.",
+      "published": "Tue, 09 Dec 2025 16:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "Investing in America 2025",
+      "url": "https://blog.google/company-news/inside-google/company-announcements/investing-in-america-2025/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/InvestinginAmerica_CollectionHe.max-600x600.format-webp.webp\">Google\u2019s deep investments in American technical infrastructure, R&amp;D and the workforce will help the U.S. continue to lead the world in AI.",
+      "published": "Mon, 17 Nov 2025 20:00:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "business"
+    },
+    {
+      "title": "I/O 2025",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2025-collection/",
+      "source": "Google AI Blog",
+      "summary": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/IO25_hero.max-600x600.format-webp.webp\">We\u2019re doing cutting-edge research to build the most helpful AI that\u2019s more intelligent, agentic and personalized.",
+      "published": "Tue, 20 May 2025 17:45:00 +0000",
+      "reputation": 0.95,
+      "score": 50.5,
+      "category": "news"
+    },
+    {
+      "title": "How countries can end the capability overhang",
+      "url": "https://openai.com/index/how-countries-can-end-the-capability-overhang",
+      "source": "OpenAI Blog",
+      "summary": "Our latest report reveals stark differences in advanced AI adoption across countries and outlines new initiatives to help nations capture productivity gains from AI.",
+      "published": "Wed, 21 Jan 2026 01:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "Introducing Edu for Countries",
+      "url": "https://openai.com/index/edu-for-countries",
+      "source": "OpenAI Blog",
+      "summary": "Edu for Countries is a new OpenAI initiative helping governments use AI to modernize education systems and build future-ready workforces.",
+      "published": "Wed, 21 Jan 2026 01:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "Horizon 1000: Advancing AI for primary healthcare",
+      "url": "https://openai.com/index/horizon-1000",
+      "source": "OpenAI Blog",
+      "summary": "OpenAI and the Gates Foundation launch Horizon 1000, a $50M pilot advancing AI capabilities for healthcare in Africa. The initiative aims to reach 1,000 clinics by 2028.",
+      "published": "Tue, 20 Jan 2026 21:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "Stargate Community",
+      "url": "https://openai.com/index/stargate-community",
+      "source": "OpenAI Blog",
+      "summary": "Stargate Community plans detail a community-first approach to AI infrastructure, using locally tailored plans shaped by community input, energy needs, and workforce priorities.",
+      "published": "Tue, 20 Jan 2026 19:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "ServiceNow powers actionable enterprise AI with OpenAI",
+      "url": "https://openai.com/index/servicenow-powers-actionable-enterprise-ai-with-openai",
+      "source": "OpenAI Blog",
+      "summary": "ServiceNow expands access to OpenAI frontier models to power AI-driven enterprise workflows, summarization, search, and voice across the ServiceNow Platform.",
+      "published": "Tue, 20 Jan 2026 05:45:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "AI for self empowerment",
+      "url": "https://openai.com/index/ai-for-self-empowerment",
+      "source": "OpenAI Blog",
+      "summary": "How AI can expand human agency by closing the capability overhang\u2014helping people, businesses, and countries unlock real productivity, growth, and opportunity.",
+      "published": "Sun, 18 Jan 2026 12:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "The truth left out from Elon Musk\u2019s recent court filing",
+      "url": "https://openai.com/index/the-truth-elon-left-out",
+      "source": "OpenAI Blog",
+      "summary": "The truth left out from Elon Musk\u2019s recent court filing.",
+      "published": "Fri, 16 Jan 2026 12:00:00 GMT",
+      "reputation": 1.0,
+      "score": 50.0,
+      "category": "news"
+    },
+    {
+      "title": "In an effort to protect young users, ChatGPT will now predict how old you are",
+      "url": "https://techcrunch.com/2026/01/20/in-an-effort-to-protect-young-users-chatgpt-will-now-predict-how-old-you-are/",
       "source": "TechCrunch AI",
-      "category": "examples",
-      "summary": "Comprehensive patterns for building production-ready RAG applications.",
-      "score": 88,
-      "published": "2026-01-20T10:00:00Z"
+      "summary": "The feature is designed to stop problematic content from being delivered to users under the age of 18. ",
+      "published": "Tue, 20 Jan 2026 23:29:56 +0000",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
     },
     {
-      "title": "LangGraph 2.0: What's New",
-      "url": "https://blog.langchain.dev/langgraph-2",
-      "source": "LangChain Blog",
-      "category": "tools",
-      "summary": "Major update to LangGraph with improved state management and debugging tools.",
-      "score": 85,
-      "published": "2026-01-20T08:00:00Z"
+      "title": "Humans&, a \u2018human-centric\u2019 AI startup founded by Anthropic, xAI, Google alums, raised $480M seed round",
+      "url": "https://techcrunch.com/2026/01/20/humans-a-human-centric-ai-startup-founded-by-anthropic-xai-google-alums-raised-480m-seed-round/",
+      "source": "TechCrunch AI",
+      "summary": "Humans&#038;, a startup that believes AI should empower people, not replace them, has reportedly raised a $480 million seed round at a $4.48 billion valuation.",
+      "published": "Tue, 20 Jan 2026 16:00:57 +0000",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "business"
     },
     {
-      "title": "AI Funding Hits $50B in Q4 2025",
-      "url": "https://venturebeat.com/ai-funding-q4",
+      "title": "Here are the\u00a055\u00a0US AI startups that raised $100M or more in 2025",
+      "url": "https://techcrunch.com/2026/01/19/here-are-the-49-us-ai-startups-that-have-raised-100m-or-more-in-2025/",
+      "source": "TechCrunch AI",
+      "summary": "Last year was monumental for the AI industry in the U.S. and beyond. How will 2025 compare?",
+      "published": "Mon, 19 Jan 2026 18:06:34 +0000",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "business"
+    },
+    {
+      "title": "AssetOpsBench: Bridging the Gap Between AI Agent Benchmarks and Industrial Reality",
+      "url": "https://huggingface.co/blog/ibm-research/assetopsbench-playground-on-hugging-face",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Wed, 21 Jan 2026 06:25:31 GMT",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
+    },
+    {
+      "title": "Differential Transformer V2",
+      "url": "https://huggingface.co/blog/microsoft/diff-attn-v2",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Tue, 20 Jan 2026 03:20:57 GMT",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
+    },
+    {
+      "title": "Introducing Waypoint-1: Real-time interactive video diffusion from Overworld",
+      "url": "https://huggingface.co/blog/waypoint-1",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Tue, 20 Jan 2026 00:00:00 GMT",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
+    },
+    {
+      "title": "AprielGuard: A Guardrail for Safety and Adversarial Robustness in Modern LLM Systems",
+      "url": "https://huggingface.co/blog/ServiceNow-AI/aprielguard",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Tue, 23 Dec 2025 14:07:35 GMT",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
+    },
+    {
+      "title": "Tokenization in Transformers v5: Simpler, Clearer, and More Modular",
+      "url": "https://huggingface.co/blog/tokenizers",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Thu, 18 Dec 2025 00:00:00 GMT",
+      "reputation": 0.9,
+      "score": 49.3,
+      "category": "news"
+    },
+    {
+      "title": "All anyone wants to talk about at Davos is AI and Donald Trump",
+      "url": "https://www.technologyreview.com/2026/01/21/1131538/all-anyone-wants-to-talk-about-at-davos-is-ai-and-donald-trump/",
+      "source": "MIT Tech Review",
+      "summary": "This story first appeared in The Debrief, our subscriber-only newsletter about the biggest news in tech&#160;by Mat Honan, Editor in Chief. Subscribe to read the next edition as soon as it lands. Hello from the World Economic Forum annual meeting in Davos, Switzerland. I\u2019ve been here for two days no",
+      "published": "Wed, 21 Jan 2026 11:20:51 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "Reimagining ERP for the agentic AI era",
+      "url": "https://www.technologyreview.com/2026/01/20/1129965/reimagining-erp-for-the-agentic-ai-era/",
+      "source": "MIT Tech Review",
+      "summary": "The story of enterprise resource planning (ERP) is really a story of businesses learning to organize themselves around the latest, greatest technology of the times. In the 1960s through the \u201980s, mainframes, material requirements planning (MRP), and manufacturing resource planning (MRP II) brought c",
+      "published": "Tue, 20 Jan 2026 16:14:14 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "The UK government is backing AI that can run its own lab experiments",
+      "url": "https://www.technologyreview.com/2026/01/20/1131462/the-uk-government-is-backing-ai-scientists-that-can-run-their-own-experiments/",
+      "source": "MIT Tech Review",
+      "summary": "A number of startups and university teams that are building \u201cAI scientists\u201d to design and run experiments in the lab, including robot biologists and chemists, have just won extra funding from the UK government agency that supports moonshot R&#38;D. The competition, set up by ARIA (the Advanced Resea",
+      "published": "Tue, 20 Jan 2026 13:28:21 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "The Download: digitizing India, and scoring embryos",
+      "url": "https://www.technologyreview.com/2026/01/20/1131459/the-download-digitizing-india-and-scoring-embryos/",
+      "source": "MIT Tech Review",
+      "summary": "This is today&#8217;s edition of&#160;The Download,&#160;our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. The man who made India digital isn\u2019t done yet Nandan Nilekani can\u2019t stop trying to push India into the future. He started nearly 30 years ag",
+      "published": "Tue, 20 Jan 2026 13:13:00 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "The Download: the US digital rights crackdown, and AI companionship",
+      "url": "https://www.technologyreview.com/2026/01/19/1131450/the-download-the-us-digital-rights-crackdown-and-ai-companionship/",
+      "source": "MIT Tech Review",
+      "summary": "This is today&#8217;s edition of&#160;The Download,&#160;our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. What it\u2019s like to be banned from the US for fighting online hate\u00a0\u00a0 Just before Christmas the Trump administration dramatically escalated its",
+      "published": "Mon, 19 Jan 2026 13:39:00 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "What it\u2019s like to be banned from the US for fighting online hate",
+      "url": "https://www.technologyreview.com/2026/01/19/1131384/what-its-like-to-be-banned-from-the-us-for-fighting-online-hate/",
+      "source": "MIT Tech Review",
+      "summary": "It was early evening in Berlin, just a day before Christmas Eve, when Josephine Ballon got an unexpected email from US Customs and Border Protection. The status of her ability to travel to the United States had changed\u2014she\u2019d no longer be able to enter the country.&#160; At first, she couldn\u2019t find a",
+      "published": "Mon, 19 Jan 2026 10:00:00 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "The Download: cut through AI coding hype, and biotech trends to watch",
+      "url": "https://www.technologyreview.com/2026/01/16/1131375/the-download-ai-coding-hype-and-biotech-trends-to-watch/",
+      "source": "MIT Tech Review",
+      "summary": "This is today&#8217;s edition of&#160;The Download,&#160;our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. AI coding is now everywhere. But not everyone is convinced.\u00a0\u00a0 Depending who you ask, AI-powered coding is either giving software developers ",
+      "published": "Fri, 16 Jan 2026 12:59:42 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "Three technologies that will shape biotech in 2026",
+      "url": "https://www.technologyreview.com/2026/01/16/1131363/three-technologies-shape-biotech-in-2026-gene-editing-embryo-scoring/",
+      "source": "MIT Tech Review",
+      "summary": "Earlier this week, MIT Technology Review published its annual list of Ten Breakthrough Technologies. As always, it features technologies that made the news last year, and which\u2014for better or worse\u2014stand to make waves in the coming years. They\u2019re the technologies you should really be paying attention",
+      "published": "Fri, 16 Jan 2026 10:00:00 +0000",
+      "reputation": 0.95,
+      "score": 48.8,
+      "category": "news"
+    },
+    {
+      "title": "Claude Code costs up to $200 a month. Goose does the same thing for free.",
+      "url": "https://venturebeat.com/infrastructure/claude-code-costs-up-to-usd200-a-month-goose-does-the-same-thing-for-free",
       "source": "VentureBeat AI",
-      "category": "business",
-      "summary": "AI startups raised record funding as enterprise adoption accelerates.",
-      "score": 82,
-      "published": "2026-01-19T16:00:00Z"
+      "summary": "<p>The artificial intelligence coding revolution comes with a catch: it&#x27;s expensive.</p><p><a href=\"https://claude.com/product/claude-code\">Claude Code</a>, Anthropic&#x27;s terminal-based AI agent that can write, debug, and deploy code autonomously, has captured the imagination of software dev",
+      "published": "Mon, 19 Jan 2026 14:00:00 GMT",
+      "reputation": 0.8,
+      "score": 48.6,
+      "category": "news"
+    },
+    {
+      "title": "Anthropic launches Cowork, a Claude Desktop agent that works in your files \u2014 no coding required",
+      "url": "https://venturebeat.com/technology/anthropic-launches-cowork-a-claude-desktop-agent-that-works-in-your-files-no",
+      "source": "VentureBeat AI",
+      "summary": "<p><a href=\"https://www.anthropic.com/\">Anthropic</a> released <a href=\"https://claude.com/blog/cowork-research-preview\">Cowork</a> on Monday, a new AI agent capability that extends the power of its wildly successful <a href=\"https://claude.com/product/claude-code\">Claude Code</a> tool to non-techni",
+      "published": "Mon, 12 Jan 2026 11:30:00 GMT",
+      "reputation": 0.8,
+      "score": 48.6,
+      "category": "tools"
+    },
+    {
+      "title": "10 things I learned from burning myself out with AI coding agents",
+      "url": "https://arstechnica.com/information-technology/2026/01/10-things-i-learned-from-burning-myself-out-with-ai-coding-agents/",
+      "source": "Ars Technica",
+      "summary": "\n                        Opinion: As software power tools, AI agents may make people busier than ever before.\n                    ",
+      "published": "Mon, 19 Jan 2026 12:00:45 +0000",
+      "reputation": 0.85,
+      "score": 48.0,
+      "category": "news"
+    },
+    {
+      "title": "OpenAI to test ads in ChatGPT as it burns through billions",
+      "url": "https://arstechnica.com/information-technology/2026/01/openai-to-test-ads-in-chatgpt-as-it-burns-through-billions/",
+      "source": "Ars Technica",
+      "summary": "\n                        Ads coming to free tier and new $8/month ChatGPT Go plan in US.\n                    ",
+      "published": "Fri, 16 Jan 2026 21:20:03 +0000",
+      "reputation": 0.85,
+      "score": 48.0,
+      "category": "news"
+    },
+    {
+      "title": "Zanskar thinks 1 TW of geothermal power is being overlooked",
+      "url": "https://techcrunch.com/2026/01/21/zanskar-thinks-1-tw-of-geothermal-power-is-being-overlooked/",
+      "source": "TechCrunch AI",
+      "summary": "Zanskar has raised $115 million to find about a dozen geothermal resources that could help power the grid throughout the U.S. West.",
+      "published": "Wed, 21 Jan 2026 13:00:00 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Language learning marketplace Preply\u2019s unicorn status embodies Ukrainian resilience",
+      "url": "https://techcrunch.com/2026/01/21/language-learning-marketplace-preplys-unicorn-status-embodies-ukrainian-resilience/",
+      "source": "TechCrunch AI",
+      "summary": "Language learning marketplace Preply is now valued at $1.2 billion after raising a $150 million that marks a new chapter for the 14-year-old company.",
+      "published": "Wed, 21 Jan 2026 12:00:00 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Consumers spent more on mobile apps than games in 2025, driven by AI app adoption",
+      "url": "https://techcrunch.com/2026/01/21/consumers-spent-more-on-mobile-apps-than-games-in-2025-driven-by-ai-app-adoption/",
+      "source": "TechCrunch AI",
+      "summary": "Consumers spent more money in mobile apps than games in 2025, driven by AI app adoption.",
+      "published": "Wed, 21 Jan 2026 11:30:00 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Bolna nabs $6.3M from General Catalyst for its India-focused voice orchestration platform",
+      "url": "https://techcrunch.com/2026/01/20/bolna-nabs-6-3-million-from-general-catalyst-for-its-india-focused-voice-orchestration-platform/",
+      "source": "TechCrunch AI",
+      "summary": "Bolna said that 75% of its revenue is coming from self-serve customers.",
+      "published": "Wed, 21 Jan 2026 02:00:00 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Anthropic\u2019s CEO stuns Davos with Nvidia criticism",
+      "url": "https://techcrunch.com/2026/01/20/anthropics-ceo-stuns-davos-with-nvidia-criticism/",
+      "source": "TechCrunch AI",
+      "summary": "Anthropic CEO Dario Amodei unloaded on both the administration and U.S. chip companies over plans to sell to China. The criticism was particularly notable because one of those chipmakers, Nvidia, is a major partner and investor in Anthropic.",
+      "published": "Wed, 21 Jan 2026 01:39:58 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Elon Musk says Tesla\u2019s restarted Dojo3 will be for \u2018space-based AI compute\u2019",
+      "url": "https://techcrunch.com/2026/01/20/elon-musk-says-teslas-restarted-dojo3-will-be-for-space-based-ai-compute/",
+      "source": "TechCrunch AI",
+      "summary": "Tesla aims to restart work on Dojo3, its previously abandoned third-generation AI chip. Only this time, Dojo3 won\u2019t be aimed at training self-driving models on Earth. Instead, Musk says it will be dedicated to \u201cspace-based AI compute.\u201d",
+      "published": "Tue, 20 Jan 2026 22:10:41 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
+    },
+    {
+      "title": "Indian vibe-coding startup Emergent triples valuation to $300M with $70M fundraise",
+      "url": "https://techcrunch.com/2026/01/20/indian-vibe-coding-startup-emergent-raises-70m-at-300m-valuation-from-softbank-khosla-ventures/",
+      "source": "TechCrunch AI",
+      "summary": "The funding comes as the startup claims it has scaled ARR to $50 million and is targeting $100 million by April 2026.",
+      "published": "Tue, 20 Jan 2026 13:50:09 +0000",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "business"
+    },
+    {
+      "title": "Open Responses: What you need to know",
+      "url": "https://huggingface.co/blog/open-responses",
+      "source": "Hugging Face Blog",
+      "summary": "",
+      "published": "Thu, 15 Jan 2026 00:00:00 GMT",
+      "reputation": 0.9,
+      "score": 47.5,
+      "category": "news"
     }
   ]
 }
