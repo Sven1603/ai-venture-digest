@@ -1003,16 +1003,22 @@
         }
 
         function renderVideo() {
-            // Find ACTIONABLE tutorial video (not news, not paper analysis)
-            const videoArticle = articles.find(a => {
+            // Find video - prioritize tutorials, but accept any video with YouTube URL
+            const allVideos = articles.filter(a => {
                 const ytId = extractYouTubeId(a.url || a.video_url);
-                if (!ytId) return false;
+                return ytId !== null;
 
-                // Must be a tutorial
-                if (a.category !== 'tutorial' && a.content_type !== 'tutorial') return false;
-
-                return true;
             });
+
+                        // Sort: tutorials first, then by score
+                        allVideos.sort((a, b) => {
+                                            const aIsTutorial = (a.category === 'tutorial' || a.content_type === 'tutorial') ? 1 : 0;
+                                            const bIsTutorial = (b.category === 'tutorial' || b.content_type === 'tutorial') ? 1 : 0;
+                                            if (aIsTutorial !== bIsTutorial) return bIsTutorial - aIsTutorial;
+                                            return (b.score || 0) - (a.score || 0);
+                        });
+
+                        const videoArticle = allVideos[0] || null;
 
             const container = document.getElementById('videoContent');
 
