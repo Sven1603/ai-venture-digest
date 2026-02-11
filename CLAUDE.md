@@ -57,3 +57,11 @@ Two automated paths (both run daily at 7 AM UTC):
 2. **Vercel Cron** (`vercel.json`) — hits `/api/cron/fetch` serverless function
 
 Static hosting via Vercel. Deploy with `vercel --prod --yes` or use `deploy.sh` for one-click setup.
+
+### Vercel Python Functions
+
+Vercel auto-detects Python for files in `api/`. Do **not** set `"runtime"` in the `functions` block of `vercel.json` — the built-in Python runtime requires no runtime config. Pin the Python version via `.python-version` in the project root (currently `3.12`). Supported versions: 3.12, 3.13, 3.14.
+
+### CI Debugging
+
+The GitHub Actions workflow checks out the commit that was latest when the scheduled run triggered — not necessarily the current HEAD. If a CI fix is pushed after the cron fires, it won't take effect until the next run. Use `gh workflow run "Daily AI Digest Fetch"` to trigger a manual run against the latest commit.
