@@ -2,26 +2,27 @@ name: Daily AI Digest Fetch
 
 on:
   schedule:
+    # Run at 7 AM UTC every day
     - cron: '0 7 * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
+    # Allow manual trigger
 
 jobs:
   fetch-and-publish:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Run fetcher
         run: python scripts/fetcher.py
-      
+
       - name: Generate newsletter
         env:
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
@@ -29,11 +30,11 @@ jobs:
           MAILCHIMP_REPLY_TO: ${{ secrets.MAILCHIMP_REPLY_TO }}
           NEWSLETTER_SEND_NOW: 'true'
         run: python scripts/newsletter.py
-      
+
       - name: Commit updated data
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/
-          git diff --quiet && git diff --staged --quiet || git commit -m "Daily digest update"
+          git diff --quiet && git diff --staged --quiet || git commit -m "📰 Daily digest update - $(date +'%Y-%m-%d')"
           git push

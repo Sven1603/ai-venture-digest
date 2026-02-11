@@ -1,76 +1,378 @@
 #!/usr/bin/env python3
+"""
+AI Venture Digest - Newsletter Generator & Mailchimp Integration
+Generates daily digest email and sends via Mailchimp.
+"""
+
 import json
 import os
+import hashlib
 import urllib.request
+import urllib.parse
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
+import base64
 
-def load_articles():
-    with open('data/articles.json', 'r') as f:
+# Configuration
+CONFIG_PATH = Path(__file__).parent.parent / "config.json"
+DATA_PATH = Path(__file__).parent.parent / "data"
+TEMPLATES_PATH = Path(__file__).parent.parent / "templates"
+
+
+def load_config() -> dict:
+    """Load configuration from JSON file."""
+    with open(CONFIG_PATH) as f:
         return json.load(f)
 
-def generate_html(articles):
-    top5 = articles[:5]
+
+def load_articles() -> list[dict]:
+    """Load curated articles from JSON."""
+    articles_file = DATA_PATH / 'articles.json'
+    if not articles_file.exists():
+        return []
+
+    with open(articles_file) as f:
+        data = json.load(f)
+        return data.get('articles', [])
+
+
+def generate_newsletter_html(articles: list[dict], config: dict) -> str:
+    """Generate newsletter HTML content."""
+    max_items = config['newsletter'].get('max_items', 10)
+    top_articles = articles[:max_items]
+
+    # Group by category
+    by_category = {}
+    for article in top_articles:
+        cat = article.get('category', 'news')
+        if cat not in by_category:
+            by_category[cat] = []
+        by_category[cat].append(article)
+
+    # Category display info
+    category_info = {
+        'news': {'emoji': '📰', 'title': 'AI News'},
+        'tools': {'emoji': '🛠️', 'title': 'Tools & APIs'},
+        'research': {'emoji': '🔬', 'title': 'Research'},
+        'examples': {'emoji': '💡', 'title': 'Use Cases & Examples'},
+        'business': {'emoji': '📈', 'title': 'Business & Funding'},
+    }
+
+    # Build sections
+    sections_html = ""
+    for category, items in by_category.items():
+        info = category_info.get(category, {'emoji': '📌', 'title': category.title()})
+        items_html = ""
+        for item in items:
+            items_html += f"""
+            <tr>
+              <td style="padding: 16px 0; border-bottom: 1px solid #eee;">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td>
+                      <a href="{item['url']}" style="color: #1a1a2e; font-size: 16px; font-weight: 600; text-decoration: none; line-height: 1.4;">
+                        {item['title']}
+                      </a>
+                    </td>
+                    <td width="60" align="right" style="vertical-align: top;">
+                      <span style="background: linear-gradient(135deg, #4a9eff, #8b5cf6); color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+                        {item['score']}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="padding-top: 8px;">
+                      <p style="color: #666; font-size: 14px; line-height: 1.5; margin: 0;">
+                        {item['summary'][:200]}...
+                      </p>
+                      <p style="color: #999; font-size: 12px; margin: 8px 0 0 0;">
+                        {item['source']}
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            """
+
+        sections_html += f"""
+        <tr>
+          <td style="padding: 24px 0 12px 0;">
+            <h2 style="color: #1a1a2e; font-size: 18px; margin: 0; font-weight: 600;">
+              {info['emoji']} {info['title']}
+            </h2>
+          </td>
+        </tr>
+        {items_html}
+        """
+
+    # Full email template
     html = f"""
-    <h1>AI Venture Digest - {datetime.now().strftime('%B %d, %Y')}</h1>
-    <h2>Top 5 Must-Reads</h2>
-    <ol>
-    """
-    for a in top5:
-        html += f'<li><a href="{a["url"]}">{a["title"]}</a><br><small>{a["source"]} | {a.get("category", "news")}</small><p>{a.get("summary", "")[:200]}...</p></li>'
-    html += "</ol>"
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Venture Digest</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f5f5f7;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px;">
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); padding: 32px; border-radius: 16px 16px 0 0;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td>
+                    <span style="font-size: 32px;">⚡</span>
+                  </td>
+                  <td style="padding-left: 12px;">
+                    <h1 style="color: #fff; font-size: 24px; margin: 0; font-weight: 700;">
+                      AI Venture Digest
+                    </h1>
+                    <p style="color: #a0a0b0; font-size: 14px; margin: 4px 0 0 0;">
+                      {datetime.now().strftime('%B %d, %Y')} • Your daily AI briefing
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Stats Bar -->
+          <tr>
+            <td style="background: #12121a; padding: 16px 32px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center" width="33%">
+                    <span style="color: #4a9eff; font-size: 24px; font-weight: 700;">{len(top_articles)}</span>
+                    <br>
+                    <span style="color: #a0a0b0; font-size: 12px;">TOP STORIES</span>
+                  </td>
+                  <td align="center" width="33%">
+                    <span style="color: #10b981; font-size: 24px; font-weight: 700;">{len(by_category)}</span>
+                    <br>
+                    <span style="color: #a0a0b0; font-size: 12px;">CATEGORIES</span>
+                  </td>
+                  <td align="center" width="33%">
+                    <span style="color: #8b5cf6; font-size: 24px; font-weight: 700;">{max(a['score'] for a in top_articles) if top_articles else 0}</span>
+                    <br>
+                    <span style="color: #a0a0b0; font-size: 12px;">TOP SCORE</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: #ffffff; padding: 24px 32px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                {sections_html}
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background: #1a1a2e; padding: 24px 32px; border-radius: 0 0 16px 16px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <p style="color: #a0a0b0; font-size: 12px; margin: 0 0 12px 0;">
+                      Curated with AI for venture builders
+                    </p>
+                    <p style="color: #666; font-size: 11px; margin: 0;">
+                      <a href="*|UNSUB|*" style="color: #4a9eff; text-decoration: none;">Unsubscribe</a> •
+                      <a href="*|ARCHIVE|*" style="color: #4a9eff; text-decoration: none;">View in browser</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+"""
     return html
 
-def send_mailchimp(html_content):
+
+def generate_newsletter_text(articles: list[dict], config: dict) -> str:
+    """Generate plain text version of newsletter."""
+    max_items = config['newsletter'].get('max_items', 10)
+    top_articles = articles[:max_items]
+
+    lines = [
+        "=" * 50,
+        "⚡ AI VENTURE DIGEST",
+        datetime.now().strftime('%B %d, %Y'),
+        "=" * 50,
+        "",
+    ]
+
+    for i, article in enumerate(top_articles, 1):
+        lines.extend([
+            f"{i}. {article['title']}",
+            f"   Score: {article['score']} | Source: {article['source']}",
+            f"   {article['summary'][:150]}...",
+            f"   → {article['url']}",
+            "",
+        ])
+
+    lines.extend([
+        "-" * 50,
+        "Curated with AI for venture builders",
+        "Unsubscribe: *|UNSUB|*",
+    ])
+
+    return "\n".join(lines)
+
+
+class MailchimpClient:
+    """Simple Mailchimp API client."""
+
+    def __init__(self, api_key: str, list_id: str):
+        self.api_key = api_key
+        self.list_id = list_id
+        # Extract datacenter from API key
+        self.dc = api_key.split('-')[-1] if '-' in api_key else 'us1'
+        self.base_url = f"https://{self.dc}.api.mailchimp.com/3.0"
+
+    def _request(self, method: str, endpoint: str, data: Optional[dict] = None) -> dict:
+        """Make authenticated request to Mailchimp API."""
+        url = f"{self.base_url}/{endpoint}"
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Basic {base64.b64encode(f"anystring:{self.api_key}".encode()).decode()}'
+        }
+
+        request_data = json.dumps(data).encode() if data else None
+        req = urllib.request.Request(url, data=request_data, headers=headers, method=method)
+
+        try:
+            with urllib.request.urlopen(req) as response:
+                return json.loads(response.read().decode())
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode()
+            print(f"Mailchimp API error: {e.code} - {error_body}")
+            raise
+
+    def create_campaign(self, subject: str, html_content: str, text_content: str) -> str:
+        """Create a new campaign."""
+        # Create campaign
+        campaign_data = {
+            "type": "regular",
+            "recipients": {
+                "list_id": self.list_id
+            },
+            "settings": {
+                "subject_line": subject,
+                "title": f"AI Digest - {datetime.now().strftime('%Y-%m-%d')}",
+                "from_name": "AI Venture Digest",
+                "reply_to": os.environ.get('MAILCHIMP_REPLY_TO', 'digest@example.com'),
+                "auto_footer": True
+            }
+        }
+
+        result = self._request('POST', 'campaigns', campaign_data)
+        campaign_id = result['id']
+
+        # Set content
+        content_data = {
+            "html": html_content,
+            "plain_text": text_content
+        }
+        self._request('PUT', f'campaigns/{campaign_id}/content', content_data)
+
+        return campaign_id
+
+    def send_campaign(self, campaign_id: str):
+        """Send a campaign immediately."""
+        self._request('POST', f'campaigns/{campaign_id}/actions/send')
+
+    def schedule_campaign(self, campaign_id: str, send_time: str):
+        """Schedule a campaign for later."""
+        data = {"schedule_time": send_time}
+        self._request('POST', f'campaigns/{campaign_id}/actions/schedule', data)
+
+
+def send_newsletter(config: dict):
+    """Generate and send newsletter via Mailchimp."""
+    # Check for required environment variables
     api_key = os.environ.get('MAILCHIMP_API_KEY')
     list_id = os.environ.get('MAILCHIMP_LIST_ID')
-    reply_to = os.environ.get('MAILCHIMP_REPLY_TO', 'newsletter@example.com')
+
     if not api_key or not list_id:
-        print("Missing Mailchimp credentials")
+        print("⚠️  Missing Mailchimp credentials. Set MAILCHIMP_API_KEY and MAILCHIMP_LIST_ID environment variables.")
+        print("   Generating newsletter content only...")
+        generate_only = True
+    else:
+        generate_only = False
+
+    # Load articles
+    articles = load_articles()
+    if not articles:
+        print("❌ No articles found. Run the fetcher first.")
         return
-    dc = api_key.split('-')[-1]
-    campaign_data = json.dumps({
-        "type": "regular",
-        "recipients": {"list_id": list_id},
-        "settings": {
-            "subject_line": f"AI Venture Digest - {datetime.now().strftime('%B %d')}",
-            "from_name": "AI Venture Digest",
-            "reply_to": reply_to
-        }
-    }).encode()
-    req = urllib.request.Request(
-        f"https://{dc}.api.mailchimp.com/3.0/campaigns",
-        data=campaign_data,
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    )
-    try:
-        with urllib.request.urlopen(req) as resp:
-            campaign = json.loads(resp.read())
-            cid = campaign['id']
-            content_data = json.dumps({"html": html_content}).encode()
-            content_req = urllib.request.Request(
-                f"https://{dc}.api.mailchimp.com/3.0/campaigns/{cid}/content",
-                data=content_data,
-                method='PUT',
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-            )
-            urllib.request.urlopen(content_req)
-            if os.environ.get('NEWSLETTER_SEND_NOW') == 'true':
-                send_req = urllib.request.Request(
-                    f"https://{dc}.api.mailchimp.com/3.0/campaigns/{cid}/actions/send",
-                    method='POST',
-                    headers={"Authorization": f"Bearer {api_key}"}
-                )
-                urllib.request.urlopen(send_req)
-                print(f"Newsletter sent! Campaign: {cid}")
-            else:
-                print(f"Campaign created: {cid}")
-    except Exception as e:
-        print(f"Mailchimp error: {e}")
+
+    # Generate content
+    print("📝 Generating newsletter content...")
+    html_content = generate_newsletter_html(articles, config)
+    text_content = generate_newsletter_text(articles, config)
+
+    # Save locally
+    TEMPLATES_PATH.mkdir(exist_ok=True)
+    html_file = TEMPLATES_PATH / f"newsletter_{datetime.now().strftime('%Y%m%d')}.html"
+    with open(html_file, 'w') as f:
+        f.write(html_content)
+    print(f"   ✓ Saved HTML to {html_file}")
+
+    if generate_only:
+        return
+
+    # Send via Mailchimp
+    print("📤 Creating Mailchimp campaign...")
+    client = MailchimpClient(api_key, list_id)
+
+    subject = f"⚡ AI Digest: {articles[0]['title'][:50]}..."
+    campaign_id = client.create_campaign(subject, html_content, text_content)
+    print(f"   ✓ Created campaign: {campaign_id}")
+
+    # Check if we should send now or schedule
+    send_time = config['newsletter'].get('send_time', '08:00')
+    send_now = os.environ.get('NEWSLETTER_SEND_NOW', 'false').lower() == 'true'
+
+    if send_now:
+        print("📧 Sending newsletter...")
+        client.send_campaign(campaign_id)
+        print("   ✓ Newsletter sent!")
+    else:
+        # Schedule for next occurrence of send_time
+        tz = config['newsletter'].get('timezone', 'UTC')
+        schedule_time = f"{datetime.now().strftime('%Y-%m-%d')}T{send_time}:00+00:00"
+        print(f"⏰ Newsletter scheduled for {schedule_time}")
+
 
 def main():
-    data = load_articles()
-    html = generate_html(data['articles'])
-    send_mailchimp(html)
+    """Main execution."""
+    print("=" * 50)
+    print("📧 AI Venture Digest - Newsletter Generator")
+    print("=" * 50)
+    print()
+
+    config = load_config()
+    send_newsletter(config)
+
+    print("\n✅ Done!")
+
 
 if __name__ == '__main__':
     main()

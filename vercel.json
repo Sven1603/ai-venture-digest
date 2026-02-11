@@ -1,4 +1,13 @@
 {
-  "buildCommand": "",
-  "outputDirectory": "."
+  "crons": [
+    {
+      "path": "/api/cron/fetch",
+      "schedule": "0 7 * * *"
+    }
+  ],
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "python3.11"
+    }
+  }
 }

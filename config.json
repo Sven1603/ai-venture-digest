@@ -1,80 +1,84 @@
 {
-    "project_name": "AI Venture Digest",
-    "description": "Actionable AI content for venture builders who ship",
+  "project_name": "AI Venture Digest",
+  "description": "Daily AI news aggregator for venture builders",
 
-    "topics": [
-          "claude code", "cursor", "ai coding", "workflow automation", "n8n", "make",
-          "langchain", "langgraph", "ai agents", "rag", "embeddings", "vector database",
-          "prompt engineering", "ai tools", "saas", "mvp", "indie hacker", "solopreneur",
-          "remotion", "video automation", "ai marketing", "content automation"
+  "topics": {
+    "primary": ["generative AI", "LLM", "AI tools", "AI APIs", "coding assistants", "AI automation"],
+    "secondary": ["startup", "product launch", "go-to-market", "AI business", "venture", "MVP"],
+    "examples": ["use case", "tutorial", "how to", "case study", "implementation", "workflow"]
+  },
+
+  "sources": {
+    "rss_feeds": [
+      {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "category": "news", "reputation": 0.9},
+      {"name": "The Verge AI", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "category": "news", "reputation": 0.85},
+      {"name": "Ars Technica AI", "url": "https://feeds.arstechnica.com/arstechnica/technology-lab", "category": "news", "reputation": 0.9},
+      {"name": "MIT Tech Review AI", "url": "https://www.technologyreview.com/feed/", "category": "news", "reputation": 0.95},
+      {"name": "OpenAI Blog", "url": "https://openai.com/blog/rss.xml", "category": "research", "reputation": 1.0},
+      {"name": "Google AI Blog", "url": "https://blog.google/technology/ai/rss/", "category": "research", "reputation": 1.0},
+      {"name": "Anthropic", "url": "https://www.anthropic.com/rss.xml", "category": "research", "reputation": 1.0},
+      {"name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "category": "tools", "reputation": 0.95},
+      {"name": "Simon Willison", "url": "https://simonwillison.net/atom/everything/", "category": "tools", "reputation": 0.9},
+      {"name": "Lenny's Newsletter", "url": "https://www.lennysnewsletter.com/feed", "category": "business", "reputation": 0.85}
     ],
-
-    "sources": {
-          "rss_feeds": [
-                  {"name": "Simon Willison", "url": "https://simonwillison.net/atom/everything/", "reputation": 0.95, "type": "engineering"},
-                  {"name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "reputation": 0.9, "type": "engineering"},
-                  {"name": "LangChain Blog", "url": "https://blog.langchain.dev/rss/", "reputation": 0.9, "type": "engineering"},
-                  {"name": "n8n Blog", "url": "https://blog.n8n.io/rss/", "reputation": 0.85, "type": "workflow"},
-                  {"name": "Zapier Blog", "url": "https://zapier.com/blog/feed/", "reputation": 0.8, "type": "workflow"},
-                  {"name": "Indie Hackers", "url": "https://www.indiehackers.com/feed.xml", "reputation": 0.8, "type": "business"}
-          ],
-          "youtube_channels": [
-                  {"name": "All About AI", "channel_id": "UCUzGQrN-lezl9MYtjEgLKmw", "reputation": 0.95, "focus": "tutorials"},
-                  {"name": "AI Jason", "channel_id": "UCcHGaK_DGOGgLXNgtfwpGQg", "reputation": 0.95, "focus": "tutorials"},
-                  {"name": "Cole Medin", "channel_id": "UCjAvL0RO0RVWr8UR7qN6NzA", "reputation": 0.95, "focus": "claude_code"},
-                  {"name": "Dave Ebbelaar", "channel_id": "UCw3vuTTkPKP-pJyhzLPqLBw", "reputation": 0.9, "focus": "tutorials"},
-                  {"name": "Fireship", "channel_id": "UCsBjURrPoezykLs9EqgamOA", "reputation": 0.95, "focus": "tutorials"},
-                  {"name": "Greg Isenberg", "channel_id": "UCE4yNy0UFJtMHl6Hj-ygukQ", "reputation": 0.85, "focus": "startup_ai"},
-                  {"name": "Sam Witteveen", "channel_id": "UCyTT6KHVnz3ANyrD0OXNUMQ", "reputation": 0.9, "focus": "langchain"},
-                  {"name": "James Briggs", "channel_id": "UCv83tO5cePwHMt1952IVVHw", "reputation": 0.9, "focus": "langchain"},
-                  {"name": "Maya Akim", "channel_id": "UCMePOlSqT6g0ASJP4PmU0vQ", "reputation": 0.9, "focus": "ai_tools"}
-          ],
-          "podcasts": [
-                  {"name": "Latent Space", "url": "https://www.latent.space/feed", "reputation": 0.95, "focus": "ai_engineering"},
-                  {"name": "Practical AI", "url": "https://changelog.com/practicalai/feed", "reputation": 0.9, "focus": "practical"},
-                  {"name": "AI in Business", "url": "https://emerj.com/feed/podcast/", "reputation": 0.85, "focus": "business"},
-                  {"name": "The AI Breakdown", "url": "https://feeds.transistor.fm/the-ai-breakdown-daily-artificial-intelligence-news-and-discussions", "reputation": 0.85, "focus": "news"},
-                  {"name": "Lenny's Podcast", "url": "https://www.lennyspodcast.com/feed", "reputation": 0.85, "focus": "product"}
-          ],
-          "github_skills": [
-                  {"name": "obra/superpowers", "url": "https://github.com/obra/superpowers", "description": "Battle-tested Claude skills: /brainstorm, /write-plan, /execute-plan"},
-                  {"name": "anthropic-skills", "url": "https://github.com/anthropics/courses", "description": "Official Anthropic courses and examples"},
-                  {"name": "awesome-claude-code", "url": "https://github.com/dazzaji/awesome-claude-code", "description": "Curated Claude Code resources and skills"}
-          ],
-          "twitter_accounts": [
-                  {"handle": "swyx", "name": "swyx (Latent Space)", "focus": "ai_engineering", "reputation": 0.95},
-                  {"handle": "simonw", "name": "Simon Willison", "focus": "llm_tools", "reputation": 0.95},
-                  {"handle": "levelsio", "name": "Pieter Levels", "focus": "indie_hacker", "reputation": 0.9},
-                  {"handle": "goodside", "name": "Riley Goodside", "focus": "prompt_engineering", "reputation": 0.95},
-                  {"handle": "kaborabora", "name": "Karina Nguyen", "focus": "ai_research", "reputation": 0.9},
-                  {"handle": "AnthropicAI", "name": "Anthropic", "focus": "claude", "reputation": 1.0},
-                  {"handle": "LangChainAI", "name": "LangChain", "focus": "langchain", "reputation": 0.95},
-                  {"handle": "cursor_ai", "name": "Cursor", "focus": "ai_coding", "reputation": 0.95},
-                  {"handle": "alexalbert__", "name": "Alex Albert (Anthropic)", "focus": "claude_prompts", "reputation": 0.9},
-                  {"handle": "mcaborabora", "name": "McKay Wrigley", "focus": "ai_tools", "reputation": 0.9},
-                  {"handle": "nutlope", "name": "Hassan El Mghari", "focus": "ai_apps", "reputation": 0.9},
-                  {"handle": "aiaboratory", "name": "AI Jason", "focus": "tutorials", "reputation": 0.9}
-          ],
-          "nitter_instances": [
-                  "https://nitter.poast.org",
-                  "https://nitter.privacydev.net",
-                  "https://nitter.net"
-          ]
+    "reddit": {
+      "subreddits": ["MachineLearning", "artificial", "ChatGPT", "LocalLLaMA", "singularity"],
+      "min_score": 100,
+      "enabled": true
     },
-
-    "filters": {
-          "max_age_hours": 72,
-          "max_articles": 30,
-          "reputation_weight": 0.25,
-          "relevance_weight": 0.30,
-          "recency_weight": 0.20,
-          "engagement_weight": 0.25,
-          "strict_actionable": true
+    "hackernews": {
+      "min_score": 50,
+      "keywords": ["AI", "GPT", "LLM", "Claude", "OpenAI", "Anthropic", "machine learning", "generative"],
+      "enabled": true
     },
-
-    "output": {
-          "data_dir": "./data",
-          "web_dir": "./",
-          "archive_days": 30
+    "arxiv": {
+      "categories": ["cs.AI", "cs.CL", "cs.LG"],
+      "max_papers": 10,
+      "enabled": true
     }
+  },
+
+  "filters": {
+    "engagement": {
+      "enabled": true,
+      "min_social_score": 50,
+      "weight": 0.3
+    },
+    "reputation": {
+      "enabled": true,
+      "min_score": 0.7,
+      "weight": 0.25
+    },
+    "recency": {
+      "enabled": true,
+      "max_age_hours": 48,
+      "weight": 0.2
+    },
+    "relevance": {
+      "enabled": true,
+      "min_keyword_matches": 1,
+      "weight": 0.25
+    }
+  },
+
+  "curation": {
+    "min_total_score": 0.5,
+    "max_items_per_day": 20,
+    "categories": ["news", "tools", "research", "examples", "business"]
+  },
+
+  "newsletter": {
+    "service": "mailchimp",
+    "frequency": "daily",
+    "send_time": "08:00",
+    "timezone": "Europe/Amsterdam",
+    "max_items": 10,
+    "include_summary": true
+  },
+
+  "output": {
+    "data_dir": "./data",
+    "web_dir": "./",
+    "archive_days": 30
+  }
 }
