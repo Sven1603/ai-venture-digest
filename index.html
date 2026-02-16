@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Venture Digest - Your Morning Briefing</title>
+    <title>AI Venture Digest - Actionable AI for Builders</title>
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -23,25 +23,17 @@
             --border-light: #3a3a4a;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
         /* Header */
         header {
@@ -62,11 +54,7 @@
             gap: 16px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+        .logo { display: flex; align-items: center; gap: 14px; }
 
         .logo-icon {
             width: 44px;
@@ -88,21 +76,10 @@
             background-clip: text;
         }
 
-        .logo-text p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+        .logo-text p { font-size: 0.8rem; color: var(--text-muted); }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .date-display {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .date-display { font-size: 0.85rem; color: var(--text-secondary); }
 
         .subscribe-btn {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
@@ -126,10 +103,7 @@
             padding: 32px 0;
             border-bottom: 1px solid var(--border);
         }
-
-        section:last-child {
-            border-bottom: none;
-        }
+        section:last-child { border-bottom: none; }
 
         .section-header {
             display: flex;
@@ -149,19 +123,16 @@
             gap: 8px;
         }
 
-        .section-meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+        .section-meta { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* Challenge Section */
-        .challenges-grid {
+        /* Quick Wins Section */
+        .quick-wins-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
         }
 
-        .challenge-card {
+        .quick-win-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -170,87 +141,159 @@
             transition: all 0.2s;
             position: relative;
             overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        .challenge-card::before {
+        .quick-win-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--accent-pink));
             opacity: 0;
             transition: opacity 0.2s;
         }
 
-        .challenge-card:hover {
+        .quick-win-card.tool::before { background: var(--accent-green); }
+        .quick-win-card.skill::before { background: var(--accent-purple); }
+        .quick-win-card.tutorial::before { background: var(--accent-orange); }
+
+        .quick-win-card:hover {
             background: var(--bg-card-hover);
-            border-color: var(--accent-orange);
             transform: translateY(-2px);
         }
 
-        .challenge-card:hover::before {
-            opacity: 1;
-        }
+        .quick-win-card:hover::before { opacity: 1; }
 
-        .challenge-meta {
+        .quick-win-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 12px;
         }
 
-        .challenge-time {
-            font-size: 0.75rem;
-            color: var(--accent-cyan);
-            background: rgba(6, 182, 212, 0.15);
-            padding: 4px 10px;
-            border-radius: 12px;
+        .quick-win-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
-        .challenge-difficulty {
-            font-size: 0.75rem;
-            color: var(--accent-green);
+        .quick-win-card.tool .quick-win-icon { background: rgba(16, 185, 129, 0.15); }
+        .quick-win-card.skill .quick-win-icon { background: rgba(139, 92, 246, 0.15); }
+        .quick-win-card.tutorial .quick-win-icon { background: rgba(245, 158, 11, 0.15); }
+
+        .quick-win-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        .challenge-title {
+        .quick-win-card.tool .quick-win-label { color: var(--accent-green); }
+        .quick-win-card.skill .quick-win-label { color: var(--accent-purple); }
+        .quick-win-card.tutorial .quick-win-label { color: var(--accent-orange); }
+
+        .quick-win-title {
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 8px;
             line-height: 1.4;
         }
 
-        .challenge-summary {
+        .quick-win-description {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .challenge-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--accent-orange);
+        .quick-win-cta {
             font-size: 0.85rem;
             font-weight: 600;
-            text-decoration: none;
         }
 
-        .challenge-cta:hover {
-            text-decoration: underline;
+        .quick-win-card.tool .quick-win-cta { color: var(--accent-green); }
+        .quick-win-card.skill .quick-win-cta { color: var(--accent-purple); }
+        .quick-win-card.tutorial .quick-win-cta { color: var(--accent-orange); }
+
+        /* Podcast Section */
+        .podcast-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(74, 158, 255, 0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+
+        .podcast-card:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(74, 158, 255, 0.15) 100%);
+            transform: translateY(-2px);
+        }
+
+        .podcast-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .podcast-content { flex: 1; min-width: 0; }
+
+        .podcast-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .podcast-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .podcast-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .podcast-meta span { margin-right: 12px; }
+
+        .podcast-play {
+            background: var(--accent-purple);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         /* Must Reads Section */
-        .must-reads-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        .must-reads-list { display: flex; flex-direction: column; gap: 16px; }
 
         .must-read-item {
             display: grid;
@@ -284,9 +327,7 @@
             flex-shrink: 0;
         }
 
-        .must-read-content {
-            min-width: 0;
-        }
+        .must-read-content { min-width: 0; }
 
         .must-read-meta {
             display: flex;
@@ -303,16 +344,15 @@
             text-transform: uppercase;
         }
 
-        .category-badge.news { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .category-badge.tutorial { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
         .category-badge.tools { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-        .category-badge.research { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
-        .category-badge.examples { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
-        .category-badge.business { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+        .category-badge.skill { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+        .category-badge.workflow { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .category-badge.deep_dive { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .category-badge.podcast { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+        .category-badge.video { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
 
-        .source-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .source-label { font-size: 0.75rem; color: var(--text-muted); }
 
         .must-read-title {
             font-size: 1.05rem;
@@ -363,49 +403,132 @@
             border: none;
         }
 
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        .video-info { padding: 20px; }
+        .video-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+        .video-context { font-size: 0.85rem; color: var(--text-secondary); }
+        .video-context strong { color: var(--accent-cyan); }
+
+        /* More Podcasts */
+        .podcasts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .podcast-mini {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
             gap: 12px;
         }
 
-        .video-placeholder-icon {
-            font-size: 48px;
-            opacity: 0.5;
+        .podcast-mini:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-purple);
         }
 
-        .video-info {
-            padding: 20px;
+        .podcast-mini-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
         }
 
-        .video-title {
-            font-size: 1.1rem;
+        .podcast-mini-content { flex: 1; min-width: 0; }
+
+        .podcast-mini-title {
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .video-context {
-            font-size: 0.85rem;
+        .podcast-mini-source {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Twitter Section */
+        .twitter-posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .twitter-post {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            display: flex;
+            gap: 12px;
+        }
+
+        .twitter-post:hover {
+            background: var(--bg-card-hover);
+            border-color: #1DA1F2;
+        }
+
+        .twitter-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1DA1F2, #0d8ed9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .twitter-content { flex: 1; min-width: 0; }
+
+        .twitter-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .twitter-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .twitter-handle {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .twitter-text {
+            font-size: 0.9rem;
             color: var(--text-secondary);
-        }
-
-        .video-context strong {
-            color: var(--accent-cyan);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         /* Quick Hits Section */
-        .quick-hits-list {
-            display: flex;
-            flex-direction: column;
-        }
+        .quick-hits-list { display: flex; flex-direction: column; }
 
         .quick-hit-item {
             display: flex;
@@ -413,13 +536,10 @@
             justify-content: space-between;
             padding: 14px 0;
             border-bottom: 1px solid var(--border);
-            cursor: pointer;
             transition: background 0.2s;
         }
 
-        .quick-hit-item:last-child {
-            border-bottom: none;
-        }
+        .quick-hit-item:last-child { border-bottom: none; }
 
         .quick-hit-item:hover {
             background: var(--bg-card);
@@ -428,17 +548,8 @@
             border-radius: 8px;
         }
 
-        .quick-hit-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .quick-hit-bullet {
-            color: var(--accent-blue);
-            font-weight: bold;
-        }
+        .quick-hit-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .quick-hit-bullet { color: var(--accent-blue); font-weight: bold; }
 
         .quick-hit-title {
             font-size: 0.95rem;
@@ -452,201 +563,10 @@
             text-decoration: none;
         }
 
-        .quick-hit-title a:hover {
-            color: var(--accent-blue);
-        }
+        .quick-hit-title a:hover { color: var(--accent-blue); }
 
-        .quick-hit-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-
-        .quick-hit-source {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .show-more-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-top: 16px;
-            width: 100%;
-            transition: all 0.2s;
-        }
-
-        .show-more-btn:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
-        }
-
-        /* Tool Spotlight */
-        .tool-spotlight {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tool-info {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .tool-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-green);
-            margin-bottom: 8px;
-        }
-
-        .tool-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .tool-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .tool-pricing {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .tool-cta {
-            background: var(--accent-green);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .tool-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        /* Archive Section */
-        .archive-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-
-        .archive-toggle:hover {
-            background: var(--bg-card);
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
-        }
-
-        .archive-toggle .arrow {
-            transition: transform 0.2s;
-        }
-
-        .archive-toggle.open .arrow {
-            transform: rotate(180deg);
-        }
-
-        .archive-content {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .archive-content.open {
-            display: block;
-        }
-
-        .archive-filters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 6px 14px;
-            border-radius: 16px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: white;
-        }
-
-        .archive-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .archive-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: var(--bg-card);
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            transition: background 0.2s;
-        }
-
-        .archive-item:hover {
-            background: var(--bg-card-hover);
-        }
-
-        .archive-item-title {
-            font-size: 0.9rem;
-            flex: 1;
-            min-width: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-right: 16px;
-        }
+        .quick-hit-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .quick-hit-source { font-size: 0.75rem; color: var(--text-muted); }
 
         /* Subscribe Modal */
         .modal-overlay {
@@ -662,9 +582,7 @@
             justify-content: center;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
             background: var(--bg-card);
@@ -675,16 +593,8 @@
             border: 1px solid var(--border);
         }
 
-        .modal h2 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-
-        .modal p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
+        .modal h2 { font-size: 1.3rem; margin-bottom: 8px; }
+        .modal p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; }
 
         .modal input[type="email"] {
             width: 100%;
@@ -697,15 +607,9 @@
             margin-bottom: 12px;
         }
 
-        .modal input[type="email"]:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
+        .modal input[type="email"]:focus { outline: none; border-color: var(--accent-blue); }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-        }
+        .modal-actions { display: flex; gap: 10px; }
 
         .modal-actions button {
             flex: 1;
@@ -730,62 +634,19 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .header-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .must-read-item {
-                grid-template-columns: 32px 1fr;
-                gap: 12px;
-            }
-
-            .must-read-number {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-            }
-
-            .must-read-time {
-                display: none;
-            }
-
-            .tool-spotlight {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .tool-cta {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .quick-hit-source {
-                display: none;
-            }
+            .container { padding: 0 16px; }
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+            .must-read-item { grid-template-columns: 32px 1fr; gap: 12px; }
+            .must-read-number { width: 32px; height: 32px; font-size: 0.9rem; }
+            .must-read-time { display: none; }
+            .quick-hit-source { display: none; }
+            .podcast-card { flex-direction: column; text-align: center; }
+            .podcast-icon { margin: 0 auto; }
         }
 
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-muted);
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 60px;
-        }
+        .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
+        .loading { text-align: center; padding: 60px; }
 
         .spinner {
             width: 36px;
@@ -797,9 +658,7 @@
             margin: 0 auto 16px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -810,7 +669,7 @@
                     <div class="logo-icon">⚡</div>
                     <div class="logo-text">
                         <h1>AI Venture Digest</h1>
-                        <p>Your 30-minute morning briefing</p>
+                        <p>Actionable AI for builders who ship</p>
                     </div>
                 </div>
                 <div class="header-right">
@@ -822,59 +681,66 @@
     </header>
 
     <main class="container">
-        <!-- Today's Challenges -->
-        <section id="challengesSection">
+        <!-- Quick Wins -->
+        <section id="quickWinsSection">
             <div class="section-header">
-                <h2 class="section-title">🎯 Pick Today's Challenge</h2>
-                <span class="section-meta">Choose one to try today</span>
+                <h2 class="section-title">⚡ Today's Quick Wins</h2>
+                <span class="section-meta">Try one of these today</span>
             </div>
-            <div class="challenges-grid" id="challengesGrid"></div>
+            <div class="quick-wins-grid" id="quickWinsGrid"></div>
         </section>
 
-        <!-- Top 5 Must-Reads -->
+        <!-- Featured Podcast -->
+        <section id="podcastSection">
+            <div class="section-header">
+                <h2 class="section-title">🎙️ Featured Podcast</h2>
+                <span class="section-meta">Listen while you build</span>
+            </div>
+            <div id="featuredPodcast"></div>
+        </section>
+
+        <!-- Top 5 Actionable Reads -->
         <section id="mustReadsSection">
             <div class="section-header">
-                <h2 class="section-title">📚 Top 5 Must-Reads</h2>
+                <h2 class="section-title">📚 Top 5 Actionable Reads</h2>
                 <span class="section-meta" id="totalReadTime"></span>
             </div>
             <div class="must-reads-list" id="mustReadsList"></div>
         </section>
 
-        <!-- Watch & Learn -->
+        <!-- Tutorial Video -->
         <section id="videoSection">
             <div class="section-header">
-                <h2 class="section-title">🎬 Watch & Learn</h2>
+                <h2 class="section-title">🎬 Tutorial of the Day</h2>
             </div>
             <div class="video-section" id="videoContent"></div>
         </section>
 
-        <!-- Quick Hits -->
+        <!-- More Podcasts -->
+        <section id="morePodcastsSection">
+            <div class="section-header">
+                <h2 class="section-title">🎧 More Podcasts</h2>
+                <span class="section-meta" id="podcastCount"></span>
+            </div>
+            <div class="podcasts-grid" id="morePodcastsGrid"></div>
+        </section>
+
+        <!-- X/Twitter Posts -->
+        <section id="twitterSection">
+            <div class="section-header">
+                <h2 class="section-title">🐦 From AI Builders on X</h2>
+                <span class="section-meta">What the community is sharing</span>
+            </div>
+            <div class="twitter-posts-list" id="twitterPostsList"></div>
+        </section>
+
+        <!-- More Updates -->
         <section id="quickHitsSection">
             <div class="section-header">
-                <h2 class="section-title">⚡ Quick Hits</h2>
+                <h2 class="section-title">📌 More Updates</h2>
                 <span class="section-meta" id="quickHitsCount"></span>
             </div>
             <div class="quick-hits-list" id="quickHitsList"></div>
-        </section>
-
-        <!-- Tool Spotlight -->
-        <section id="toolSection">
-            <div class="section-header">
-                <h2 class="section-title">🔧 Tool Spotlight</h2>
-            </div>
-            <div id="toolSpotlight"></div>
-        </section>
-
-        <!-- Archive -->
-        <section id="archiveSection">
-            <button class="archive-toggle" id="archiveToggle" onclick="toggleArchive()">
-                <span>📁 View All Articles</span>
-                <span class="arrow">▼</span>
-            </button>
-            <div class="archive-content" id="archiveContent">
-                <div class="archive-filters" id="archiveFilters"></div>
-                <div class="archive-list" id="archiveList"></div>
-            </div>
         </section>
     </main>
 
@@ -882,7 +748,7 @@
     <div class="modal-overlay" id="subscribeModal">
         <div class="modal">
             <h2>📧 Get the Daily Digest</h2>
-            <p>Receive the top AI updates every morning, curated for venture builders.</p>
+            <p>Receive actionable AI tutorials, tools, and skills every morning.</p>
             <input type="email" id="subscribeEmail" placeholder="your@email.com">
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeSubscribeModal()">Cancel</button>
@@ -892,29 +758,31 @@
     </div>
 
     <script>
-        // State
         let articles = [];
-        let archiveFilter = 'all';
+        let quickWins = [];
+        let featuredPodcast = null;
+        let twitterPosts = [];
 
-        // Utility functions
         function estimateReadTime(text) {
             const words = text.split(/\s+/).length;
-            const minutes = Math.ceil(words / 200);
-            return Math.max(2, minutes + Math.floor(Math.random() * 3)); // Add some variance
+            return Math.max(2, Math.ceil(words / 200) + Math.floor(Math.random() * 3));
         }
 
         function getCategoryEmoji(category) {
             const emojis = {
-                news: '📰',
+                tutorial: '📖',
                 tools: '🛠️',
-                research: '🔬',
-                examples: '💡',
-                business: '📈'
+                skill: '⚡',
+                workflow: '⚙️',
+                deep_dive: '🔬',
+                video: '🎬',
+                podcast: '🎙️'
             };
             return emojis[category] || '📌';
         }
 
         function extractYouTubeId(url) {
+            if (!url) return null;
             const patterns = [
                 /youtube\.com\/watch\?v=([^&]+)/,
                 /youtu\.be\/([^?]+)/,
@@ -927,152 +795,191 @@
             return null;
         }
 
-        function getDifficultyLabel(readTime) {
-            if (readTime <= 10) return { label: 'Quick', color: 'var(--accent-green)' };
-            if (readTime <= 25) return { label: 'Medium', color: 'var(--accent-orange)' };
-            return { label: 'Deep', color: 'var(--accent-pink)' };
-        }
-
-        // Load data
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json');
                 if (!response.ok) throw new Error('No data');
                 const data = await response.json();
                 articles = data.articles || [];
+                quickWins = data.quick_wins || [];
+                featuredPodcast = data.featured_podcast || null;
+                twitterPosts = data.twitter_posts || [];
             } catch (e) {
                 articles = getSampleArticles();
+                quickWins = getDefaultQuickWins();
+                featuredPodcast = getDefaultPodcast();
+                twitterPosts = getDefaultTwitterPosts();
             }
 
-            // Add reading times to articles
             articles.forEach(a => {
-                a.readTime = estimateReadTime(a.summary + ' ' + a.title);
+                a.readTime = a.readTime || estimateReadTime((a.summary || a.description || '') + ' ' + a.title);
             });
 
             renderAll();
         }
 
-        // Sample data
-        function getSampleArticles() {
+        function getDefaultQuickWins() {
             return [
                 {
-                    id: '1', title: 'Claude 4 Released: Anthropic\'s Most Capable AI Yet',
-                    summary: 'Anthropic announces Claude 4 with significantly improved reasoning, coding abilities, and a 500K context window. Early benchmarks show substantial improvements.',
-                    url: 'https://anthropic.com/news/claude-4', source: 'Anthropic Blog', category: 'news', score: 98, engagement: 2450
+                    type: 'new_tool',
+                    icon: '🆕',
+                    label: 'New Tool',
+                    title: 'Cursor 2.0 - AI-First Code Editor',
+                    description: 'Multi-file editing, automatic test generation, seamless Claude/GPT integration.',
+                    url: 'https://cursor.com',
+                    source: 'Cursor'
                 },
                 {
-                    id: '2', title: 'How We Built a $2M ARR SaaS in 6 Months Using AI Coding Assistants',
-                    summary: 'A detailed breakdown of how a 2-person team leveraged Claude, Cursor, and automation tools to build and ship a complex B2B product at unprecedented speed.',
-                    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'Indie Hackers', category: 'examples', score: 95, engagement: 1890
+                    type: 'skill',
+                    icon: '⚡',
+                    label: 'Claude Skill',
+                    title: 'obra/superpowers',
+                    description: 'Battle-tested skills: /brainstorm, /write-plan, /execute-plan, TDD patterns',
+                    url: 'https://github.com/obra/superpowers',
+                    source: 'GitHub'
                 },
                 {
-                    id: '3', title: 'LangGraph 2.0: Visual Workflow Builder for AI Agents',
-                    summary: 'LangChain releases LangGraph 2.0 with a visual editor for building multi-agent systems. New features include native tool use and one-click deployment.',
-                    url: 'https://langchain.com/blog/langgraph-2', source: 'LangChain Blog', category: 'tools', score: 92, engagement: 1200
-                },
-                {
-                    id: '4', title: 'The Complete Guide to Building AI-First Products',
-                    summary: 'A comprehensive tutorial covering product strategy, technical architecture, and go-to-market approaches for AI-native applications.',
-                    url: 'https://example.com/ai-product-guide', source: 'Lenny\'s Newsletter', category: 'examples', score: 90, engagement: 980
-                },
-                {
-                    id: '5', title: 'OpenAI Launches GPT-5 with Real-Time Learning',
-                    summary: 'GPT-5 introduces the ability to learn from conversation context and user corrections in real-time. Major leap in capabilities.',
-                    url: 'https://openai.com/gpt5', source: 'OpenAI Blog', category: 'news', score: 88, engagement: 3200
-                },
-                {
-                    id: '6', title: 'AI Startup Funding Hits $50B in 2025',
-                    summary: 'Annual report shows AI startup investment reached record levels, with B2B AI tools capturing 60% of funding.',
-                    url: 'https://techcrunch.com/ai-funding', source: 'TechCrunch', category: 'business', score: 85, engagement: 650
-                },
-                {
-                    id: '7', title: 'Practical RAG Patterns: From Simple to Production-Grade',
-                    summary: 'An engineering deep-dive into retrieval-augmented generation architectures with real benchmarks.',
-                    url: 'https://example.com/rag-patterns', source: 'Simon Willison', category: 'examples', score: 84, engagement: 720
-                },
-                {
-                    id: '8', title: 'Scaling Laws for AI Agents: What Works at 1M Users',
-                    summary: 'Research paper analyzing the performance characteristics of AI agent systems at scale.',
-                    url: 'https://arxiv.org/abs/ai-agents', source: 'arXiv', category: 'research', score: 82, engagement: 340
-                },
-                {
-                    id: '9', title: 'Building Voice AI Assistants: Step-by-Step Tutorial',
-                    summary: 'Complete guide to building voice-enabled AI assistants using Whisper, Claude, and ElevenLabs.',
-                    url: 'https://www.youtube.com/watch?v=voice-ai-demo', source: 'Hugging Face', category: 'examples', score: 80, engagement: 560
-                },
-                {
-                    id: '10', title: 'Cursor 2.0: The IDE That Writes Code For You',
-                    summary: 'Major update includes multi-file editing, automatic test generation, and seamless Claude/GPT integration. Free tier: 500/day.',
-                    url: 'https://cursor.com/blog/v2', source: 'Cursor Blog', category: 'tools', score: 78, engagement: 890
-                },
-                {
-                    id: '11', title: 'DeepMind\'s New Multimodal Model Understands Video',
-                    summary: 'Gemini Ultra 2 demonstrates unprecedented video understanding capabilities.',
-                    url: 'https://deepmind.google/gemini', source: 'Google AI Blog', category: 'research', score: 72, engagement: 1800
-                },
-                {
-                    id: '12', title: 'Automating Customer Support with AI: 50 Startup Results',
-                    summary: 'Survey results showing how startups use AI for support with real metrics.',
-                    url: 'https://example.com/ai-support', source: 'Hacker News', category: 'examples', score: 70, engagement: 280
+                    type: 'tutorial',
+                    icon: '🎯',
+                    label: 'Quick Tutorial',
+                    title: 'Build a SaaS MVP in 30 Minutes with AI',
+                    description: 'Step-by-step guide using Cursor, Claude, and Vercel.',
+                    url: 'https://www.youtube.com/results?search_query=build+saas+mvp+cursor+ai',
+                    source: 'YouTube'
                 }
             ];
         }
 
-        // Render functions
+        function getDefaultPodcast() {
+            return {
+                title: 'Latent Space: The AI Engineering Podcast',
+                description: 'Deep dives into AI engineering, LLMs, and building AI-powered products.',
+                source: 'Latent Space',
+                url: 'https://www.latent.space/',
+                podcast_duration: '45 min'
+            };
+        }
+
+        function getDefaultTwitterPosts() {
+            return [
+                { title: 'The best AI coding tools in 2026: Cursor vs Windsurf vs Claude Code', url: 'https://x.com/swyx', source: '@swyx', author: 'swyx (Latent Space)' },
+                { title: 'Just shipped a new feature using Claude Code in 2 hours - the prompting patterns that work', url: 'https://x.com/levelsio', source: '@levelsio', author: 'Pieter Levels' },
+                { title: 'New LangGraph features for building multi-agent systems', url: 'https://x.com/LangChainAI', source: '@LangChainAI', author: 'LangChain' },
+                { title: 'The CLAUDE.md file is underrated - here is how I structure mine', url: 'https://x.com/goodside', source: '@goodside', author: 'Riley Goodside' },
+                { title: 'Cursor + Claude = insane productivity for building MVPs', url: 'https://x.com/nutlope', source: '@nutlope', author: 'Hassan El Mghari' }
+            ];
+        }
+
+        function getSampleArticles() {
+            return [
+                {
+                    id: '1', title: 'How to Build a RAG Chatbot with LangChain in 15 Minutes',
+                    summary: 'Step-by-step tutorial covering document loading, embeddings, vector stores, and conversational retrieval.',
+                    url: 'https://blog.langchain.dev/rag-tutorial', source: 'LangChain Blog', category: 'tutorial', score: 98
+                },
+                {
+                    id: '2', title: 'Claude Code Best Practices: 17 Workflows That 10x Productivity',
+                    summary: 'Practical patterns from power users including plan mode, parallel sessions, and CLAUDE.md optimization.',
+                    url: 'https://www.anthropic.com/engineering/claude-code-best-practices', source: 'Anthropic', category: 'deep_dive', score: 96
+                },
+                {
+                    id: '3', title: 'n8n + OpenAI: Automate Content Creation Workflow',
+                    summary: 'Build a workflow that generates blog posts, social media content, and newsletters automatically.',
+                    url: 'https://blog.n8n.io/ai-content-workflow', source: 'n8n Blog', category: 'workflow', score: 94
+                },
+                {
+                    id: '4', title: 'Cursor IDE Tutorial: From Zero to Production App',
+                    summary: 'Complete guide to building and deploying a full-stack app using AI-powered coding.',
+                    url: 'https://www.youtube.com/watch?v=cursor-tutorial', source: 'All About AI', category: 'tutorial', score: 92, video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                },
+                {
+                    id: '5', title: 'Setting Up CLAUDE.md for Team Workflows',
+                    summary: 'How to configure CLAUDE.md files for consistent AI assistance across your development team.',
+                    url: 'https://www.gend.co/blog/claude-skills-claude-md-guide', source: 'Gend.co', category: 'skill', score: 90
+                },
+                {
+                    id: '6', title: 'Build Voice AI Apps with Whisper + Claude + ElevenLabs',
+                    summary: 'Tutorial on creating voice-enabled AI assistants from scratch.',
+                    url: 'https://huggingface.co/blog/voice-ai', source: 'Hugging Face', category: 'tutorial', score: 88
+                }
+            ];
+        }
+
         function renderAll() {
             const today = new Date();
             document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', {
                 weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
             });
 
-            renderChallenges();
+            renderQuickWins();
+            renderFeaturedPodcast();
             renderMustReads();
             renderVideo();
-            renderQuickHits();
-            renderToolSpotlight();
-            renderArchive();
+            renderMorePodcasts();
+            renderTwitterPosts();
+            renderMoreUpdates();
         }
 
-        function renderChallenges() {
-            // Get tutorial/example articles
-            const challenges = articles
-                .filter(a => a.category === 'examples' ||
-                    a.title.toLowerCase().includes('tutorial') ||
-                    a.title.toLowerCase().includes('guide') ||
-                    a.title.toLowerCase().includes('how'))
-                .slice(0, 3);
+        function renderQuickWins() {
+            const wins = quickWins.length > 0 ? quickWins : getDefaultQuickWins();
+            const grid = document.getElementById('quickWinsGrid');
 
-            const grid = document.getElementById('challengesGrid');
-
-            if (challenges.length === 0) {
-                document.getElementById('challengesSection').style.display = 'none';
-                return;
-            }
-
-            grid.innerHTML = challenges.map(c => {
-                const difficulty = getDifficultyLabel(c.readTime);
+            grid.innerHTML = wins.map(win => {
+                const typeClass = win.type === 'new_tool' ? 'tool' : win.type;
+                const cta = win.type === 'skill' ? 'Install Skill →' :
+                           win.type === 'new_tool' ? 'Try Tool →' : 'Start Tutorial →';
                 return `
-                    <div class="challenge-card" onclick="window.open('${c.url}', '_blank')">
-                        <div class="challenge-meta">
-                            <span class="challenge-time">~${c.readTime} min</span>
-                            <span class="challenge-difficulty" style="color: ${difficulty.color}">● ${difficulty.label}</span>
+                    <a href="${win.url}" target="_blank" rel="noopener" class="quick-win-card ${typeClass}">
+                        <div class="quick-win-header">
+                            <div class="quick-win-icon">${win.icon}</div>
+                            <span class="quick-win-label">${win.label}</span>
                         </div>
-                        <h3 class="challenge-title">${c.title}</h3>
-                        <p class="challenge-summary">${c.summary}</p>
-                        <span class="challenge-cta">Start Challenge →</span>
-                    </div>
+                        <h3 class="quick-win-title">${win.title}</h3>
+                        <p class="quick-win-description">${win.description}</p>
+                        <span class="quick-win-cta">${cta}</span>
+                    </a>
                 `;
             }).join('');
         }
 
-        function renderMustReads() {
-            // Exclude challenges, take top 5
-            const challengeIds = new Set(
-                articles.filter(a => a.category === 'examples').slice(0, 3).map(a => a.id)
-            );
-            const mustReads = articles.filter(a => !challengeIds.has(a.id)).slice(0, 5);
+        function renderFeaturedPodcast() {
+            const container = document.getElementById('featuredPodcast');
+            const podcast = featuredPodcast || getDefaultPodcast();
 
-            const totalTime = mustReads.reduce((sum, a) => sum + a.readTime, 0);
+            if (!podcast) {
+                document.getElementById('podcastSection').style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = `
+                <a href="${podcast.url}" target="_blank" rel="noopener" class="podcast-card">
+                    <div class="podcast-icon">🎙️</div>
+                    <div class="podcast-content">
+                        <div class="podcast-label">Today's Episode</div>
+                        <h3 class="podcast-title">${podcast.title}</h3>
+                        <div class="podcast-meta">
+                            <span>📍 ${podcast.source}</span>
+                            ${podcast.podcast_duration ? `<span>⏱️ ${podcast.podcast_duration}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="podcast-play">Listen Now →</div>
+                </a>
+            `;
+        }
+
+        function renderMustReads() {
+            // Prioritize tutorials, deep dives, and workflows - EXCLUDE podcasts
+            const priorityCategories = ['tutorial', 'deep_dive', 'workflow', 'skill', 'tools'];
+            const mustReads = articles
+                .filter(a => a.category !== 'podcast' && !a.video_url)
+                .sort((a, b) => {
+                    const aBoost = priorityCategories.includes(a.category) ? 0.2 : 0;
+                    const bBoost = priorityCategories.includes(b.category) ? 0.2 : 0;
+                    return (b.score + bBoost) - (a.score + aBoost);
+                })
+                .slice(0, 5);
+
+            const totalTime = mustReads.reduce((sum, a) => sum + (a.readTime || 5), 0);
             document.getElementById('totalReadTime').textContent = `~${totalTime} min total`;
 
             const list = document.getElementById('mustReadsList');
@@ -1081,36 +988,59 @@
                     <div class="must-read-number">${i + 1}</div>
                     <div class="must-read-content">
                         <div class="must-read-meta">
-                            <span class="category-badge ${a.category}">${getCategoryEmoji(a.category)} ${a.category}</span>
+                            <span class="category-badge ${a.category}">${getCategoryEmoji(a.category)} ${a.category.replace('_', ' ')}</span>
                             <span class="source-label">${a.source}</span>
                         </div>
                         <h3 class="must-read-title">${a.title}</h3>
-                        <p class="must-read-summary">${a.summary}</p>
+                        <p class="must-read-summary">${a.description || a.summary || ''}</p>
                     </div>
                     <div class="must-read-time">
                         <span>📖</span>
-                        <span>${a.readTime} min</span>
+                        <span>${a.readTime || 5} min</span>
                     </div>
                 </a>
             `).join('');
         }
 
         function renderVideo() {
-            // Find first article with YouTube URL
-            const videoArticle = articles.find(a => {
-                const ytId = extractYouTubeId(a.url);
+            // Find video - prioritize tutorials, but accept any video with YouTube URL
+            const allVideos = articles.filter(a => {
+                const ytId = extractYouTubeId(a.url || a.video_url);
                 return ytId !== null;
             });
 
+            // Sort: tutorials first, then by score
+            allVideos.sort((a, b) => {
+                const aIsTutorial = (a.category === 'tutorial' || a.content_type === 'tutorial') ? 1 : 0;
+                const bIsTutorial = (b.category === 'tutorial' || b.content_type === 'tutorial') ? 1 : 0;
+                if (aIsTutorial !== bIsTutorial) return bIsTutorial - aIsTutorial;
+                return (b.score || 0) - (a.score || 0);
+            });
+
+            const videoArticle = allVideos[0] || null;
+
             const container = document.getElementById('videoContent');
-            const section = document.getElementById('videoSection');
 
             if (!videoArticle) {
-                section.style.display = 'none';
+                container.innerHTML = `
+                    <div class="video-container" style="background: var(--bg-card); display: flex; align-items: center; justify-content: center; padding-bottom: 0; height: 300px;">
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">🎬</div>
+                            <h3 style="margin-bottom: 12px; color: var(--text-primary);">Today's Tutorial</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 20px;">Step-by-step AI building tutorials</p>
+                            <a href="https://www.youtube.com/results?search_query=cursor+ai+build+app+tutorial"
+                               target="_blank" rel="noopener"
+                               style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+                                      color: white; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                                Find AI Tutorials →
+                            </a>
+                        </div>
+                    </div>
+                `;
                 return;
             }
 
-            const ytId = extractYouTubeId(videoArticle.url);
+            const ytId = extractYouTubeId(videoArticle.url || videoArticle.video_url);
             container.innerHTML = `
                 <div class="video-container">
                     <iframe
@@ -1121,24 +1051,79 @@
                 </div>
                 <div class="video-info">
                     <h3 class="video-title">${videoArticle.title}</h3>
-                    <p class="video-context"><strong>Why watch:</strong> ${videoArticle.summary}</p>
+                    <p class="video-context"><strong>What you'll learn:</strong> ${videoArticle.description || videoArticle.summary || 'Practical AI building techniques.'}</p>
                 </div>
             `;
         }
 
-        function renderQuickHits() {
-            // All articles not in challenges or must-reads
-            const usedIds = new Set([
-                ...articles.filter(a => a.category === 'examples').slice(0, 3).map(a => a.id),
-                ...articles.slice(0, 8).map(a => a.id) // approximate
-            ]);
+        function renderTwitterPosts() {
+            const posts = twitterPosts.length > 0 ? twitterPosts : getDefaultTwitterPosts();
 
-            const quickHits = articles.filter(a => !usedIds.has(a.id)).slice(0, 6);
+            if (posts.length === 0) {
+                document.getElementById('twitterSection').style.display = 'none';
+                return;
+            }
 
-            document.getElementById('quickHitsCount').textContent = `${quickHits.length} more updates`;
+            const list = document.getElementById('twitterPostsList');
+            list.innerHTML = posts.slice(0, 5).map(post => `
+                <a href="${post.url}" target="_blank" rel="noopener" class="twitter-post">
+                    <div class="twitter-avatar">𝕏</div>
+                    <div class="twitter-content">
+                        <div class="twitter-header">
+                            <span class="twitter-author">${post.author || post.source}</span>
+                            <span class="twitter-handle">${post.source}</span>
+                        </div>
+                        <p class="twitter-text">${post.title}${post.description ? ' — ' + post.description : ''}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function renderMorePodcasts() {
+            const podcasts = articles.filter(a => a.category === 'podcast' || a.is_podcast);
+
+            // Skip if only featured podcast
+            if (podcasts.length <= 1) {
+                document.getElementById('morePodcastsSection').style.display = 'none';
+                return;
+            }
+
+            // Exclude featured podcast
+            const morePodcasts = podcasts.filter(p =>
+                !featuredPodcast || p.title !== featuredPodcast.title
+            ).slice(0, 4);
+
+            document.getElementById('podcastCount').textContent = `${morePodcasts.length} more`;
+
+            const grid = document.getElementById('morePodcastsGrid');
+            grid.innerHTML = morePodcasts.map(p => `
+                <a href="${p.url}" target="_blank" rel="noopener" class="podcast-mini">
+                    <div class="podcast-mini-icon">🎙️</div>
+                    <div class="podcast-mini-content">
+                        <h4 class="podcast-mini-title">${p.title}</h4>
+                        <span class="podcast-mini-source">${p.source} ${p.podcast_duration ? `• ${p.podcast_duration}` : ''}</span>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function renderMoreUpdates() {
+            const usedTitles = new Set();
+
+            // Add must reads titles
+            articles.filter(a => a.category !== 'podcast' && !a.video_url).slice(0, 5).forEach(a => usedTitles.add(a.title));
+
+            // Add featured podcast
+            if (featuredPodcast) usedTitles.add(featuredPodcast.title);
+
+            const moreUpdates = articles
+                .filter(a => !usedTitles.has(a.title) && a.category !== 'podcast')
+                .slice(0, 6);
+
+            document.getElementById('quickHitsCount').textContent = `${moreUpdates.length} more`;
 
             const list = document.getElementById('quickHitsList');
-            list.innerHTML = quickHits.map(a => `
+            list.innerHTML = moreUpdates.map(a => `
                 <div class="quick-hit-item">
                     <div class="quick-hit-left">
                         <span class="quick-hit-bullet">•</span>
@@ -1148,70 +1133,12 @@
                     </div>
                     <div class="quick-hit-right">
                         <span class="quick-hit-source">${a.source}</span>
-                        <span class="category-badge ${a.category}">${a.category}</span>
+                        <span class="category-badge ${a.category}">${a.category.replace('_', ' ')}</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        function renderToolSpotlight() {
-            const tool = articles.find(a => a.category === 'tools');
-
-            if (!tool) {
-                document.getElementById('toolSection').style.display = 'none';
-                return;
-            }
-
-            document.getElementById('toolSpotlight').innerHTML = `
-                <div class="tool-spotlight">
-                    <div class="tool-info">
-                        <div class="tool-label">Today's Featured Tool</div>
-                        <h3 class="tool-name">${tool.title}</h3>
-                        <p class="tool-description">${tool.summary}</p>
-                    </div>
-                    <a href="${tool.url}" target="_blank" rel="noopener" class="tool-cta">
-                        Try It →
-                    </a>
-                </div>
-            `;
-        }
-
-        function renderArchive() {
-            // Render filter buttons
-            const categories = ['all', ...new Set(articles.map(a => a.category))];
-            document.getElementById('archiveFilters').innerHTML = categories.map(c => `
-                <button class="filter-btn ${archiveFilter === c ? 'active' : ''}"
-                        onclick="setArchiveFilter('${c}')">
-                    ${c === 'all' ? 'All' : getCategoryEmoji(c) + ' ' + c}
-                </button>
-            `).join('');
-
-            // Render filtered list
-            const filtered = archiveFilter === 'all'
-                ? articles
-                : articles.filter(a => a.category === archiveFilter);
-
-            document.getElementById('archiveList').innerHTML = filtered.map(a => `
-                <a href="${a.url}" target="_blank" rel="noopener" class="archive-item">
-                    <span class="archive-item-title">${a.title}</span>
-                    <span class="category-badge ${a.category}">${a.category}</span>
-                </a>
-            `).join('');
-        }
-
-        function setArchiveFilter(filter) {
-            archiveFilter = filter;
-            renderArchive();
-        }
-
-        function toggleArchive() {
-            const toggle = document.getElementById('archiveToggle');
-            const content = document.getElementById('archiveContent');
-            toggle.classList.toggle('open');
-            content.classList.toggle('open');
-        }
-
-        // Modal handlers
         function openSubscribeModal() {
             document.getElementById('subscribeModal').classList.add('active');
         }
@@ -1234,7 +1161,6 @@
             if (e.target.id === 'subscribeModal') closeSubscribeModal();
         });
 
-        // Initialize
         loadArticles();
     </script>
 </body>

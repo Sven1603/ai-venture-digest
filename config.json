@@ -69,6 +69,7 @@
     "relevance_weight": 0.30,
     "recency_weight": 0.20,
     "engagement_weight": 0.25,
+    "max_per_source": 3,
     "strict_actionable": true
   },
 

@@ -712,6 +712,18 @@ def main():
     # Sort by score
     all_articles.sort(key=lambda x: x['score'], reverse=True)
 
+    # Cap articles per source for diversity
+    max_per_source = config['filters'].get('max_per_source', 3)
+    source_counts = {}
+    diverse_articles = []
+    for article in all_articles:
+        src = article.get('source', 'unknown')
+        source_counts[src] = source_counts.get(src, 0) + 1
+        if source_counts[src] <= max_per_source:
+            diverse_articles.append(article)
+    print(f"\n🎯 Source diversity: capped at {max_per_source} per source ({len(all_articles)} → {len(diverse_articles)} articles)")
+    all_articles = diverse_articles
+
     # Create Quick Wins
     print("\n🎯 Creating Quick Wins...")
     quick_wins = create_quick_wins(all_articles, skills)

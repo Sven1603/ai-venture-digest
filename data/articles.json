@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-02-16T12:03:22.734484",
+  "generated_at": "2026-02-16T12:38:46.239836",
   "article_count": 30,
   "quick_wins": [
     {
       "type": "new_tool",
       "icon": "\ud83c\udd95",
       "label": "New Tool",
-      "title": "Context Management for Deep Agents",
-      "description": "By Chester Curme and Mason DaughertyAs the addressable task length of AI agents continues to grow, effective context man",
-      "url": "https://blog.langchain.com/context-management-for-deepagents/",
-      "source": "LangChain Blog"
+      "title": "LangChain Streaming and API Integration",
+      "description": "",
+      "url": "https://www.youtube.com/watch?v=eor3eU9eReA",
+      "source": "James Briggs"
     },
     {
       "type": "skill",
@@ -42,7 +42,7 @@
     "video_url": null,
     "content_type": "podcast",
     "podcast_duration": "2963",
-    "fetched_at": "2026-02-16T12:02:51.102653",
+    "fetched_at": "2026-02-16T12:37:51.351417",
     "category": "podcast",
     "is_podcast": true,
     "score": 0.445
@@ -59,8 +59,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:03:17.666848",
-      "score": 0.44170545205324074
+      "fetched_at": "2026-02-16T12:38:33.009081",
+      "score": 0.4400669450015432
     },
     {
       "title": "Chris Liddell has been appointed to Anthropic's Board of Directors.\n\nChris brings over 30 years of leadership experience, including as CFO of Microsoft and General Motors, and as Deputy Chief of Staff",
@@ -73,8 +73,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:03:17.666874",
-      "score": 0.2584284458595679
+      "fetched_at": "2026-02-16T12:38:33.009164",
+      "score": 0.2567899387955247
     },
     {
       "title": "R to @cursor_ai: This work builds on our research from last month.\n\nhttps://x.com/cursor_ai/status/2019456112806732159",
@@ -87,7 +87,7 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "ai_coding",
-      "fetched_at": "2026-02-16T12:03:19.612037",
+      "fetched_at": "2026-02-16T12:38:35.671532",
       "score": 0.33749999999999997
     },
     {
@@ -101,7 +101,7 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude_prompts",
-      "fetched_at": "2026-02-16T12:03:20.264687",
+      "fetched_at": "2026-02-16T12:38:37.516856",
       "score": 0.225
     },
     {
@@ -115,16 +115,16 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "ai_apps",
-      "fetched_at": "2026-02-16T12:03:21.588859",
+      "fetched_at": "2026-02-16T12:38:40.303575",
       "score": 0.325
     }
   ],
   "categories": {
-    "deep_dive": 22,
+    "deep_dive": 16,
     "tutorial": 4,
     "skill": 3,
-    "tools": 18,
     "twitter": 15,
+    "tools": 13,
     "podcast": 8
   },
   "articles": [
@@ -139,7 +139,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830833",
+      "fetched_at": "2026-02-16T12:38:10.094392",
       "category": "deep_dive",
       "score": 0.7124999999999999
     },
@@ -154,9 +154,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.352483",
+      "fetched_at": "2026-02-16T12:38:09.528755",
       "category": "deep_dive",
-      "score": 0.6373042182793209
+      "score": 0.6384434890123457
     },
     {
       "title": "15 best n8n practices for deploying AI agents in production",
@@ -169,7 +169,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830803",
+      "fetched_at": "2026-02-16T12:38:10.094318",
       "category": "deep_dive",
       "score": 0.6125
     },
@@ -184,7 +184,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830808",
+      "fetched_at": "2026-02-16T12:38:10.094334",
       "category": "deep_dive",
       "score": 0.6125
     },
@@ -199,9 +199,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.352252",
+      "fetched_at": "2026-02-16T12:38:09.528273",
       "category": "deep_dive",
-      "score": 0.6039917183256173
+      "score": 0.6051309890709877
     },
     {
       "title": "End-to-end AI Agent Project with LangChain | Full Walkthrough",
@@ -214,7 +214,7 @@
       "video_url": "https://www.youtube.com/watch?v=AO6WbXTeDow",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735166",
+      "fetched_at": "2026-02-16T12:37:50.473401",
       "category": "tutorial",
       "score": 0.575
     },
@@ -229,7 +229,7 @@
       "video_url": "https://www.youtube.com/watch?v=Gi7nqB37WEY",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735193",
+      "fetched_at": "2026-02-16T12:37:50.473420",
       "category": "tutorial",
       "score": 0.575
     },
@@ -244,9 +244,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.352466",
+      "fetched_at": "2026-02-16T12:38:09.528722",
       "category": "deep_dive",
-      "score": 0.549999434353395
+      "score": 0.5511387050925926
     },
     {
       "title": "awesome-claude-code",
@@ -256,83 +256,8 @@
       "reputation": 0.95,
       "content_type": "skill",
       "category": "skill",
-      "fetched_at": "2026-02-16T12:03:10.526752",
+      "fetched_at": "2026-02-16T12:38:13.036765",
       "score": 0.5375
-    },
-    {
-      "title": "Join us for Interrupt: The Agent Conference",
-      "url": "https://blog.langchain.com/join-us-for-interrupt-the-agent-conference/",
-      "description": "Interrupt - The Agent Conference by LangChain - is where builders come to learn what's actually working in production. This year, we're bringing together more than 1,000 developers, product leaders, researchers, and founders to share what's coming next for agents\u2014and how",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Thu, 12 Feb 2026 17:42:03 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "deep_dive",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.767886",
-      "category": "deep_dive",
-      "score": 0.525
-    },
-    {
-      "title": "Context Management for Deep Agents",
-      "url": "https://blog.langchain.com/context-management-for-deepagents/",
-      "description": "By Chester Curme and Mason DaughertyAs the addressable task length of AI agents continues to grow, effective context management becomes critical to prevent context rot and to manage LLMs\u2019 finite memory constraints.The Deep Agents SDK is LangChain\u2019s open source, batteries-included agent harness. It p",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Wed, 28 Jan 2026 16:11:29 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "tool_update",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.767926",
-      "category": "tools",
-      "score": 0.525
-    },
-    {
-      "title": "How Remote uses LangChain and LangGraph to onboard thousands of customers with AI",
-      "url": "https://blog.langchain.com/customers-remote/",
-      "description": "Guest post written by Jos\u00e9 Mussa (Staff Software Engineer @ Remote)Remote is a fast-growing startup helping companies hire, manage, and pay employees globally from a single platform. Remote\u2019s customers operate across many countries and regulatory environments, and they trust Remote as the system of",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Mon, 19 Jan 2026 16:00:07 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "tool_update",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.767966",
-      "category": "tools",
-      "score": 0.525
-    },
-    {
-      "title": "Choosing the Right Multi-Agent Architecture",
-      "url": "https://blog.langchain.com/choosing-the-right-multi-agent-architecture/",
-      "description": "In this post, we\u2019ll explore when multi-agent architectures become necessary, the four main patterns we\u2019ve observed, and how LangChain empowers you to effectively build multi-agent systems.",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Wed, 14 Jan 2026 18:06:14 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "deep_dive",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.767973",
-      "category": "deep_dive",
-      "score": 0.525
-    },
-    {
-      "title": "Fastweb + Vodafone: Transforming Customer Experience with AI Agents using LangGraph and LangSmith",
-      "url": "https://blog.langchain.com/customers-vodafone-italy/",
-      "description": "See how Fastweb + Vodafone revolutionized customer service and call center operations with their agents, Super TOBi and Super Agent.",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Tue, 16 Dec 2025 20:50:55 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "tool_update",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.768018",
-      "category": "tools",
-      "score": 0.525
     },
     {
       "title": "Human in the loop automation: Build AI workflows that keep humans in control",
@@ -345,7 +270,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830775",
+      "fetched_at": "2026-02-16T12:38:10.094256",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -360,7 +285,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830791",
+      "fetched_at": "2026-02-16T12:38:10.094290",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -375,7 +300,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830814",
+      "fetched_at": "2026-02-16T12:38:10.094349",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -390,7 +315,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830839",
+      "fetched_at": "2026-02-16T12:38:10.094406",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -405,7 +330,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830845",
+      "fetched_at": "2026-02-16T12:38:10.094419",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -420,7 +345,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:03:08.830851",
+      "fetched_at": "2026-02-16T12:38:10.094433",
       "category": "deep_dive",
       "score": 0.5125
     },
@@ -435,8 +360,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "llm_tools",
-      "fetched_at": "2026-02-16T12:03:12.442546",
-      "score": 0.4976784460347222
+      "fetched_at": "2026-02-16T12:38:16.211138",
+      "score": 0.49603993899305554
     },
     {
       "title": "Data Science as a Service | Kumo AI Full Walkthrough",
@@ -449,7 +374,7 @@
       "video_url": "https://www.youtube.com/watch?v=ylyktSE8wcw",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735112",
+      "fetched_at": "2026-02-16T12:37:50.473363",
       "category": "tutorial",
       "score": 0.475
     },
@@ -464,7 +389,7 @@
       "video_url": "https://www.youtube.com/watch?v=MFp9vjr6rgA",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735129",
+      "fetched_at": "2026-02-16T12:37:50.473375",
       "category": "tutorial",
       "score": 0.475
     },
@@ -479,7 +404,7 @@
       "video_url": "https://www.youtube.com/watch?v=eor3eU9eReA",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735173",
+      "fetched_at": "2026-02-16T12:37:50.473406",
       "category": "tools",
       "score": 0.475
     },
@@ -494,7 +419,7 @@
       "video_url": "https://www.youtube.com/watch?v=v9G-h6Ygokk",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735180",
+      "fetched_at": "2026-02-16T12:37:50.473411",
       "category": "tools",
       "score": 0.475
     },
@@ -509,7 +434,7 @@
       "video_url": "https://www.youtube.com/watch?v=iN1Xx8ca_8I",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735186",
+      "fetched_at": "2026-02-16T12:37:50.473415",
       "category": "tools",
       "score": 0.475
     },
@@ -524,7 +449,7 @@
       "video_url": "https://www.youtube.com/watch?v=EtldFS3JbGs",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735200",
+      "fetched_at": "2026-02-16T12:37:50.473425",
       "category": "tools",
       "score": 0.475
     },
@@ -539,7 +464,7 @@
       "video_url": "https://www.youtube.com/watch?v=jPeOAOvKFHE",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:02:50.735207",
+      "fetched_at": "2026-02-16T12:37:50.473430",
       "category": "tools",
       "score": 0.475
     },
@@ -554,7 +479,7 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": "2963",
-      "fetched_at": "2026-02-16T12:02:51.102653",
+      "fetched_at": "2026-02-16T12:37:51.351417",
       "category": "podcast",
       "is_podcast": true,
       "score": 0.445
@@ -570,10 +495,76 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": "3075",
-      "fetched_at": "2026-02-16T12:02:51.102730",
+      "fetched_at": "2026-02-16T12:37:51.351497",
       "category": "podcast",
       "is_podcast": true,
       "score": 0.445
+    },
+    {
+      "title": "We\u2019re officially opening our Bengaluru office\u2014our new home base in India, and Anthropic's second office in Asia-Pacific.\n\nIndia is our second-largest market for http://Claude.ai. We\u2019re launching new p",
+      "url": "https://x.com/AnthropicAI/status/2023322514206957688#m",
+      "description": "We\u2019re officially opening our Bengaluru office\u2014our new home base in India, and Anthropic's second office in Asia-Pacific.\n\nIndia is our second-largest market for Claude.ai. We\u2019re launching new partnerships to deepen our long-term commitment: anthropic.com/news/bengaluru\u2026\n",
+      "source": "@AnthropicAI",
+      "author": "Anthropic",
+      "reputation": 1.0,
+      "published": "Mon, 16 Feb 2026 09:04:13 GMT",
+      "content_type": "twitter",
+      "category": "twitter",
+      "focus": "claude",
+      "fetched_at": "2026-02-16T12:38:33.009081",
+      "score": 0.4400669450015432
+    },
+    {
+      "title": "Introducing GPT\u20115.3\u2011Codex\u2011Spark",
+      "url": "https://simonwillison.net/2026/Feb/12/codex-spark/#atom-everything",
+      "description": "Introducing GPT\u20115.3\u2011Codex\u2011Spark\nOpenAI announced a partnership with Cerebras on January 14th. Four weeks later they're already launching the first integration, \"an ultra-fast model for real-time coding in Codex\".\nDespite being named GPT-5.3-Codex-Spark it's not purely an accelerated alternativ",
+      "source": "Simon Willison",
+      "reputation": 0.95,
+      "published": "2026-02-12T21:16:07+00:00",
+      "thumbnail": null,
+      "video_url": null,
+      "content_type": "deep_dive",
+      "podcast_duration": null,
+      "fetched_at": "2026-02-16T12:38:09.528934",
+      "category": "deep_dive",
+      "score": 0.4375
+    },
+    {
+      "title": "Quoting Anthropic",
+      "url": "https://simonwillison.net/2026/Feb/12/anthropic/#atom-everything",
+      "description": "Claude Code was made available to the general public in May 2025. Today, Claude Code\u2019s run-rate revenue has grown to over $2.5 billion; this figure has more than doubled since the beginning of 2026. The number of weekly active Claude Code users has also doubled since January 1 [six weeks ago].",
+      "source": "Simon Willison",
+      "reputation": 0.95,
+      "published": "2026-02-12T20:22:14+00:00",
+      "thumbnail": null,
+      "video_url": null,
+      "content_type": "tool_update",
+      "podcast_duration": null,
+      "fetched_at": "2026-02-16T12:38:09.528968",
+      "category": "tools",
+      "score": 0.4375
+    },
+    {
+      "title": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "description": "Battle-tested Claude skills: /brainstorm, /write-plan, /execute-plan",
+      "source": "GitHub",
+      "reputation": 0.95,
+      "content_type": "skill",
+      "category": "skill",
+      "fetched_at": "2026-02-16T12:38:13.036738",
+      "score": 0.4375
+    },
+    {
+      "title": "anthropic-skills",
+      "url": "https://github.com/anthropics/courses",
+      "description": "Official Anthropic courses and examples",
+      "source": "GitHub",
+      "reputation": 0.95,
+      "content_type": "skill",
+      "category": "skill",
+      "fetched_at": "2026-02-16T12:38:13.036761",
+      "score": 0.4375
     }
   ]
 }
