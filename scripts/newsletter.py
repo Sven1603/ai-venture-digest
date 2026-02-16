@@ -259,7 +259,8 @@ class MailchimpClient:
 
         try:
             with urllib.request.urlopen(req) as response:
-                return json.loads(response.read().decode())
+                body = response.read().decode()
+                return json.loads(body) if body else {}
         except urllib.error.HTTPError as e:
             error_body = e.read().decode()
             print(f"Mailchimp API error: {e.code} - {error_body}")
