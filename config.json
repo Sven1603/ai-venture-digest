@@ -72,6 +72,15 @@
     "strict_actionable": true
   },
 
+  "newsletter": {
+    "service": "mailchimp",
+    "frequency": "daily",
+    "send_time": "08:00",
+    "timezone": "Europe/Amsterdam",
+    "max_items": 10,
+    "include_summary": true
+  },
+
   "output": {
     "data_dir": "./data",
     "web_dir": "./",
