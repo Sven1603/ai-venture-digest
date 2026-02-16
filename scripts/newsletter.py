@@ -153,9 +153,9 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                     <span style="color: #a0a0b0; font-size: 12px;">CATEGORIES</span>
                   </td>
                   <td align="center" width="33%">
-                    <span style="color: #8b5cf6; font-size: 24px; font-weight: 700;">{max(a['score'] for a in top_articles) if top_articles else 0}</span>
+                    <span style="color: #8b5cf6; font-size: 24px; font-weight: 700;">{sum(1 for a in top_articles if a.get('content_type') == 'tutorial')}</span>
                     <br>
-                    <span style="color: #a0a0b0; font-size: 12px;">TOP SCORE</span>
+                    <span style="color: #a0a0b0; font-size: 12px;">TUTORIALS</span>
                   </td>
                 </tr>
               </table>
