@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-02-16T12:59:06.390314",
+  "generated_at": "2026-02-16T13:15:10.477441",
   "article_count": 30,
   "quick_wins": [
     {
       "type": "new_tool",
       "icon": "\ud83c\udd95",
       "label": "New Tool",
-      "title": "Context Management for Deep Agents",
-      "description": "By Chester Curme and Mason DaughertyAs the addressable task length of AI agents continues to grow, effective context man",
-      "url": "https://blog.langchain.com/context-management-for-deepagents/",
-      "source": "LangChain Blog"
+      "title": "OpenAI was dead\u2026 Then GPT-5.2 dropped",
+      "description": "",
+      "url": "https://www.youtube.com/watch?v=rEvEXQvo-F8",
+      "source": "Fireship"
     },
     {
       "type": "skill",
@@ -42,7 +42,7 @@
     "video_url": null,
     "content_type": "podcast",
     "podcast_duration": "2963",
-    "fetched_at": "2026-02-16T12:58:31.111633",
+    "fetched_at": "2026-02-16T13:14:30.885047",
     "category": "podcast",
     "is_podcast": true,
     "score": 0.445
@@ -59,8 +59,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:58:59.858779",
-      "score": 0.4391254706805556
+      "fetched_at": "2026-02-16T13:15:01.289888",
+      "score": 0.4383815764243827
     },
     {
       "title": "Chris Liddell has been appointed to Anthropic's Board of Directors.\n\nChris brings over 30 years of leadership experience, including as CFO of Microsoft and General Motors, and as Deputy Chief of Staff",
@@ -73,8 +73,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:58:59.858805",
-      "score": 0.25584846448533954
+      "fetched_at": "2026-02-16T13:15:01.289936",
+      "score": 0.2551045702191358
     },
     {
       "title": "R to @cursor_ai: This work builds on our research from last month.\n\nhttps://x.com/cursor_ai/status/2019456112806732159",
@@ -87,7 +87,7 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "ai_coding",
-      "fetched_at": "2026-02-16T12:59:02.229117",
+      "fetched_at": "2026-02-16T13:15:04.209772",
       "score": 0.33749999999999997
     },
     {
@@ -101,7 +101,7 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude_prompts",
-      "fetched_at": "2026-02-16T12:59:03.095241",
+      "fetched_at": "2026-02-16T13:15:06.352104",
       "score": 0.225
     },
     {
@@ -115,17 +115,17 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:58:59.858820",
-      "score": 0.35098272372067896
+      "fetched_at": "2026-02-16T13:15:01.289958",
+      "score": 0.3502388294429012
     }
   ],
   "categories": {
-    "deep_dive": 10,
+    "deep_dive": 9,
     "tutorial": 3,
     "skill": 3,
-    "tools": 4,
     "twitter": 14,
-    "podcast": 6
+    "podcast": 6,
+    "tools": 2
   },
   "articles": [
     {
@@ -139,7 +139,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.945112",
+      "fetched_at": "2026-02-16T13:14:50.244653",
       "category": "deep_dive",
       "score": 0.7124999999999999
     },
@@ -154,9 +154,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.210793",
+      "fetched_at": "2026-02-16T13:14:49.423184",
       "category": "deep_dive",
-      "score": 0.6347242368850309
+      "score": 0.6367581204760803
     },
     {
       "title": "15 best n8n practices for deploying AI agents in production",
@@ -169,7 +169,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.945081",
+      "fetched_at": "2026-02-16T13:14:50.244582",
       "category": "deep_dive",
       "score": 0.6125
     },
@@ -184,7 +184,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.945086",
+      "fetched_at": "2026-02-16T13:14:50.244596",
       "category": "deep_dive",
       "score": 0.6125
     },
@@ -199,9 +199,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.210577",
+      "fetched_at": "2026-02-16T13:14:49.422650",
       "category": "deep_dive",
-      "score": 0.6014117369452161
+      "score": 0.6034456205339507
     },
     {
       "title": "End-to-end AI Agent Project with LangChain | Full Walkthrough",
@@ -214,7 +214,7 @@
       "video_url": "https://www.youtube.com/watch?v=AO6WbXTeDow",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.695896",
+      "fetched_at": "2026-02-16T13:14:29.986728",
       "category": "tutorial",
       "score": 0.575
     },
@@ -229,7 +229,7 @@
       "video_url": "https://www.youtube.com/watch?v=Gi7nqB37WEY",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.695953",
+      "fetched_at": "2026-02-16T13:14:29.986839",
       "category": "tutorial",
       "score": 0.575
     },
@@ -244,9 +244,9 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.210776",
+      "fetched_at": "2026-02-16T13:14:49.423152",
       "category": "deep_dive",
-      "score": 0.5474194529745371
+      "score": 0.5494533365555556
     },
     {
       "title": "awesome-claude-code",
@@ -256,53 +256,8 @@
       "reputation": 0.95,
       "content_type": "skill",
       "category": "skill",
-      "fetched_at": "2026-02-16T12:58:50.190798",
+      "fetched_at": "2026-02-16T13:14:52.591000",
       "score": 0.5375
-    },
-    {
-      "title": "Join us for Interrupt: The Agent Conference",
-      "url": "https://blog.langchain.com/join-us-for-interrupt-the-agent-conference/",
-      "description": "Interrupt - The Agent Conference by LangChain - is where builders come to learn what's actually working in production. This year, we're bringing together more than 1,000 developers, product leaders, researchers, and founders to share what's coming next for agents\u2014and how",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Thu, 12 Feb 2026 17:42:03 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "deep_dive",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.881481",
-      "category": "deep_dive",
-      "score": 0.525
-    },
-    {
-      "title": "Context Management for Deep Agents",
-      "url": "https://blog.langchain.com/context-management-for-deepagents/",
-      "description": "By Chester Curme and Mason DaughertyAs the addressable task length of AI agents continues to grow, effective context management becomes critical to prevent context rot and to manage LLMs\u2019 finite memory constraints.The Deep Agents SDK is LangChain\u2019s open source, batteries-included agent harness. It p",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Wed, 28 Jan 2026 16:11:29 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "tool_update",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.881520",
-      "category": "tools",
-      "score": 0.525
-    },
-    {
-      "title": "How Remote uses LangChain and LangGraph to onboard thousands of customers with AI",
-      "url": "https://blog.langchain.com/customers-remote/",
-      "description": "Guest post written by Jos\u00e9 Mussa (Staff Software Engineer @ Remote)Remote is a fast-growing startup helping companies hire, manage, and pay employees globally from a single platform. Remote\u2019s customers operate across many countries and regulatory environments, and they trust Remote as the system of",
-      "source": "LangChain Blog",
-      "reputation": 0.9,
-      "published": "Mon, 19 Jan 2026 16:00:07 GMT",
-      "thumbnail": null,
-      "video_url": null,
-      "content_type": "tool_update",
-      "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.881555",
-      "category": "tools",
-      "score": 0.525
     },
     {
       "title": "R to @simonw: (and yes I did vibe code up a blue gradient image generator just to make the social card preview image for that post https://tools.simonwillison.net/gradient-card)",
@@ -315,8 +270,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "llm_tools",
-      "fetched_at": "2026-02-16T12:58:54.394214",
-      "score": 0.49509846465432095
+      "fetched_at": "2026-02-16T13:14:56.100802",
+      "score": 0.4943545704135802
     },
     {
       "title": "Data Science as a Service | Kumo AI Full Walkthrough",
@@ -329,7 +284,7 @@
       "video_url": "https://www.youtube.com/watch?v=ylyktSE8wcw",
       "content_type": "tutorial",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.695828",
+      "fetched_at": "2026-02-16T13:14:29.986528",
       "category": "tutorial",
       "score": 0.475
     },
@@ -344,7 +299,7 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": "2963",
-      "fetched_at": "2026-02-16T12:58:31.111633",
+      "fetched_at": "2026-02-16T13:14:30.885047",
       "category": "podcast",
       "is_podcast": true,
       "score": 0.445
@@ -360,7 +315,7 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": "3075",
-      "fetched_at": "2026-02-16T12:58:31.111711",
+      "fetched_at": "2026-02-16T13:14:30.885108",
       "category": "podcast",
       "is_podcast": true,
       "score": 0.445
@@ -376,8 +331,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "claude",
-      "fetched_at": "2026-02-16T12:58:59.858779",
-      "score": 0.4391254706805556
+      "fetched_at": "2026-02-16T13:15:01.289888",
+      "score": 0.4383815764243827
     },
     {
       "title": "obra/superpowers",
@@ -387,7 +342,7 @@
       "reputation": 0.95,
       "content_type": "skill",
       "category": "skill",
-      "fetched_at": "2026-02-16T12:58:50.190786",
+      "fetched_at": "2026-02-16T13:14:52.590969",
       "score": 0.4375
     },
     {
@@ -398,7 +353,7 @@
       "reputation": 0.95,
       "content_type": "skill",
       "category": "skill",
-      "fetched_at": "2026-02-16T12:58:50.190795",
+      "fetched_at": "2026-02-16T13:14:52.590994",
       "score": 0.4375
     },
     {
@@ -412,7 +367,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.309898",
+      "fetched_at": "2026-02-16T13:14:49.775234",
       "category": "deep_dive",
       "score": 0.42500000000000004
     },
@@ -427,7 +382,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.309903",
+      "fetched_at": "2026-02-16T13:14:49.775243",
       "category": "deep_dive",
       "score": 0.42500000000000004
     },
@@ -442,7 +397,7 @@
       "video_url": null,
       "content_type": "deep_dive",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:48.309911",
+      "fetched_at": "2026-02-16T13:14:49.775258",
       "category": "deep_dive",
       "score": 0.42500000000000004
     },
@@ -457,10 +412,10 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.912241",
+      "fetched_at": "2026-02-16T13:14:30.431034",
       "category": "podcast",
       "is_podcast": true,
-      "score": 0.40980525563657405
+      "score": 0.4090613615162037
     },
     {
       "title": "the jeff dean pod is doing very well, grateful for all the positive shoutouts from u guys \ud83d\ude47\u200d\u2642\ufe0f \n\nsome fun lore: we\u2019re trying to learn the youtube game so everything is a/b tested. allen did a slop @Na",
@@ -473,8 +428,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "ai_engineering",
-      "fetched_at": "2026-02-16T12:58:52.880106",
-      "score": 0.4046586498618827
+      "fetched_at": "2026-02-16T13:14:54.592396",
+      "score": 0.4039147556658951
     },
     {
       "title": "Timeline shows your tweets if good\n\nThis idea that you get followers via replies only is exactly why everyone's reply section has become unusable and overtaken by AI bots",
@@ -487,8 +442,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "indie_hacker",
-      "fetched_at": "2026-02-16T12:58:55.920431",
-      "score": 0.3999557176766976
+      "fetched_at": "2026-02-16T13:14:58.320843",
+      "score": 0.3992118234398148
     },
     {
       "title": "On the @oxidecomputer and friends podcast last month we (primary credit @ahl) coined the term \"Deep Blue\" for the sense of psychological ennui leading into existential dread that many software develop",
@@ -501,8 +456,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "llm_tools",
-      "fetched_at": "2026-02-16T12:58:54.394240",
-      "score": 0.3936671374691358
+      "fetched_at": "2026-02-16T13:14:56.100758",
+      "score": 0.3929232432847222
     },
     {
       "title": "What's the best model you can directly have a voice conversation with these days?\n\nI believe ChatGPT still switches to a 4o-class model for voice conversations, I'd be happy to be corrected on that",
@@ -515,8 +470,8 @@
       "content_type": "twitter",
       "category": "twitter",
       "focus": "llm_tools",
-      "fetched_at": "2026-02-16T12:58:54.394251",
-      "score": 0.38994260041280865
+      "fetched_at": "2026-02-16T13:14:56.100823",
+      "score": 0.3891987061859568
     },
     {
       "title": "OpenAI was dead\u2026 Then GPT-5.2 dropped",
@@ -529,7 +484,7 @@
       "video_url": "https://www.youtube.com/watch?v=rEvEXQvo-F8",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.395530",
+      "fetched_at": "2026-02-16T13:14:29.564161",
       "category": "tools",
       "score": 0.38749999999999996
     },
@@ -544,7 +499,7 @@
       "video_url": "https://www.youtube.com/watch?v=5JMiNsV7P3Y",
       "content_type": "tool_demo",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.395549",
+      "fetched_at": "2026-02-16T13:14:29.564171",
       "category": "tools",
       "score": 0.38749999999999996
     },
@@ -559,10 +514,56 @@
       "video_url": null,
       "content_type": "podcast",
       "podcast_duration": null,
-      "fetched_at": "2026-02-16T12:58:30.912260",
+      "fetched_at": "2026-02-16T13:14:30.431069",
       "category": "podcast",
       "is_podcast": true,
       "score": 0.3575
+    },
+    {
+      "title": "Owning the AI Pareto Frontier \u2014 Jeff Dean",
+      "url": "https://www.latent.space/p/jeffdean",
+      "description": "From rewriting Google\u2019s search stack in the early 2000s to reviving sparse trillion-parameter models and co-designing TPUs with frontier ML research, Jeff Dean has quietly shaped nearly every layer of the modern AI stack.",
+      "source": "Latent Space",
+      "reputation": 0.95,
+      "published": "Thu, 12 Feb 2026 22:02:35 GMT",
+      "thumbnail": null,
+      "video_url": null,
+      "content_type": "podcast",
+      "podcast_duration": null,
+      "fetched_at": "2026-02-16T13:14:30.431105",
+      "category": "podcast",
+      "is_podcast": true,
+      "score": 0.3575
+    },
+    {
+      "title": "AI incidents, audits, and the limits of benchmarks",
+      "url": "https://share.transistor.fm/s/1b8e65f4",
+      "description": "AI is moving fast from research to real-world deployment, and when things go wrong, the consequences are no longer hypothetical. In this episode, Sean McGregor, co-founder of the AI Verification & Evaluation Research Institute and also the founder of the AI Incident Database, joins Chris an",
+      "source": "Practical AI",
+      "reputation": 0.9,
+      "published": "Fri, 13 Feb 2026 10:57:56 -0500",
+      "thumbnail": null,
+      "video_url": null,
+      "content_type": "podcast",
+      "podcast_duration": "2572",
+      "fetched_at": "2026-02-16T13:14:30.885015",
+      "category": "podcast",
+      "is_podcast": true,
+      "score": 0.3553129045987654
+    },
+    {
+      "title": "Anthropic is partnering with @CodePath, the US's largest collegiate computer science program, to bring Claude and Claude Code to 20,000+ students at community colleges, state schools, and HBCUs.\n\nRead",
+      "url": "https://x.com/AnthropicAI/status/2022299804894712174#m",
+      "description": "Anthropic is partnering with @CodePath, the US's largest collegiate computer science program, to bring Claude and Claude Code to 20,000+ students at community colleges, state schools, and HBCUs.\n\nRead more: anthropic.com/news/anthropic\u2026\n",
+      "source": "@AnthropicAI",
+      "author": "Anthropic",
+      "reputation": 1.0,
+      "published": "Fri, 13 Feb 2026 13:20:20 GMT",
+      "content_type": "twitter",
+      "category": "twitter",
+      "focus": "claude",
+      "fetched_at": "2026-02-16T13:15:01.289958",
+      "score": 0.3502388294429012
     }
   ]
 }
