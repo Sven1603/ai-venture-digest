@@ -84,7 +84,7 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                   <tr>
                     <td colspan="2" style="padding-top: 8px;">
                       <p style="color: #666; font-size: 14px; line-height: 1.5; margin: 0;">
-                        {item['summary'][:200]}...
+                        {item.get('description', '')[:200]}...
                       </p>
                       <p style="color: #999; font-size: 12px; margin: 8px 0 0 0;">
                         {item['source']}
@@ -221,7 +221,7 @@ def generate_newsletter_text(articles: list[dict], config: dict) -> str:
         lines.extend([
             f"{i}. {article['title']}",
             f"   Score: {article['score']} | Source: {article['source']}",
-            f"   {article['summary'][:150]}...",
+            f"   {article.get('description', '')[:150]}...",
             f"   → {article['url']}",
             "",
         ])
