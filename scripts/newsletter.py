@@ -75,14 +75,9 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                         {item['title']}
                       </a>
                     </td>
-                    <td width="60" align="right" style="vertical-align: top;">
-                      <span style="background: linear-gradient(135deg, #4a9eff, #8b5cf6); color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
-                        {item['score']}
-                      </span>
-                    </td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="padding-top: 8px;">
+                    <td style="padding-top: 8px;">
                       <p style="color: #666; font-size: 14px; line-height: 1.5; margin: 0;">
                         {item.get('description', '')[:200]}...
                       </p>
@@ -220,7 +215,7 @@ def generate_newsletter_text(articles: list[dict], config: dict) -> str:
     for i, article in enumerate(top_articles, 1):
         lines.extend([
             f"{i}. {article['title']}",
-            f"   Score: {article['score']} | Source: {article['source']}",
+            f"   Source: {article['source']}",
             f"   {article.get('description', '')[:150]}...",
             f"   → {article['url']}",
             "",
