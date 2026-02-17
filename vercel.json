@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/data/lib/:match*",
+      "destination": "https://ai-venture-digest.vercel.app/_vercel/insights/:match*"
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/fetch",
