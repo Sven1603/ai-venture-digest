@@ -1159,7 +1159,9 @@
             `).join('');
         }
 
+        let subscribeOpenedAt = 0;
         function openSubscribeModal() {
+            subscribeOpenedAt = Date.now();
             document.getElementById('subscribeModal').classList.add('active');
         }
 
@@ -1186,7 +1188,7 @@
                 const response = await fetch('/api/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, website: honeypot })
+                    body: JSON.stringify({ email, website: honeypot, t: subscribeOpenedAt })
                 });
 
                 const data = await response.json();

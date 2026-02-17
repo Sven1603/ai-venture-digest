@@ -14,10 +14,18 @@ class handler(BaseHTTPRequestHandler):
 
             email = body.get('email', '').strip().lower()
             honeypot = body.get('website', '')
+            opened_at = body.get('t', 0)
 
             # Honeypot check — bots fill this, humans don't
             if honeypot:
-                self._respond(200, {"success": True, "message": "Check your inbox to confirm."})
+                self._respond(200, {"success": True, "message": "You've been subscribed!"})
+                return
+
+            # Time-based check — reject if submitted < 3s after modal opened
+            import time
+            now = int(time.time() * 1000)
+            if not opened_at or now - opened_at < 3000:
+                self._respond(200, {"success": True, "message": "You've been subscribed!"})
                 return
 
             # Validate email
@@ -39,7 +47,7 @@ class handler(BaseHTTPRequestHandler):
 
             data = json.dumps({
                 "email_address": email,
-                "status": "pending"
+                "status": "subscribed"
             }).encode()
 
             req = urllib.request.Request(url, data=data, headers={
@@ -51,7 +59,7 @@ class handler(BaseHTTPRequestHandler):
                 resp_body = response.read().decode()
                 json.loads(resp_body) if resp_body else {}
 
-            self._respond(200, {"success": True, "message": "Check your inbox to confirm your subscription."})
+            self._respond(200, {"success": True, "message": "You've been subscribed!"})
 
         except urllib.error.HTTPError as e:
             error_body = e.read().decode()
@@ -61,7 +69,7 @@ class handler(BaseHTTPRequestHandler):
                 error_data = {}
 
             if e.code == 400 and error_data.get('title') == 'Member Exists':
-                self._respond(200, {"success": True, "message": "You're already on the list! Check your inbox."})
+                self._respond(200, {"success": True, "message": "You're already subscribed!"})
             else:
                 self._respond(500, {"error": "api", "message": "Something went wrong. Please try again later."})
 
