@@ -751,6 +751,8 @@
             <h2>📧 Get the Daily Digest</h2>
             <p>Receive actionable AI tutorials, tools, and skills every morning.</p>
             <input type="email" id="subscribeEmail" placeholder="your@email.com">
+            <input type="text" id="subscribeWebsite" name="website" autocomplete="off"
+                   tabindex="-1" style="position:absolute;left:-9999px;opacity:0;">
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeSubscribeModal()">Cancel</button>
                 <button class="btn-primary" onclick="subscribe()">Subscribe</button>
@@ -1163,23 +1165,83 @@
 
         function closeSubscribeModal() {
             document.getElementById('subscribeModal').classList.remove('active');
+            const msg = document.getElementById('subscribeMessage');
+            if (msg) msg.remove();
         }
 
-        function subscribe() {
+        async function subscribe() {
             const email = document.getElementById('subscribeEmail').value;
+            const honeypot = document.getElementById('subscribeWebsite').value;
+            const btn = document.querySelector('#subscribeModal .btn-primary');
+
             if (!email || !email.includes('@')) {
-                alert('Please enter a valid email');
+                showSubscribeMessage('Please enter a valid email address.', true);
                 return;
             }
-            alert(`Thanks! ${email} added to the waitlist.`);
-            closeSubscribeModal();
+
+            btn.disabled = true;
+            btn.textContent = 'Subscribing...';
+
+            try {
+                const response = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, website: honeypot })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showSubscribeMessage(data.message, false);
+                    setTimeout(() => {
+                        closeSubscribeModal();
+                        resetSubscribeModal();
+                    }, 3000);
+                } else {
+                    showSubscribeMessage(data.message || 'Something went wrong.', true);
+                }
+            } catch (e) {
+                showSubscribeMessage('Network error. Please try again.', true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Subscribe';
+            }
+        }
+
+        function showSubscribeMessage(msg, isError) {
+            let el = document.getElementById('subscribeMessage');
+            if (!el) {
+                el = document.createElement('p');
+                el.id = 'subscribeMessage';
+                const input = document.getElementById('subscribeEmail');
+                input.parentNode.insertBefore(el, input.nextSibling);
+            }
+            el.textContent = msg;
+            el.style.color = isError ? '#ef4444' : '#10b981';
+            el.style.fontSize = '14px';
+            el.style.marginTop = '8px';
+        }
+
+        function resetSubscribeModal() {
+            document.getElementById('subscribeEmail').value = '';
+            document.getElementById('subscribeWebsite').value = '';
+            const msg = document.getElementById('subscribeMessage');
+            if (msg) msg.remove();
         }
 
         document.getElementById('subscribeModal').addEventListener('click', (e) => {
             if (e.target.id === 'subscribeModal') closeSubscribeModal();
         });
 
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSubscribeModal();
+        });
+
         loadArticles();
     </script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
