@@ -14,7 +14,7 @@ import json
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import re
 import html
 import os
@@ -672,6 +672,29 @@ def get_featured_podcast(podcasts):
 
 
 # ============================================================
+# DEDUP HISTORY
+# ============================================================
+
+def load_seen_urls():
+    """Load URL history. Returns empty dict if file missing/corrupted."""
+    try:
+        with open('data/seen_urls.json', 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def save_seen_urls(seen, archive_days):
+    """Save URL history, pruning entries older than archive_days."""
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=archive_days)).strftime('%Y-%m-%d')
+    pruned = {url: date for url, date in seen.items() if date >= cutoff}
+    num_pruned = len(seen) - len(pruned)
+    with open('data/seen_urls.json', 'w') as f:
+        json.dump(pruned, f, indent=2)
+    return num_pruned
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -682,6 +705,7 @@ def main():
     print("=" * 60)
 
     config = load_config()
+    seen = load_seen_urls()
     all_articles = []
 
     # 1. YouTube tutorials (strictly filtered)
@@ -708,6 +732,18 @@ def main():
     print("\n📊 Scoring content...")
     for article in all_articles:
         article['score'] = calculate_score(article, config)
+
+    # Deduplicate against history (skills are exempt)
+    before_dedup = len(all_articles)
+    all_articles = [
+        a for a in all_articles
+        if a['url'] not in seen or a.get('content_type') == 'skill'
+    ]
+    blocked = before_dedup - len(all_articles)
+    if blocked:
+        print(f"\n🔁 Dedup: blocked {blocked} previously shown articles ({len(seen)} URLs in history)")
+    else:
+        print(f"\n🔁 Dedup: no duplicates found ({len(seen)} URLs in history)")
 
     # Sort by score
     all_articles.sort(key=lambda x: x['score'], reverse=True)
@@ -766,6 +802,26 @@ def main():
     os.makedirs('data', exist_ok=True)
     with open('data/articles.json', 'w') as f:
         json.dump(output, f, indent=2)
+
+    # Record shown URLs in history (exempt skills and default twitter posts)
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    for article in output.get('articles', []):
+        if article.get('content_type') != 'skill':
+            seen[article['url']] = today
+    for qw in output.get('quick_wins', []):
+        if qw.get('content_type') != 'skill':
+            seen[qw['url']] = today
+    if output.get('featured_podcast'):
+        seen[output['featured_podcast']['url']] = today
+    for tweet in output.get('twitter_posts', []):
+        if tweet.get('url', '').startswith('https://x.com/') and '/' in tweet['url'].split('x.com/')[1]:
+            # Only record specific tweet URLs, not generic profile fallbacks
+            seen[tweet['url']] = today
+
+    archive_days = config.get('output', {}).get('archive_days', 30)
+    num_pruned = save_seen_urls(seen, archive_days)
+    if num_pruned:
+        print(f"🔁 Dedup: pruned {num_pruned} entries older than {archive_days} days")
 
     print(f"\n💾 Saved {len(all_articles)} articles to data/articles.json")
     print(f"   - {len(quick_wins)} quick wins")

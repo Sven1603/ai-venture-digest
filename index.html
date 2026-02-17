@@ -796,6 +796,24 @@
             return null;
         }
 
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            try {
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) return '';
+                const now = new Date();
+                const diffMs = now - date;
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                if (diffHours < 1) return 'just now';
+                if (diffHours < 24) return `${diffHours}h ago`;
+                if (diffDays < 7) return `${diffDays}d ago`;
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            } catch (e) {
+                return '';
+            }
+        }
+
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json');
@@ -959,7 +977,7 @@
                         <div class="podcast-label">Today's Episode</div>
                         <h3 class="podcast-title">${podcast.title}</h3>
                         <div class="podcast-meta">
-                            <span>📍 ${podcast.source}</span>
+                            <span>📍 ${podcast.source}${formatDate(podcast.published) ? ' · ' + formatDate(podcast.published) : ''}</span>
                             ${podcast.podcast_duration ? `<span>⏱️ ${podcast.podcast_duration}</span>` : ''}
                         </div>
                     </div>
@@ -989,7 +1007,7 @@
                     <div class="must-read-number">${i + 1}</div>
                     <div class="must-read-content">
                         <div class="must-read-meta">
-                            <span class="source-label">${a.source}</span>
+                            <span class="source-label">${a.source}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
                         </div>
                         <h3 class="must-read-title">${a.title}</h3>
                         <p class="must-read-summary">${a.description || a.summary || ''}</p>
@@ -1071,7 +1089,7 @@
                     <div class="twitter-content">
                         <div class="twitter-header">
                             <span class="twitter-author">${post.author || post.source}</span>
-                            <span class="twitter-handle">${post.source}</span>
+                            <span class="twitter-handle">${post.source}${formatDate(post.published) ? ' · ' + formatDate(post.published) : ''}</span>
                         </div>
                         <p class="twitter-text">${post.title}${post.description ? ' — ' + post.description : ''}</p>
                     </div>
@@ -1101,7 +1119,7 @@
                     <div class="podcast-mini-icon">🎙️</div>
                     <div class="podcast-mini-content">
                         <h4 class="podcast-mini-title">${p.title}</h4>
-                        <span class="podcast-mini-source">${p.source} ${p.podcast_duration ? `• ${p.podcast_duration}` : ''}</span>
+                        <span class="podcast-mini-source">${p.source}${formatDate(p.published) ? ' · ' + formatDate(p.published) : ''} ${p.podcast_duration ? `• ${p.podcast_duration}` : ''}</span>
                     </div>
                 </a>
             `).join('');
@@ -1132,7 +1150,7 @@
                         </span>
                     </div>
                     <div class="quick-hit-right">
-                        <span class="quick-hit-source">${a.source}</span>
+                        <span class="quick-hit-source">${a.source}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
                         <span class="category-badge ${a.category}">${a.category.replace('_', ' ')}</span>
                     </div>
                 </div>
