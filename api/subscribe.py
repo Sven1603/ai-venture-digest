@@ -1,6 +1,7 @@
 import json
 import os
 import base64
+import time
 import urllib.request
 import urllib.error
 from http.server import BaseHTTPRequestHandler
@@ -14,7 +15,8 @@ class handler(BaseHTTPRequestHandler):
 
             email = body.get('email', '').strip().lower()
             honeypot = body.get('website', '')
-            opened_at = body.get('t', 0)
+            opened_at = body.get('t_open', 0)
+            submitted_at = body.get('t_submit', 0)
 
             # Honeypot check — bots fill this, humans don't
             if honeypot:
@@ -22,9 +24,7 @@ class handler(BaseHTTPRequestHandler):
                 return
 
             # Time-based check — reject if submitted < 3s after modal opened
-            import time
-            now = int(time.time() * 1000)
-            if not opened_at or now - opened_at < 3000:
+            if not opened_at or not submitted_at or (submitted_at - opened_at) < 3000:
                 self._respond(200, {"success": True, "message": "You've been subscribed!"})
                 return
 
@@ -56,8 +56,7 @@ class handler(BaseHTTPRequestHandler):
             }, method='POST')
 
             with urllib.request.urlopen(req) as response:
-                resp_body = response.read().decode()
-                json.loads(resp_body) if resp_body else {}
+                response.read()
 
             self._respond(200, {"success": True, "message": "You've been subscribed!"})
 

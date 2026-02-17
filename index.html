@@ -1188,7 +1188,7 @@
                 const response = await fetch('/api/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, website: honeypot, t: subscribeOpenedAt })
+                    body: JSON.stringify({ email, website: honeypot, t_open: subscribeOpenedAt, t_submit: Date.now() })
                 });
 
                 const data = await response.json();
