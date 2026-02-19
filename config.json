@@ -68,6 +68,9 @@
       "https://nitter.poast.org",
       "https://nitter.privacydev.net",
       "https://nitter.net"
+    ],
+    "producthunt": [
+      {"name": "Product Hunt", "url": "https://www.producthunt.com/feed", "reputation": 0.85}
     ]
   },
 
@@ -79,6 +82,9 @@
     "recency_weight": 0.20,
     "engagement_weight": 0.25,
     "max_per_source": 2,
+    "source_caps": {
+      "Product Hunt": 5
+    },
     "strict_actionable": true
   },
 

@@ -57,6 +57,7 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
         'research': {'emoji': '🔬', 'title': 'Research'},
         'examples': {'emoji': '💡', 'title': 'Use Cases & Examples'},
         'business': {'emoji': '📈', 'title': 'Business & Funding'},
+        'launch': {'emoji': '🚀', 'title': 'Product Launches'},
     }
 
     # Build sections
