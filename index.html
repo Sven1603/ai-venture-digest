@@ -391,6 +391,14 @@
             flex-shrink: 0;
         }
 
+        .launch-card-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
         .launch-card-content { flex: 1; min-width: 0; }
 
         .launch-card-title {
@@ -1208,7 +1216,9 @@
             const grid = document.getElementById('launchesGrid');
             grid.innerHTML = launches.map(l => `
                 <a href="${l.url}" target="_blank" rel="noopener" class="launch-card">
-                    <div class="launch-card-icon">🚀</div>
+                    ${l.thumbnail
+                        ? `<img src="${l.thumbnail}" alt="" class="launch-card-logo">`
+                        : `<div class="launch-card-icon">🚀</div>`}
                     <div class="launch-card-content">
                         <h4 class="launch-card-title">${l.title}</h4>
                         <span class="launch-card-desc">${l.description || ''}</span>
