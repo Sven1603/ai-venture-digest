@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Venture Digest - Actionable AI for Builders</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            var t = localStorage.getItem('ai-digest-theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <style>
+        /* Dark theme (default) */
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
@@ -22,6 +30,27 @@
             --accent-cyan: #06b6d4;
             --border: #2a2a3a;
             --border-light: #3a3a4a;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #faf8f5;
+            --bg-secondary: #f0ede8;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f5f2ed;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a5e;
+            --text-muted: #7a7a8e;
+            --accent-blue: #2563eb;
+            --accent-green: #047857;
+            --accent-orange: #d97706;
+            --accent-cyan: #0891b2;
+            --border: #e0ddd8;
+            --border-light: #d0cdc8;
+        }
+
+        html.theme-ready, html.theme-ready *,
+        html.theme-ready *::before, html.theme-ready *::after {
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -97,6 +126,26 @@
         .subscribe-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3);
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--border-light);
+            color: var(--text-primary);
         }
 
         /* Section styling */
@@ -742,6 +791,9 @@
                 </div>
                 <div class="header-right">
                     <span class="date-display" id="dateDisplay"></span>
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                        <span id="themeIcon"></span>
+                    </button>
                     <button class="subscribe-btn" onclick="openSubscribeModal()">Subscribe</button>
                 </div>
             </div>
@@ -841,6 +893,23 @@
         let quickWins = [];
         let featuredPodcast = null;
         let twitterPosts = [];
+
+        function initTheme() {
+            var theme = document.documentElement.getAttribute('data-theme');
+            var icon = document.getElementById('themeIcon');
+            if (icon) icon.textContent = theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+            document.documentElement.classList.add('theme-ready');
+        }
+
+        function toggleTheme() {
+            var current = document.documentElement.getAttribute('data-theme') || 'dark';
+            var next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('ai-digest-theme', next);
+            initTheme();
+        }
+
+        initTheme();
 
         function estimateReadTime(text) {
             const words = text.split(/\s+/).length;
