@@ -185,8 +185,14 @@ def fetch_rss(url, source_name, reputation, content_type='article'):
         for item in items[:15]:
             title = item.findtext('title') or item.findtext('{http://www.w3.org/2005/Atom}title') or ''
             link = item.findtext('link') or ''
-            description = item.findtext('description') or item.findtext('{http://www.w3.org/2005/Atom}summary') or ''
-            pub_date = item.findtext('pubDate') or item.findtext('{http://www.w3.org/2005/Atom}published') or ''
+            description = (item.findtext('description')
+                           or item.findtext('{http://www.w3.org/2005/Atom}summary')
+                           or item.findtext('{http://www.w3.org/2005/Atom}content')
+                           or '')
+            pub_date = (item.findtext('pubDate')
+                        or item.findtext('{http://www.w3.org/2005/Atom}published')
+                        or item.findtext('{http://www.w3.org/2005/Atom}updated')
+                        or '')
 
             # Atom link handling
             if not link:
@@ -488,6 +494,50 @@ def fetch_twitter_posts(config):
     return posts
 
 
+def fetch_producthunt(config):
+    """Fetch AI product launches from Product Hunt."""
+    print("\n🚀 Fetching Product Hunt launches...")
+    launches = []
+
+    sources = config['sources'].get('producthunt', [])
+
+    for source in sources:
+        name = source['name']
+        url = source['url']
+        reputation = source['reputation']
+
+        try:
+            items = fetch_rss(url, name, reputation, 'product_launch')
+            accepted = 0
+
+            for item in items:
+                title = item['title']
+                desc = item.get('description', '')
+                text = (title + ' ' + desc).lower()
+
+                # AI keyword filter (word-boundary-safe)
+                ai_keywords = [
+                    ' ai ', ' ai-', 'gpt', 'llm', 'automation',
+                    'no-code', 'copilot', 'agent', 'chatbot',
+                ]
+
+                if any(kw in f' {text} ' for kw in ai_keywords):
+                    item['category'] = 'launch'
+                    item['content_type'] = 'product_launch'
+                    launches.append(item)
+                    accepted += 1
+                    print(f"  ✓ {name}: {title[:50]}...")
+
+            if accepted == 0:
+                print(f"  - {name}: No AI launches found")
+
+        except Exception as e:
+            print(f"  ⚠ {name}: {e}")
+
+    print(f"  → Found {len(launches)} AI product launches")
+    return launches
+
+
 def get_top_twitter_posts(posts, limit=5):
     """Select the most relevant Twitter posts for display."""
     if not posts:
@@ -565,6 +615,7 @@ def calculate_score(article, config):
         'deep_dive': 0.20,
         'skill': 0.20,
         'tool_demo': 0.15,
+        'product_launch': 0.12,
         'tool_update': 0.10,
         'podcast': 0.12
     }
@@ -608,7 +659,7 @@ def create_quick_wins(articles, skills):
     quick_wins = []
 
     # 1. Find best new tool
-    tools = [a for a in articles if a.get('category') in ['tools'] or a.get('content_type') in ['tool_demo', 'tool_update']]
+    tools = [a for a in articles if a.get('category') in ['tools', 'launch'] or a.get('content_type') in ['tool_demo', 'tool_update', 'product_launch']]
     if tools:
         tool = max(tools, key=lambda x: x.get('score', 0))
         quick_wins.append({
@@ -727,6 +778,10 @@ def main():
     # 5. Twitter/X posts from AI builders
     twitter_posts = fetch_twitter_posts(config)
     all_articles.extend(twitter_posts)
+
+    # 6. Product Hunt launches
+    ph_launches = fetch_producthunt(config)
+    all_articles.extend(ph_launches)
 
     # Score all articles
     print("\n📊 Scoring content...")

@@ -68,6 +68,9 @@
       "https://nitter.poast.org",
       "https://nitter.privacydev.net",
       "https://nitter.net"
+    ],
+    "producthunt": [
+      {"name": "Product Hunt", "url": "https://www.producthunt.com/feed", "reputation": 0.85}
     ]
   },
 
