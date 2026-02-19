@@ -805,12 +805,14 @@ def main():
 
     # Cap articles per source for diversity
     max_per_source = config['filters'].get('max_per_source', 3)
+    source_caps = config['filters'].get('source_caps', {})
     source_counts = {}
     diverse_articles = []
     for article in all_articles:
         src = article.get('source', 'unknown')
+        cap = source_caps.get(src, max_per_source)
         source_counts[src] = source_counts.get(src, 0) + 1
-        if source_counts[src] <= max_per_source:
+        if source_counts[src] <= cap:
             diverse_articles.append(article)
     print(f"\n🎯 Source diversity: capped at {max_per_source} per source ({len(all_articles)} → {len(diverse_articles)} articles)")
     all_articles = diverse_articles
