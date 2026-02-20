@@ -749,6 +749,63 @@
             color: var(--text-secondary);
         }
 
+        /* Table of Contents Bar */
+        .toc-nav {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .toc-nav::-webkit-scrollbar { display: none; }
+
+        .toc-item {
+            position: relative;
+            z-index: 1;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .toc-item.active { color: var(--text-primary); }
+
+        .toc-pill {
+            position: absolute;
+            top: 6px;
+            left: 0;
+            height: calc(100% - 12px);
+            background: var(--bg-card);
+            border-radius: 8px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        html.theme-ready .toc-pill {
+            transition: transform 0.3s ease, width 0.3s ease,
+                        background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .toc-pill { transition: none !important; }
+        }
+
+        @media print { .toc-nav { display: none; } }
+
+        section { scroll-margin-top: 120px; }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container { padding: 0 16px; }
@@ -760,6 +817,7 @@
             .quick-hit-source { display: none; }
             .podcast-card { flex-direction: column; text-align: center; }
             .podcast-icon { margin: 0 auto; }
+            .toc-nav { padding: 0 16px; }
         }
 
         .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
@@ -799,6 +857,8 @@
             </div>
         </div>
     </header>
+
+    <nav id="tocNav" class="toc-nav" aria-label="Table of contents"></nav>
 
     <main class="container">
         <!-- Quick Wins -->
@@ -1072,6 +1132,130 @@
             ];
         }
 
+        function buildTOC() {
+            const nav = document.getElementById('tocNav');
+            nav.innerHTML = '';
+
+            const labels = {
+                quickWinsSection: 'Quick Wins',
+                podcastSection: 'Podcast',
+                mustReadsSection: 'Must Reads',
+                videoSection: 'Tutorial',
+                morePodcastsSection: 'More Pods',
+                twitterSection: 'X / Twitter',
+                launchesSection: 'Launches',
+                quickHitsSection: 'More Updates'
+            };
+
+            const sections = [];
+            for (const [id, label] of Object.entries(labels)) {
+                const el = document.getElementById(id);
+                if (el && el.style.display !== 'none') {
+                    sections.push({ id, label, el });
+                }
+            }
+
+            if (sections.length === 0) {
+                nav.style.display = 'none';
+                return;
+            }
+
+            // Create pill
+            const pill = document.createElement('div');
+            pill.className = 'toc-pill';
+            nav.appendChild(pill);
+
+            // Create items
+            const links = [];
+            sections.forEach(({ id, label }) => {
+                const a = document.createElement('a');
+                a.href = '#' + id;
+                a.className = 'toc-item';
+                a.textContent = label;
+                a.dataset.section = id;
+                nav.appendChild(a);
+                links.push(a);
+            });
+
+            // Position TOC below header
+            const header = document.querySelector('header');
+            function updateStickyTop() {
+                nav.style.top = header.offsetHeight + 'px';
+            }
+            updateStickyTop();
+
+            // Pill positioning
+            let activeLink = null;
+
+            function movePill(link, animate) {
+                if (!animate) pill.style.transition = 'none';
+                pill.style.width = link.offsetWidth + 'px';
+                pill.style.transform = 'translateX(' + link.offsetLeft + 'px)';
+                if (!animate) {
+                    pill.offsetHeight; // force reflow
+                    pill.style.transition = '';
+                }
+            }
+
+            function setActive(link) {
+                if (activeLink) {
+                    activeLink.classList.remove('active');
+                    activeLink.removeAttribute('aria-current');
+                }
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'true');
+                activeLink = link;
+                movePill(link, activeLink !== null);
+            }
+
+            // Set first section active (no animation)
+            if (links.length > 0) {
+                links[0].classList.add('active');
+                links[0].setAttribute('aria-current', 'true');
+                activeLink = links[0];
+                movePill(links[0], false);
+            }
+
+            // Click handling
+            let suppressObserver = false;
+
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(link.dataset.section);
+                    if (!target) return;
+
+                    setActive(link);
+                    suppressObserver = true;
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => { suppressObserver = false; }, 800);
+                });
+            });
+
+            // Scroll spy via IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                if (suppressObserver) return;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const match = links.find(l => l.dataset.section === entry.target.id);
+                        if (match && match !== activeLink) {
+                            setActive(match);
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '-120px 0px -50% 0px'
+            });
+
+            sections.forEach(({ el }) => observer.observe(el));
+
+            // Resize: recalculate pill + sticky top
+            window.addEventListener('resize', () => {
+                if (activeLink) movePill(activeLink, false);
+                updateStickyTop();
+            });
+        }
+
         function renderAll() {
             const today = new Date();
             document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', {
@@ -1086,6 +1270,7 @@
             renderTwitterPosts();
             renderLaunches();
             renderMoreUpdates();
+            buildTOC();
         }
 
         function renderQuickWins() {
