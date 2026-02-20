@@ -5,75 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Venture Digest - Actionable AI for Builders</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <script>
-        (function() {
-            var t = localStorage.getItem('ai-digest-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', t);
-        })();
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Dark theme (default) */
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a24;
-            --bg-card-hover: #22222e;
-            --text-primary: #f0f0f5;
-            --text-secondary: #9090a0;
-            --text-muted: #606070;
-            --accent-blue: #4a9eff;
-            --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-pink: #ec4899;
-            --accent-cyan: #06b6d4;
-            --border: #2a2a3a;
-            --border-light: #3a3a4a;
-        }
+            /* Core palette */
+            --orange: #E85D2C;
+            --cream: #FFF8F0;
+            --navy: #1A1A2E;
+            --gold: #FFD700;
 
-        [data-theme="light"] {
-            --bg-primary: #faf8f5;
-            --bg-secondary: #f0ede8;
-            --bg-card: #ffffff;
-            --bg-card-hover: #f5f2ed;
-            --text-primary: #1a1a2e;
+            /* Semantic aliases (referenced by JS inline styles) */
+            --bg-primary: #FFF8F0;
+            --bg-secondary: #F5EDE4;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #FFF5EE;
+            --text-primary: #1A1A2E;
             --text-secondary: #4a4a5e;
             --text-muted: #7a7a8e;
-            --accent-blue: #2563eb;
+
+            /* Accent colors — darkened for WCAG AA on cream/white */
+            --accent-blue: #1d4ed8;
+            --accent-purple: #6d28d9;
             --accent-green: #047857;
-            --accent-orange: #d97706;
-            --accent-cyan: #0891b2;
-            --border: #e0ddd8;
-            --border-light: #d0cdc8;
+            --accent-orange: #c2410c;
+            --accent-cyan: #0e7490;
+            --accent-pink: #be185d;
+
+            --border: #e8e0d8;
+            --border-light: #d8cec4;
+
+            /* Card shadow — layered orange-tinted */
+            --card-shadow: 0 2px 8px rgba(232, 93, 44, 0.12), 0 8px 24px rgba(232, 93, 44, 0.06);
+
+            /* Typography */
+            --font-display: 'Space Grotesk', 'Arial Black', system-ui, sans-serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
         }
 
-        html.theme-ready, html.theme-ready *,
-        html.theme-ready *::before, html.theme-ready *::after {
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
+        /* === Reset & Base === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--navy);
+            line-height: 1.7;
             min-height: 100vh;
         }
 
+        /* === Layout === */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
+        /* === Section Backgrounds === */
+        .section-orange { background: var(--orange); }
+        .section-navy { background: var(--navy); }
+        .section-cream { background: var(--cream); }
+
+        section { padding: 48px 0; scroll-margin-top: 130px; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-meta {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Section text colors per background */
+        .section-orange .section-title { color: #FFFFFF; }
+        .section-orange .section-meta { color: rgba(255, 255, 255, 0.8); }
+
+        .section-navy .section-title { color: #FFFFFF; }
+        .section-navy .section-meta { color: rgba(255, 255, 255, 0.7); }
+
+        .section-cream .section-title { color: var(--navy); }
+        .section-cream .section-meta { color: var(--text-secondary); }
+
+        /* === Header === */
         header {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFEADC 100%);
             border-bottom: 1px solid var(--border);
             padding: 24px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .header-content {
@@ -89,7 +122,7 @@
         .logo-icon {
             width: 44px;
             height: 44px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: var(--orange);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -98,26 +131,29 @@
         }
 
         .logo-text h1 {
+            font-family: var(--font-display);
             font-size: 1.4rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--orange);
+            letter-spacing: -0.03em;
         }
 
-        .logo-text p { font-size: 0.8rem; color: var(--text-muted); }
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
 
         .header-right { display: flex; align-items: center; gap: 16px; }
         .date-display { font-size: 0.85rem; color: var(--text-secondary); }
 
         .subscribe-btn {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: white;
+            background: var(--orange);
+            color: var(--navy);
             border: none;
             padding: 10px 18px;
             border-radius: 8px;
             cursor: pointer;
+            font-family: var(--font-body);
             font-weight: 600;
             font-size: 0.9rem;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -125,57 +161,44 @@
 
         .subscribe-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(232, 93, 44, 0.35);
         }
 
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.2s, color 0.2s;
+        .subscribe-btn:active { transform: translateY(0); }
+
+        /* === Shared Card Styles === */
+        .quick-win-card,
+        .podcast-mini,
+        .launch-card,
+        .twitter-post,
+        .must-read-item {
+            background: #FFFFFF;
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            text-decoration: none;
+            color: var(--navy);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .theme-toggle:hover {
-            border-color: var(--border-light);
-            color: var(--text-primary);
+        .quick-win-card:hover,
+        .podcast-mini:hover,
+        .launch-card:hover,
+        .twitter-post:hover,
+        .must-read-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(232, 93, 44, 0.2), 0 12px 32px rgba(232, 93, 44, 0.1);
         }
 
-        /* Section styling */
-        section {
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        section:last-child { border-bottom: none; }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+        .quick-win-card:active,
+        .podcast-mini:active,
+        .launch-card:active,
+        .twitter-post:active,
+        .must-read-item:active {
+            transform: translateY(0);
         }
 
-        .section-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-meta { font-size: 0.8rem; color: var(--text-muted); }
-
-        /* Quick Wins Section */
+        /* === Quick Wins === */
         .quick-wins-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -183,16 +206,10 @@
         }
 
         .quick-win-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
             padding: 20px;
             cursor: pointer;
-            transition: all 0.2s;
             position: relative;
             overflow: hidden;
-            text-decoration: none;
-            color: inherit;
             display: block;
         }
 
@@ -203,20 +220,12 @@
             left: 0;
             right: 0;
             height: 3px;
-            opacity: 0;
-            transition: opacity 0.2s;
+            border-radius: 16px 16px 0 0;
         }
 
         .quick-win-card.tool::before { background: var(--accent-green); }
         .quick-win-card.skill::before { background: var(--accent-purple); }
         .quick-win-card.tutorial::before { background: var(--accent-orange); }
-
-        .quick-win-card:hover {
-            background: var(--bg-card-hover);
-            transform: translateY(-2px);
-        }
-
-        .quick-win-card:hover::before { opacity: 1; }
 
         .quick-win-header {
             display: flex;
@@ -235,9 +244,9 @@
             font-size: 20px;
         }
 
-        .quick-win-card.tool .quick-win-icon { background: rgba(16, 185, 129, 0.15); }
-        .quick-win-card.skill .quick-win-icon { background: rgba(139, 92, 246, 0.15); }
-        .quick-win-card.tutorial .quick-win-icon { background: rgba(245, 158, 11, 0.15); }
+        .quick-win-card.tool .quick-win-icon { background: rgba(4, 120, 87, 0.12); }
+        .quick-win-card.skill .quick-win-icon { background: rgba(109, 40, 217, 0.12); }
+        .quick-win-card.tutorial .quick-win-icon { background: rgba(194, 65, 12, 0.12); }
 
         .quick-win-label {
             font-size: 0.7rem;
@@ -251,10 +260,12 @@
         .quick-win-card.tutorial .quick-win-label { color: var(--accent-orange); }
 
         .quick-win-title {
+            font-family: var(--font-display);
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
             line-height: 1.4;
+            color: var(--navy);
         }
 
         .quick-win-description {
@@ -267,38 +278,64 @@
             overflow: hidden;
         }
 
-        .quick-win-cta {
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
+        .quick-win-cta { font-size: 0.85rem; font-weight: 600; }
 
         .quick-win-card.tool .quick-win-cta { color: var(--accent-green); }
         .quick-win-card.skill .quick-win-cta { color: var(--accent-purple); }
         .quick-win-card.tutorial .quick-win-cta { color: var(--accent-orange); }
 
-        /* Podcast Section */
+        /* === Marquee Banner === */
+        .marquee-wrapper {
+            background: var(--gold);
+            overflow: hidden;
+            padding: 14px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee-scroll 40s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-track span {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--navy);
+            letter-spacing: 0.08em;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* === Featured Podcast === */
         .podcast-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(74, 158, 255, 0.1) 100%);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 16px;
             padding: 24px;
             display: flex;
             gap: 20px;
             align-items: center;
             text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
+            color: #FFFFFF;
+            transition: transform 0.2s, background 0.2s;
         }
 
         .podcast-card:hover {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(74, 158, 255, 0.15) 100%);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
         }
+
+        .podcast-card:active { transform: translateY(0); }
 
         .podcast-icon {
             width: 64px;
             height: 64px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            background: var(--orange);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -313,36 +350,38 @@
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--accent-purple);
+            color: var(--orange);
             font-weight: 600;
             margin-bottom: 6px;
         }
 
         .podcast-title {
+            font-family: var(--font-display);
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 6px;
             line-height: 1.4;
         }
 
-        .podcast-meta {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
+        .podcast-meta { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
         .podcast-meta span { margin-right: 12px; }
 
         .podcast-play {
-            background: var(--accent-purple);
-            color: white;
+            background: var(--orange);
+            color: var(--navy);
             padding: 12px 20px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.9rem;
             flex-shrink: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* Must Reads Section */
+        .podcast-play:hover {
+            box-shadow: 0 4px 16px rgba(232, 93, 44, 0.4);
+        }
+
+        /* === Must Reads === */
         .must-reads-list { display: flex; flex-direction: column; gap: 16px; }
 
         .must-read-item {
@@ -350,28 +389,18 @@
             grid-template-columns: 40px 1fr auto;
             gap: 16px;
             padding: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            transition: all 0.2s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .must-read-item:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-blue);
-            transform: translateX(4px);
         }
 
         .must-read-number {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: var(--orange);
+            color: #FFFFFF;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: var(--font-display);
             font-weight: 700;
             font-size: 1.1rem;
             flex-shrink: 0;
@@ -394,88 +423,24 @@
             text-transform: uppercase;
         }
 
-        .category-badge.tutorial { background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); }
-        .category-badge.tools { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-        .category-badge.skill { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
-        .category-badge.workflow { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
-        .category-badge.deep_dive { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
-        .category-badge.podcast { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
-        .category-badge.video { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
-        .category-badge.launch { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-
-        /* Launches Section */
-        .launches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .launch-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .launch-card:hover {
-            background: var(--bg-card-hover);
-            border-color: #ef4444;
-        }
-
-        .launch-card-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(239, 68, 68, 0.15);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .launch-card-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .launch-card-content { flex: 1; min-width: 0; }
-
-        .launch-card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .launch-card-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        .category-badge.tutorial { background: rgba(194, 65, 12, 0.12); color: var(--accent-orange); }
+        .category-badge.tools { background: rgba(4, 120, 87, 0.12); color: var(--accent-green); }
+        .category-badge.skill { background: rgba(109, 40, 217, 0.12); color: var(--accent-purple); }
+        .category-badge.workflow { background: rgba(14, 116, 144, 0.12); color: var(--accent-cyan); }
+        .category-badge.deep_dive { background: rgba(29, 78, 216, 0.12); color: var(--accent-blue); }
+        .category-badge.podcast { background: rgba(109, 40, 217, 0.12); color: var(--accent-purple); }
+        .category-badge.video { background: rgba(190, 24, 93, 0.12); color: var(--accent-pink); }
+        .category-badge.launch { background: rgba(232, 93, 44, 0.12); color: var(--orange); }
 
         .source-label { font-size: 0.75rem; color: var(--text-muted); }
 
         .must-read-title {
+            font-family: var(--font-display);
             font-size: 1.05rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 6px;
             line-height: 1.4;
+            color: var(--navy);
         }
 
         .must-read-summary {
@@ -496,11 +461,11 @@
             gap: 4px;
         }
 
-        /* Video Section */
+        /* === Video Section === */
         .video-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: #FFFFFF;
             border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 12px 32px rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
 
@@ -521,11 +486,19 @@
         }
 
         .video-info { padding: 20px; }
-        .video-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+
+        .video-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
         .video-context { font-size: 0.85rem; color: var(--text-secondary); }
         .video-context strong { color: var(--accent-cyan); }
 
-        /* More Podcasts */
+        /* === More Podcasts === */
         .podcasts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -533,27 +506,16 @@
         }
 
         .podcast-mini {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
             padding: 16px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .podcast-mini:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-purple);
-        }
-
         .podcast-mini-icon {
             width: 40px;
             height: 40px;
-            background: rgba(139, 92, 246, 0.15);
+            background: rgba(109, 40, 217, 0.12);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -565,21 +527,20 @@
         .podcast-mini-content { flex: 1; min-width: 0; }
 
         .podcast-mini-title {
+            font-family: var(--font-display);
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 4px;
+            color: var(--navy);
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .podcast-mini-source {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .podcast-mini-source { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Twitter Section */
+        /* === Twitter/X Section === */
         .twitter-posts-list {
             display: flex;
             flex-direction: column;
@@ -587,32 +548,22 @@
         }
 
         .twitter-post {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
             padding: 16px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s;
             display: flex;
             gap: 12px;
-        }
-
-        .twitter-post:hover {
-            background: var(--bg-card-hover);
-            border-color: #1DA1F2;
         }
 
         .twitter-avatar {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #1DA1F2, #0d8ed9);
+            background: var(--orange);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
             flex-shrink: 0;
+            color: #FFFFFF;
         }
 
         .twitter-content { flex: 1; min-width: 0; }
@@ -624,15 +575,8 @@
             margin-bottom: 6px;
         }
 
-        .twitter-author {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .twitter-handle {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
+        .twitter-author { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+        .twitter-handle { color: var(--text-muted); font-size: 0.8rem; }
 
         .twitter-text {
             font-size: 0.9rem;
@@ -644,7 +588,64 @@
             overflow: hidden;
         }
 
-        /* Quick Hits Section */
+        /* === Launches Section === */
+        .launches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .launch-card {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .launch-card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(232, 93, 44, 0.12);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .launch-card-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .launch-card-content { flex: 1; min-width: 0; }
+
+        .launch-card-title {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--navy);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .launch-card-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* === Quick Hits / More Updates === */
         .quick-hits-list { display: flex; flex-direction: column; }
 
         .quick-hit-item {
@@ -659,14 +660,14 @@
         .quick-hit-item:last-child { border-bottom: none; }
 
         .quick-hit-item:hover {
-            background: var(--bg-card);
+            background: #FFFFFF;
             margin: 0 -16px;
             padding: 14px 16px;
             border-radius: 8px;
         }
 
         .quick-hit-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-        .quick-hit-bullet { color: var(--accent-blue); font-weight: bold; }
+        .quick-hit-bullet { color: var(--orange); font-weight: bold; }
 
         .quick-hit-title {
             font-size: 0.95rem;
@@ -676,85 +677,22 @@
         }
 
         .quick-hit-title a {
-            color: var(--text-primary);
+            color: var(--navy);
             text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .quick-hit-title a:hover { color: var(--accent-blue); }
+        .quick-hit-title a:hover { color: var(--orange); }
 
         .quick-hit-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
         .quick-hit-source { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Subscribe Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active { display: flex; }
-
-        .modal {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            border: 1px solid var(--border);
-        }
-
-        .modal h2 { font-size: 1.3rem; margin-bottom: 8px; }
-        .modal p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; }
-
-        .modal input[type="email"] {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 1rem;
-            margin-bottom: 12px;
-        }
-
-        .modal input[type="email"]:focus { outline: none; border-color: var(--accent-blue); }
-
-        .modal-actions { display: flex; gap: 10px; }
-
-        .modal-actions button {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            border: none;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        /* Table of Contents Bar */
+        /* === TOC Nav Bar === */
         .toc-nav {
             position: sticky;
             top: 0;
             z-index: 90;
-            background: var(--bg-secondary);
+            background: #FFFFFF;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -770,29 +708,29 @@
             position: relative;
             z-index: 1;
             padding: 12px 16px;
-            color: var(--text-secondary);
+            color: var(--text-muted);
+            font-family: var(--font-body);
             font-size: 0.85rem;
             font-weight: 500;
             text-decoration: none;
             white-space: nowrap;
             flex-shrink: 0;
+            transition: color 0.2s;
         }
 
-        .toc-item.active { color: var(--text-primary); }
+        .toc-item:hover:not(.active) { color: var(--navy); }
+        .toc-item.active { color: #FFFFFF; }
 
         .toc-pill {
             position: absolute;
             top: 6px;
             left: 0;
             height: calc(100% - 12px);
-            background: var(--bg-card);
+            background: var(--orange);
             border-radius: 8px;
             z-index: 0;
             pointer-events: none;
-        }
-
-        html.theme-ready .toc-pill {
-            transition: transform 0.3s ease, width 0.3s ease, background-color 0.3s;
+            transition: transform 0.3s ease, width 0.3s ease;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -801,22 +739,125 @@
 
         @media print { .toc-nav { display: none; } }
 
-        section { scroll-margin-top: 120px; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container { padding: 0 16px; }
-            .header-content { flex-direction: column; align-items: flex-start; }
-            .header-right { width: 100%; justify-content: space-between; }
-            .must-read-item { grid-template-columns: 32px 1fr; gap: 12px; }
-            .must-read-number { width: 32px; height: 32px; font-size: 0.9rem; }
-            .must-read-time { display: none; }
-            .quick-hit-source { display: none; }
-            .podcast-card { flex-direction: column; text-align: center; }
-            .podcast-icon { margin: 0 auto; }
-            .toc-nav { padding: 0 16px; }
+        /* === Subscribe Modal === */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
 
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(232, 93, 44, 0.15), 0 24px 64px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal h2 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
+        .modal p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; }
+
+        .modal input[type="email"] {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--cream);
+            color: var(--navy);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .modal input[type="email"]:focus {
+            outline: none;
+            border-color: var(--orange);
+        }
+
+        .modal-actions { display: flex; gap: 10px; }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            border: none;
+            color: var(--navy);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(232, 93, 44, 0.35);
+        }
+
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-light);
+            color: var(--navy);
+        }
+
+        /* === Focus States === */
+        :focus-visible {
+            outline: 2px solid var(--navy);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px #FFFFFF;
+        }
+
+        /* === Reduced Motion === */
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track {
+                animation: none;
+                justify-content: center;
+            }
+
+            .quick-win-card:hover,
+            .podcast-mini:hover,
+            .launch-card:hover,
+            .twitter-post:hover,
+            .must-read-item:hover,
+            .podcast-card:hover {
+                transform: none;
+            }
+        }
+
+        /* === Footer spacing === */
+        main { padding-bottom: 0; }
+        main > section:last-child { padding-bottom: 64px; }
+
+        /* === Loading & Empty States === */
         .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
         .loading { text-align: center; padding: 60px; }
 
@@ -824,13 +865,32 @@
             width: 36px;
             height: 36px;
             border: 3px solid var(--border);
-            border-top-color: var(--accent-blue);
+            border-top-color: var(--orange);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 16px;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            section { padding: 32px 0; }
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+            .section-title { font-size: 1.25rem; }
+            .quick-wins-grid { grid-template-columns: 1fr; }
+            .must-read-item { grid-template-columns: 32px 1fr; gap: 12px; }
+            .must-read-number { width: 32px; height: 32px; font-size: 0.9rem; }
+            .must-read-time { display: none; }
+            .quick-hit-source { display: none; }
+            .podcast-card { flex-direction: column; text-align: center; }
+            .podcast-icon { margin: 0 auto; }
+            .podcast-play { width: 100%; text-align: center; }
+            .toc-nav { padding: 0 16px; }
+            .marquee-track span { font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
@@ -846,9 +906,6 @@
                 </div>
                 <div class="header-right">
                     <span class="date-display" id="dateDisplay"></span>
-                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                        <span id="themeIcon"></span>
-                    </button>
                     <button class="subscribe-btn" onclick="openSubscribeModal()">Subscribe</button>
                 </div>
             </div>
@@ -857,76 +914,100 @@
 
     <nav id="tocNav" class="toc-nav" aria-label="Table of contents"></nav>
 
-    <main class="container">
+    <main>
         <!-- Quick Wins -->
-        <section id="quickWinsSection">
-            <div class="section-header">
-                <h2 class="section-title">⚡ Today's Quick Wins</h2>
-                <span class="section-meta">Try one of these today</span>
+        <section id="quickWinsSection" class="section-orange">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">⚡ Today's Quick Wins</h2>
+                    <span class="section-meta">Try one of these today</span>
+                </div>
+                <div class="quick-wins-grid" id="quickWinsGrid"></div>
             </div>
-            <div class="quick-wins-grid" id="quickWinsGrid"></div>
         </section>
 
-        <!-- Featured Podcast -->
-        <section id="podcastSection">
-            <div class="section-header">
-                <h2 class="section-title">🎙️ Featured Podcast</h2>
-                <span class="section-meta">Listen while you build</span>
+        <!-- Marquee Banner -->
+        <div class="marquee-wrapper" aria-hidden="true">
+            <div class="marquee-track">
+                <span>AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆&nbsp;</span>
+                <span>AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆ AI VENTURE DIGEST ◆&nbsp;</span>
             </div>
-            <div id="featuredPodcast"></div>
+        </div>
+
+        <!-- Featured Podcast -->
+        <section id="podcastSection" class="section-navy">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🎙️ Featured Podcast</h2>
+                    <span class="section-meta">Listen while you build</span>
+                </div>
+                <div id="featuredPodcast"></div>
+            </div>
         </section>
 
         <!-- Top 5 Actionable Reads -->
-        <section id="mustReadsSection">
-            <div class="section-header">
-                <h2 class="section-title">📚 Top 5 Actionable Reads</h2>
-                <span class="section-meta" id="totalReadTime"></span>
+        <section id="mustReadsSection" class="section-cream">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📚 Top 5 Actionable Reads</h2>
+                    <span class="section-meta" id="totalReadTime"></span>
+                </div>
+                <div class="must-reads-list" id="mustReadsList"></div>
             </div>
-            <div class="must-reads-list" id="mustReadsList"></div>
         </section>
 
         <!-- Tutorial Video -->
-        <section id="videoSection">
-            <div class="section-header">
-                <h2 class="section-title">🎬 Tutorial of the Day</h2>
+        <section id="videoSection" class="section-orange">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🎬 Tutorial of the Day</h2>
+                </div>
+                <div class="video-section" id="videoContent"></div>
             </div>
-            <div class="video-section" id="videoContent"></div>
         </section>
 
         <!-- More Podcasts -->
-        <section id="morePodcastsSection">
-            <div class="section-header">
-                <h2 class="section-title">🎧 More Podcasts</h2>
-                <span class="section-meta" id="podcastCount"></span>
+        <section id="morePodcastsSection" class="section-cream">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🎧 More Podcasts</h2>
+                    <span class="section-meta" id="podcastCount"></span>
+                </div>
+                <div class="podcasts-grid" id="morePodcastsGrid"></div>
             </div>
-            <div class="podcasts-grid" id="morePodcastsGrid"></div>
         </section>
 
         <!-- X/Twitter Posts -->
-        <section id="twitterSection">
-            <div class="section-header">
-                <h2 class="section-title">🐦 From AI Builders on X</h2>
-                <span class="section-meta">What the community is sharing</span>
+        <section id="twitterSection" class="section-navy">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🐦 From AI Builders on X</h2>
+                    <span class="section-meta">What the community is sharing</span>
+                </div>
+                <div class="twitter-posts-list" id="twitterPostsList"></div>
             </div>
-            <div class="twitter-posts-list" id="twitterPostsList"></div>
         </section>
 
         <!-- Product Launches -->
-        <section id="launchesSection">
-            <div class="section-header">
-                <h2 class="section-title">🚀 AI Product Launches</h2>
-                <span class="section-meta">New tools to try</span>
+        <section id="launchesSection" class="section-orange">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🚀 AI Product Launches</h2>
+                    <span class="section-meta">New tools to try</span>
+                </div>
+                <div class="launches-grid" id="launchesGrid"></div>
             </div>
-            <div class="launches-grid" id="launchesGrid"></div>
         </section>
 
         <!-- More Updates -->
-        <section id="quickHitsSection">
-            <div class="section-header">
-                <h2 class="section-title">📌 More Updates</h2>
-                <span class="section-meta" id="quickHitsCount"></span>
+        <section id="quickHitsSection" class="section-cream">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📌 More Updates</h2>
+                    <span class="section-meta" id="quickHitsCount"></span>
+                </div>
+                <div class="quick-hits-list" id="quickHitsList"></div>
             </div>
-            <div class="quick-hits-list" id="quickHitsList"></div>
         </section>
     </main>
 
@@ -950,23 +1031,6 @@
         let quickWins = [];
         let featuredPodcast = null;
         let twitterPosts = [];
-
-        function initTheme() {
-            var theme = document.documentElement.getAttribute('data-theme');
-            var icon = document.getElementById('themeIcon');
-            if (icon) icon.textContent = theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
-            document.documentElement.classList.add('theme-ready');
-        }
-
-        function toggleTheme() {
-            var current = document.documentElement.getAttribute('data-theme') || 'dark';
-            var next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('ai-digest-theme', next);
-            initTheme();
-        }
-
-        initTheme();
 
         function estimateReadTime(text) {
             const words = text.split(/\s+/).length;
@@ -1235,6 +1299,10 @@
             });
 
             // Scroll spy — pick topmost intersecting section
+            const headerH = header.offsetHeight;
+            const tocH = nav.offsetHeight;
+            const rootMarginTop = -(headerH + tocH + 10);
+
             _tocObserver = new IntersectionObserver((entries) => {
                 if (suppressObserver) return;
                 let topmost = null;
@@ -1250,7 +1318,7 @@
                     if (match && match !== activeLink) setActive(match);
                 }
             }, {
-                rootMargin: '-120px 0px -50% 0px'
+                rootMargin: rootMarginTop + 'px 0px -50% 0px'
             });
 
             sections.forEach(({ el }) => _tocObserver.observe(el));
@@ -1386,15 +1454,15 @@
 
             if (!videoArticle) {
                 container.innerHTML = `
-                    <div class="video-container" style="background: var(--bg-card); display: flex; align-items: center; justify-content: center; padding-bottom: 0; height: 300px;">
+                    <div class="video-container" style="background: #FFFFFF; display: flex; align-items: center; justify-content: center; padding-bottom: 0; height: 300px;">
                         <div style="text-align: center; padding: 40px;">
                             <div style="font-size: 48px; margin-bottom: 16px;">🎬</div>
-                            <h3 style="margin-bottom: 12px; color: var(--text-primary);">Today's Tutorial</h3>
+                            <h3 style="margin-bottom: 12px; color: var(--navy); font-family: var(--font-display);">Today's Tutorial</h3>
                             <p style="color: var(--text-secondary); margin-bottom: 20px;">Step-by-step AI building tutorials</p>
                             <a href="https://www.youtube.com/results?search_query=cursor+ai+build+app+tutorial"
                                target="_blank" rel="noopener"
-                               style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-                                      color: white; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                               style="display: inline-block; padding: 12px 24px; background: var(--navy);
+                                      color: #FFFFFF; border-radius: 8px; text-decoration: none; font-weight: 600;">
                                 Find AI Tutorials →
                             </a>
                         </div>
@@ -1584,7 +1652,7 @@
                 input.parentNode.insertBefore(el, input.nextSibling);
             }
             el.textContent = msg;
-            el.style.color = isError ? '#ef4444' : '#10b981';
+            el.style.color = isError ? '#ef4444' : '#047857';
             el.style.fontSize = '14px';
             el.style.marginTop = '8px';
         }
