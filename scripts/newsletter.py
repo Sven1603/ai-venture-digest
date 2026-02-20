@@ -18,6 +18,7 @@ import base64
 CONFIG_PATH = Path(__file__).parent.parent / "config.json"
 DATA_PATH = Path(__file__).parent.parent / "data"
 TEMPLATES_PATH = Path(__file__).parent.parent / "templates"
+WEBSITE_URL = "https://ai-venture-digest.vercel.app"
 
 
 def load_config() -> dict:
@@ -127,7 +128,9 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                   </td>
                   <td style="padding-left: 12px;">
                     <h1 style="color: #fff; font-size: 24px; margin: 0; font-weight: 700;">
-                      AI Venture Digest
+                      <a href="{WEBSITE_URL}" style="color: #fff; text-decoration: none;">
+                        AI Venture Digest
+                      </a>
                     </h1>
                     <p style="color: #a0a0b0; font-size: 14px; margin: 4px 0 0 0;">
                       {datetime.now().strftime('%B %d, %Y')} • Your daily AI briefing
@@ -160,6 +163,20 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                   </td>
                 </tr>
               </table>
+            </td>
+          </tr>
+
+          <!-- CTA Button -->
+          <tr>
+            <td style="background: #12121a; padding: 0 32px 20px 32px; text-align: center;">
+              <a href="{WEBSITE_URL}"
+                 style="display: inline-block; background-color: #4a9eff;
+                        background: linear-gradient(135deg, #4a9eff, #8b5cf6);
+                        color: #ffffff; font-size: 15px; font-weight: 600;
+                        padding: 12px 28px; border-radius: 8px;
+                        text-decoration: none;">
+                View Full Digest on the Web &rarr;
+              </a>
             </td>
           </tr>
 
@@ -210,6 +227,8 @@ def generate_newsletter_text(articles: list[dict], config: dict) -> str:
         "⚡ AI VENTURE DIGEST",
         datetime.now().strftime('%B %d, %Y'),
         "=" * 50,
+        "",
+        f"View full digest: {WEBSITE_URL}",
         "",
     ]
 
