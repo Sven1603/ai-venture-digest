@@ -127,11 +127,11 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                     <span style="font-size: 32px;">⚡</span>
                   </td>
                   <td style="padding-left: 12px;">
-                    <a href="{WEBSITE_URL}" style="color: #fff; text-decoration: none;">
-                      <h1 style="color: #fff; font-size: 24px; margin: 0; font-weight: 700;">
+                    <h1 style="color: #fff; font-size: 24px; margin: 0; font-weight: 700;">
+                      <a href="{WEBSITE_URL}" style="color: #fff; text-decoration: none;">
                         AI Venture Digest
-                      </h1>
-                    </a>
+                      </a>
+                    </h1>
                     <p style="color: #a0a0b0; font-size: 14px; margin: 4px 0 0 0;">
                       {datetime.now().strftime('%B %d, %Y')} • Your daily AI briefing
                     </p>
