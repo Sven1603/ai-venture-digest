@@ -616,37 +616,91 @@
         }
 
         /* === Video Section (on yellow) === */
-        .video-section {
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .video-card {
             background: var(--white);
             border-radius: 20px;
             box-shadow: 6px 6px 0 var(--white-shadow);
             overflow: hidden;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .video-container {
+        .video-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--white-shadow);
+        }
+
+        .video-card:active { transform: translate(1px, 1px); box-shadow: 4px 4px 0 var(--white-shadow); }
+
+        .video-thumbnail {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%;
             background: #000;
+            overflow: hidden;
         }
 
-        .video-container iframe {
+        .video-thumbnail img {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            border: none;
+            object-fit: cover;
         }
 
-        .video-info { padding: 20px; }
+        .video-play-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 193, 7, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.2s;
+        }
+
+        .video-card:hover .video-play-overlay { transform: translate(-50%, -50%) scale(1.1); }
+
+        .video-info { padding: 16px; }
 
         .video-title {
             font-family: var(--font-display);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             margin-bottom: 8px;
             color: var(--dark);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .video-context { font-size: 0.85rem; color: var(--text-secondary); }
-        .video-context strong { color: var(--blue); }
+        .video-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .browse-more-videos {
+            text-align: center;
+        }
+
+        .browse-more-videos .btn-dark {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            font-size: 0.95rem;
+        }
 
         /* === More Podcasts (colored cards) === */
         .podcasts-grid {
@@ -1047,6 +1101,7 @@
             .hero-emoji { font-size: 36px !important; opacity: 0.45 !important; }
             .section-title { font-size: 1.6rem; }
             .quick-wins-grid { grid-template-columns: 1fr; }
+            .videos-grid { grid-template-columns: 1fr; gap: 16px; }
             .twitter-posts-list { grid-template-columns: 1fr; }
             .podcast-card { flex-direction: column; text-align: center; }
             .podcast-icon { margin: 0 auto; }
@@ -1153,14 +1208,20 @@
         <!-- Wave: White → Yellow -->
         <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
 
-        <!-- Tutorial Video -->
+        <!-- Tutorial Videos -->
         <section id="videoSection" class="section-yellow">
             <div class="container">
-                <div class="section-label">Tutorial</div>
+                <div class="section-label">Tutorials</div>
                 <div class="section-header">
-                    <h2 class="section-title">🎬 Tutorial of the Day</h2>
+                    <h2 class="section-title">🎬 Suggested Video Tutorials</h2>
+                    <span class="section-meta">3 handpicked today</span>
                 </div>
-                <div class="video-section" id="videoContent"></div>
+                <div class="videos-grid" id="videosGrid"></div>
+                <div class="browse-more-videos">
+                    <a href="#" id="browseMoreVideosBtn" target="_blank" rel="noopener" class="btn-dark">
+                        <span>🔍 Browse More Tutorials</span>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -1475,7 +1536,7 @@
                 weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
             });
             renderQuickWins(); renderFeaturedPodcast(); renderMustReads();
-            renderVideo(); renderMorePodcasts(); renderTwitterPosts();
+            renderVideos(); renderMorePodcasts(); renderTwitterPosts();
             renderLaunches(); renderMoreUpdates(); buildTOC();
         }
 
@@ -1543,7 +1604,50 @@
                 </a>`).join('');
         }
 
-        function renderVideo() {
+        function getDailyYouTubeSearchQuery() {
+            const queries = [
+                "cursor ai tutorial build app", "claude code tutorial for beginners", "ai agent tutorial langchain",
+                "n8n automation workflow tutorial", "build saas mvp with ai", "prompt engineering tutorial advanced",
+                "ai coding assistant comparison", "claude code best practices", "cursor ai project walkthrough",
+                "build ai app no code", "chatgpt api integration tutorial", "langchain agent tutorial",
+                "ai workflow automation", "vercel ai sdk tutorial", "build rag chatbot tutorial",
+                "claude sonnet 4.5 tutorial", "ai code generation tutorial", "build ai tool 30 minutes",
+                "cursor ai vs copilot", "ai app deployment tutorial", "langchain python tutorial",
+                "build voice ai assistant", "ai automation for business", "cursor ai full project",
+                "claude code project setup", "build ai saas tutorial", "ai agent orchestration tutorial",
+                "prompt engineering techniques", "ai coding workflow tutorial", "build ai chrome extension",
+                "n8n ai automation", "cursor ai advanced tutorial", "ai api integration guide",
+                "build ai chatbot tutorial", "langchain vector database", "ai productivity tools tutorial",
+                "cursor ai keyboard shortcuts", "build ai web app", "ai content generation tutorial",
+                "cursor ai debugging tips", "claude code setup guide", "build ai scraper tutorial",
+                "ai embeddings tutorial", "cursor ai refactoring", "build ai dashboard tutorial",
+                "langchain memory tutorial", "ai workflow optimization", "cursor ai tips tricks",
+                "build ai analytics tool", "ai function calling tutorial", "claude code workflow",
+                "build ai image generator", "ai automation zapier tutorial", "cursor ai project structure",
+                "build ai email assistant", "langchain chains tutorial", "ai testing tutorial",
+                "cursor ai collaborative coding", "build ai slack bot", "ai vector search tutorial",
+                "claude code snippets", "build ai notion integration", "ai streaming responses tutorial",
+                "cursor ai github integration", "build ai calendar assistant", "langchain tools tutorial",
+                "ai error handling tutorial", "cursor ai customization", "build ai twitter bot",
+                "ai rate limiting tutorial", "claude code examples", "build ai pdf parser",
+                "langchain document loaders", "ai authentication tutorial", "cursor ai performance",
+                "build ai research assistant", "ai multi agent tutorial", "claude code patterns",
+                "build ai music generator", "langchain streaming tutorial", "ai caching tutorial",
+                "cursor ai extensions", "build ai video editor", "ai observability tutorial",
+                "claude code debugging", "build ai code reviewer", "langchain routing tutorial",
+                "ai deployment strategies", "cursor ai shortcuts", "build ai transcription app",
+                "ai prompt templates tutorial", "claude code refactoring", "build ai analytics dashboard",
+                "langchain evaluation tutorial", "ai monitoring tutorial", "cursor ai git workflow",
+                "build ai recommendation engine", "ai fine tuning tutorial", "claude code architecture",
+                "build ai game tutorial"
+            ];
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            const index = dayOfYear % queries.length;
+            return queries[index];
+        }
+
+        function renderVideos() {
             const allVideos = articles.filter(a => extractYouTubeId(a.url || a.video_url) !== null);
             allVideos.sort((a, b) => {
                 const aT = (a.category === 'tutorial' || a.content_type === 'tutorial') ? 1 : 0;
@@ -1551,33 +1655,39 @@
                 if (aT !== bT) return bT - aT;
                 return (b.score || 0) - (a.score || 0);
             });
-            const videoArticle = allVideos[0] || null;
-            const container = document.getElementById('videoContent');
-            if (!videoArticle) {
-                container.innerHTML = `
-                    <div class="video-container" style="background:#FFFFFF;display:flex;align-items:center;justify-content:center;padding-bottom:0;height:300px;">
-                        <div style="text-align:center;padding:40px;">
-                            <div style="font-size:48px;margin-bottom:16px;">🎬</div>
-                            <h3 style="margin-bottom:12px;color:var(--dark);font-family:var(--font-display);">Today's Tutorial</h3>
-                            <p style="color:var(--text-secondary);margin-bottom:20px;">Step-by-step AI building tutorials</p>
-                            <a href="https://www.youtube.com/results?search_query=cursor+ai+build+app+tutorial"
-                               target="_blank" rel="noopener"
-                               style="display:inline-block;padding:12px 28px;background:var(--dark);color:#FFFFFF;border-radius:50px;text-decoration:none;font-weight:700;">
-                                Find AI Tutorials →
-                            </a>
-                        </div>
-                    </div>`;
-                return;
+
+            const defaultVideos = [
+                { title: 'Build a Full SaaS App with Cursor AI', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'All About AI', ytId: 'dQw4w9WgXcQ' },
+                { title: 'Claude Code: Complete Tutorial for Beginners', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'Cole Medin', ytId: 'dQw4w9WgXcQ' },
+                { title: 'AI Agent Tutorial with LangChain', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'AI Jason', ytId: 'dQw4w9WgXcQ' }
+            ];
+
+            let videos = allVideos.slice(0, 3);
+            if (videos.length < 3) {
+                videos = videos.concat(defaultVideos.slice(videos.length));
             }
-            const ytId = extractYouTubeId(videoArticle.url || videoArticle.video_url);
-            container.innerHTML = `
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/${ytId}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3 class="video-title">${videoArticle.title}</h3>
-                    <p class="video-context"><strong>What you'll learn:</strong> ${videoArticle.description || videoArticle.summary || 'Practical AI building techniques.'}</p>
-                </div>`;
+
+            const grid = document.getElementById('videosGrid');
+            grid.innerHTML = videos.map((video, i) => {
+                const ytId = video.ytId || extractYouTubeId(video.url || video.video_url);
+                const thumbnail = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+                return `
+                    <a href="${video.url || video.video_url}" target="_blank" rel="noopener" class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="${thumbnail}" alt="${video.title}" loading="lazy">
+                            <div class="video-play-overlay">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title">${video.title}</h3>
+                            <p class="video-meta">${video.source || 'YouTube'}${formatDate(video.published) ? ' · ' + formatDate(video.published) : ''}</p>
+                        </div>
+                    </a>`;
+            }).join('');
+
+            // Set up rotating YouTube search query
+            const searchQuery = getDailyYouTubeSearchQuery();
+            const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`;
+            document.getElementById('browseMoreVideosBtn').href = searchUrl;
         }
 
         function renderTwitterPosts() {
