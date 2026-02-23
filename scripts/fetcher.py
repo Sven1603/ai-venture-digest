@@ -860,6 +860,14 @@ def main():
     with open('data/articles.json', 'w') as f:
         json.dump(output, f, indent=2)
 
+    # Save dated snapshot for archive
+    os.makedirs('data/archive', exist_ok=True)
+    archive_date = datetime.now().strftime('%Y-%m-%d')
+    archive_path = f'data/archive/{archive_date}.json'
+    with open(archive_path, 'w') as f:
+        json.dump(output, f, indent=2)
+    print(f"📦 Saved archive snapshot to {archive_path}")
+
     # Record shown URLs in history (exempt skills and default twitter posts)
     today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     for article in output.get('articles', []):

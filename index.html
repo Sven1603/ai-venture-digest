@@ -1480,55 +1480,35 @@
         let quickWins = [];
         let featuredPodcast = null;
         let twitterPosts = [];
+        let availableDates = [];
 
-        // Archive Management
-        const ARCHIVE_KEY = 'aiVentureDigestArchive';
-
-        function getArchive() {
+        // Archive Management - Load available dates
+        async function loadAvailableDates() {
             try {
-                const data = localStorage.getItem(ARCHIVE_KEY);
-                return data ? JSON.parse(data) : {
-                    quickWins: [],
-                    podcasts: [],
-                    mustReads: [],
-                    videos: [],
-                    twitter: [],
-                    launches: [],
-                    moreUpdates: []
-                };
+                // Try to fetch index of available dates from a generated index file
+                // If that doesn't exist, we'll build it from directory listing
+                const response = await fetch('./data/archive-index.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    availableDates = data.dates || [];
+                } else {
+                    // Fallback: try to infer from current date backwards
+                    availableDates = [];
+                }
             } catch (e) {
-                console.error('Error reading archive:', e);
-                return { quickWins: [], podcasts: [], mustReads: [], videos: [], twitter: [], launches: [], moreUpdates: [] };
+                console.log('No archive index found, will try individual dates');
+                availableDates = [];
             }
         }
 
-        function saveToArchive(category, items) {
+        async function loadArchiveSnapshot(date) {
             try {
-                const archive = getArchive();
-                const now = new Date().toISOString();
-
-                items.forEach(item => {
-                    // Check if item already exists (by URL or title)
-                    const exists = archive[category].some(a =>
-                        a.url === item.url || a.title === item.title
-                    );
-
-                    if (!exists) {
-                        archive[category].push({
-                            ...item,
-                            archivedAt: now
-                        });
-                    }
-                });
-
-                // Sort by archived date (newest first) and keep last 500 per category
-                archive[category].sort((a, b) =>
-                    new Date(b.archivedAt) - new Date(a.archivedAt)
-                ).splice(500);
-
-                localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive));
+                const response = await fetch(`./data/archive/${date}.json`);
+                if (!response.ok) return null;
+                return await response.json();
             } catch (e) {
-                console.error('Error saving to archive:', e);
+                console.error(`Error loading archive for ${date}:`, e);
+                return null;
             }
         }
 
@@ -1756,7 +1736,6 @@
 
         function renderQuickWins() {
             const wins = quickWins.length > 0 ? quickWins : getDefaultQuickWins();
-            saveToArchive('quickWins', wins);
             const grid = document.getElementById('quickWinsGrid');
             grid.innerHTML = wins.map(win => {
                 const typeClass = win.type === 'new_tool' ? 'tool' : win.type;
@@ -1778,7 +1757,6 @@
             const container = document.getElementById('featuredPodcast');
             const podcast = featuredPodcast || getDefaultPodcast();
             if (!podcast) { document.getElementById('podcastSection').style.display = 'none'; return; }
-            saveToArchive('podcasts', [podcast]);
             container.innerHTML = `
                 <a href="${podcast.url}" target="_blank" rel="noopener" class="podcast-card">
                     <div class="podcast-icon">🎙️</div>
@@ -1803,7 +1781,6 @@
                     const bBoost = priorityCategories.includes(b.category) ? 0.2 : 0;
                     return (b.score + bBoost) - (a.score + aBoost);
                 }).slice(0, 5);
-            saveToArchive('mustReads', mustReads);
             const totalTime = mustReads.reduce((sum, a) => sum + (a.readTime || 5), 0);
             document.getElementById('totalReadTime').textContent = `~${totalTime} min total`;
             const list = document.getElementById('mustReadsList');
@@ -1830,7 +1807,6 @@
                 return (b.score || 0) - (a.score || 0);
             });
             const videoArticle = allVideos[0] || null;
-            if (videoArticle) saveToArchive('videos', [videoArticle]);
             const container = document.getElementById('videoContent');
             if (!videoArticle) {
                 container.innerHTML = `
@@ -1862,7 +1838,6 @@
         function renderTwitterPosts() {
             const posts = twitterPosts.length > 0 ? twitterPosts : getDefaultTwitterPosts();
             if (posts.length === 0) { document.getElementById('twitterSection').style.display = 'none'; return; }
-            saveToArchive('twitter', posts.slice(0, 5));
             const list = document.getElementById('twitterPostsList');
             list.innerHTML = posts.slice(0, 5).map(post => `
                 <a href="${post.url}" target="_blank" rel="noopener" class="twitter-post">
@@ -1881,7 +1856,6 @@
             const podcasts = articles.filter(a => a.category === 'podcast' || a.is_podcast);
             if (podcasts.length <= 1) { document.getElementById('morePodcastsSection').style.display = 'none'; return; }
             const morePodcasts = podcasts.filter(p => !featuredPodcast || p.title !== featuredPodcast.title).slice(0, 4);
-            saveToArchive('podcasts', morePodcasts);
             document.getElementById('podcastCount').textContent = `${morePodcasts.length} more`;
             const grid = document.getElementById('morePodcastsGrid');
             grid.innerHTML = morePodcasts.map(p => `
@@ -1897,7 +1871,6 @@
         function renderLaunches() {
             const launches = articles.filter(a => a.category === 'launch');
             if (launches.length === 0) { document.getElementById('launchesSection').style.display = 'none'; return; }
-            saveToArchive('launches', launches);
             const grid = document.getElementById('launchesGrid');
             grid.innerHTML = launches.map(l => `
                 <a href="${l.url}" target="_blank" rel="noopener" class="launch-card">
@@ -1914,7 +1887,6 @@
             articles.filter(a => a.category !== 'podcast' && !a.video_url).slice(0, 5).forEach(a => usedTitles.add(a.title));
             if (featuredPodcast) usedTitles.add(featuredPodcast.title);
             const moreUpdates = articles.filter(a => !usedTitles.has(a.title) && a.category !== 'podcast' && a.category !== 'launch').slice(0, 6);
-            saveToArchive('moreUpdates', moreUpdates);
             document.getElementById('quickHitsCount').textContent = `${moreUpdates.length} more`;
             const list = document.getElementById('quickHitsList');
             list.innerHTML = moreUpdates.map(a => `
@@ -1979,7 +1951,7 @@
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSubscribeModal(); });
 
         // Archive Functions
-        function openArchive(category = 'all') {
+        async function openArchive(category = 'all') {
             const modal = document.getElementById('archiveModal');
             const filter = document.getElementById('archiveFilter');
 
@@ -1987,8 +1959,13 @@
             filter.value = category;
             updateArchiveTitle(category);
 
+            // Load available dates if not already loaded
+            if (availableDates.length === 0) {
+                await loadAvailableDates();
+            }
+
             // Render archive content
-            renderArchiveContent(category, '');
+            await renderArchiveContent(category, '');
 
             modal.classList.add('active');
         }
@@ -2013,20 +1990,86 @@
             document.getElementById('archiveTitle').textContent = titles[category] || 'Archive';
         }
 
-        function renderArchiveContent(category, searchTerm) {
-            const archive = getArchive();
+        async function renderArchiveContent(category, searchTerm) {
             const container = document.getElementById('archiveContent');
 
-            // Get items to display
-            let items = [];
-            if (category === 'all') {
-                // Combine all categories with their category labels
-                Object.keys(archive).forEach(cat => {
-                    items = items.concat(archive[cat].map(item => ({ ...item, _category: cat })));
-                });
-            } else {
-                items = archive[category].map(item => ({ ...item, _category: category }));
+            // Show loading state
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading archive...</p></div>';
+
+            // Get list of dates to load (try last 90 days if no index)
+            let datesToLoad = availableDates;
+            if (datesToLoad.length === 0) {
+                datesToLoad = [];
+                const today = new Date();
+                for (let i = 0; i < 90; i++) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    datesToLoad.push(date.toISOString().split('T')[0]);
+                }
             }
+
+            // Load snapshots
+            const snapshots = [];
+            for (const date of datesToLoad.slice(0, 30)) { // Limit to 30 most recent
+                const snapshot = await loadArchiveSnapshot(date);
+                if (snapshot) {
+                    snapshots.push({ date, data: snapshot });
+                }
+            }
+
+            if (snapshots.length === 0) {
+                container.innerHTML = `
+                    <div class="archive-empty">
+                        <div class="archive-empty-icon">📦</div>
+                        <p>No archived digests found yet.</p>
+                        <p style="font-size:0.85rem;margin-top:8px;">Archives are created daily when the digest runs.</p>
+                    </div>`;
+                return;
+            }
+
+            // Extract items from snapshots based on category
+            let items = [];
+            snapshots.forEach(({ date, data }) => {
+                const displayDate = new Date(date).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                if (category === 'all' || category === 'quickWins') {
+                    (data.quick_wins || []).forEach(item =>
+                        items.push({ ...item, _date: displayDate, _category: 'Quick Win' })
+                    );
+                }
+                if (category === 'all' || category === 'podcasts') {
+                    if (data.featured_podcast) {
+                        items.push({ ...data.featured_podcast, _date: displayDate, _category: 'Podcast' });
+                    }
+                    (data.articles || []).filter(a => a.category === 'podcast').forEach(item =>
+                        items.push({ ...item, _date: displayDate, _category: 'Podcast' })
+                    );
+                }
+                if (category === 'all' || category === 'mustReads') {
+                    (data.articles || [])
+                        .filter(a => a.category !== 'podcast' && !a.video_url)
+                        .slice(0, 5)
+                        .forEach(item => items.push({ ...item, _date: displayDate, _category: 'Must Read' }));
+                }
+                if (category === 'all' || category === 'videos') {
+                    (data.articles || [])
+                        .filter(a => a.video_url || a.url?.includes('youtube.com') || a.url?.includes('youtu.be'))
+                        .slice(0, 1)
+                        .forEach(item => items.push({ ...item, _date: displayDate, _category: 'Video' }));
+                }
+                if (category === 'all' || category === 'twitter') {
+                    (data.twitter_posts || []).forEach(item =>
+                        items.push({ ...item, _date: displayDate, _category: 'X Post' })
+                    );
+                }
+                if (category === 'all' || category === 'launches') {
+                    (data.articles || []).filter(a => a.category === 'launch').forEach(item =>
+                        items.push({ ...item, _date: displayDate, _category: 'Launch' })
+                    );
+                }
+            });
 
             // Filter by search term
             if (searchTerm) {
@@ -2038,15 +2081,19 @@
                 );
             }
 
-            // Sort by archived date (newest first)
-            items.sort((a, b) => new Date(b.archivedAt) - new Date(a.archivedAt));
+            // Remove duplicates by URL
+            const seen = new Set();
+            items = items.filter(item => {
+                if (seen.has(item.url)) return false;
+                seen.add(item.url);
+                return true;
+            });
 
-            // Render
             if (items.length === 0) {
                 container.innerHTML = `
                     <div class="archive-empty">
                         <div class="archive-empty-icon">📦</div>
-                        <p>No archived items found.</p>
+                        <p>No items found matching your criteria.</p>
                     </div>`;
                 return;
             }
@@ -2054,13 +2101,8 @@
             // Group by date
             const grouped = {};
             items.forEach(item => {
-                const date = new Date(item.archivedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                if (!grouped[date]) grouped[date] = [];
-                grouped[date].push(item);
+                if (!grouped[item._date]) grouped[item._date] = [];
+                grouped[item._date].push(item);
             });
 
             // Render grouped items
@@ -2075,7 +2117,7 @@
                                 </div>
                                 <div class="archive-item-meta">
                                     ${item.source || ''}
-                                    ${item._category ? ' · ' + getCategoryLabel(item._category) : ''}
+                                    ${item._category ? ' · ' + item._category : ''}
                                     ${item.published ? ' · ' + formatDate(item.published) : ''}
                                 </div>
                             </div>
@@ -2083,19 +2125,6 @@
                     `).join('')}
                 </div>
             `).join('');
-        }
-
-        function getCategoryLabel(category) {
-            const labels = {
-                quickWins: 'Quick Win',
-                podcasts: 'Podcast',
-                mustReads: 'Must Read',
-                videos: 'Video',
-                twitter: 'X Post',
-                launches: 'Launch',
-                moreUpdates: 'Update'
-            };
-            return labels[category] || category;
         }
 
         // Archive event listeners
