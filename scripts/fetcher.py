@@ -377,17 +377,29 @@ def fetch_engineering_blogs(config):
     return articles
 
 
-def get_github_skills(config):
+def get_github_skills(config, seen_urls=None, max_skills=3):
     """
     Get curated Claude Code skills from config.
-    These are manually curated, high-quality resources.
+    Rotates through skills to avoid showing the same ones every day.
     """
     print("\n⚡ Loading curated Claude skills...")
     skills = []
+    seen_urls = seen_urls or {}
 
     github_skills = config['sources'].get('github_skills', [])
 
-    for skill in github_skills:
+    # Filter out recently shown skills (if URL is in seen_urls)
+    # Skills are exempt from normal dedup but we still want rotation
+    available_skills = [s for s in github_skills if s['url'] not in seen_urls]
+
+    # If we've shown all skills, reset and use all
+    if len(available_skills) < max_skills:
+        available_skills = github_skills
+
+    # Take max_skills for today
+    selected_skills = available_skills[:max_skills]
+
+    for skill in selected_skills:
         skills.append({
             'title': skill['name'],
             'url': skill['url'],
@@ -400,7 +412,7 @@ def get_github_skills(config):
         })
         print(f"  ✓ {skill['name']}")
 
-    print(f"  → Loaded {len(skills)} curated skills")
+    print(f"  → Loaded {len(skills)} curated skills ({len(available_skills)} available, {len(github_skills)} total)")
     return skills
 
 
@@ -771,8 +783,8 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 4. GitHub skills (curated)
-    skills = get_github_skills(config)
+    # 4. GitHub skills (curated) - pass seen_urls for rotation
+    skills = get_github_skills(config, seen)
     all_articles.extend(skills)
 
     # 5. Twitter/X posts from AI builders
@@ -788,7 +800,7 @@ def main():
     for article in all_articles:
         article['score'] = calculate_score(article, config)
 
-    # Deduplicate against history (skills are exempt)
+    # Deduplicate against history (skills already filtered in get_github_skills)
     before_dedup = len(all_articles)
     all_articles = [
         a for a in all_articles
@@ -860,14 +872,12 @@ def main():
     with open('data/articles.json', 'w') as f:
         json.dump(output, f, indent=2)
 
-    # Record shown URLs in history (exempt skills and default twitter posts)
+    # Record shown URLs in history (including skills for rotation)
     today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     for article in output.get('articles', []):
-        if article.get('content_type') != 'skill':
-            seen[article['url']] = today
+        seen[article['url']] = today
     for qw in output.get('quick_wins', []):
-        if qw.get('content_type') != 'skill':
-            seen[qw['url']] = today
+        seen[qw['url']] = today
     if output.get('featured_podcast'):
         seen[output['featured_podcast']['url']] = today
     for tweet in output.get('twitter_posts', []):

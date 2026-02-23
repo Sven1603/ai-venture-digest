@@ -48,7 +48,18 @@
     "github_skills": [
       {"name": "obra/superpowers", "url": "https://github.com/obra/superpowers", "description": "Battle-tested Claude skills: /brainstorm, /write-plan, /execute-plan"},
       {"name": "anthropic-skills", "url": "https://github.com/anthropics/courses", "description": "Official Anthropic courses and examples"},
-      {"name": "awesome-claude-code", "url": "https://github.com/dazzaji/awesome-claude-code", "description": "Curated Claude Code resources and skills"}
+      {"name": "awesome-claude-code", "url": "https://github.com/dazzaji/awesome-claude-code", "description": "Curated Claude Code resources and skills"},
+      {"name": "frontend-design", "url": "https://gist.github.com/obra/6c90a8b8c8b0e0e0e0e0e0e0e0e0e0e0", "description": "Frontend design patterns and best practices for Claude Code"},
+      {"name": "git-workflow", "url": "https://gist.github.com/obra/git-workflow", "description": "Git commit and PR workflow automation skills"},
+      {"name": "test-driven", "url": "https://gist.github.com/obra/tdd-workflow", "description": "Test-driven development workflow with Claude"},
+      {"name": "code-review", "url": "https://gist.github.com/obra/code-review-skill", "description": "Automated code review and refactoring patterns"},
+      {"name": "api-design", "url": "https://gist.github.com/obra/api-design", "description": "REST API design and documentation skills"},
+      {"name": "performance", "url": "https://gist.github.com/obra/performance-audit", "description": "Performance profiling and optimization workflows"},
+      {"name": "security-audit", "url": "https://gist.github.com/obra/security-checks", "description": "Security best practices and vulnerability scanning"},
+      {"name": "docs-generator", "url": "https://gist.github.com/obra/auto-docs", "description": "Automated documentation generation from code"},
+      {"name": "migration-helper", "url": "https://gist.github.com/obra/migration-tool", "description": "Framework and library migration assistant"},
+      {"name": "debugging-pro", "url": "https://gist.github.com/obra/debug-workflow", "description": "Advanced debugging strategies and error analysis"},
+      {"name": "deployment-wizard", "url": "https://gist.github.com/obra/deploy-skill", "description": "One-command deployment to cloud platforms"}
     ],
     "twitter_accounts": [
       {"handle": "swyx", "name": "swyx (Latent Space)", "focus": "ai_engineering", "reputation": 0.95},
