@@ -1549,6 +1549,7 @@
         let quickWins = [];
         let featuredPodcast = null;
         let twitterPosts = [];
+        let youtubeSearchQueries = [];
         let availableDates = [];
 
         // Archive Management - Load available dates
@@ -1621,6 +1622,17 @@
             } catch (e) { return ''; }
         }
 
+        function escHtml(s) {
+            if (!s) return '';
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        }
+
+        function safeUrl(url) {
+            if (!url) return '#';
+            try { const u = new URL(url); return (u.protocol === 'https:' || u.protocol === 'http:') ? url : '#'; }
+            catch { return '#'; }
+        }
+
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json');
@@ -1630,6 +1642,7 @@
                 quickWins = data.quick_wins || [];
                 featuredPodcast = data.featured_podcast || null;
                 twitterPosts = data.twitter_posts || [];
+                youtubeSearchQueries = data.youtube_search_queries || [];
             } catch (e) {
                 articles = getSampleArticles();
                 quickWins = getDefaultQuickWins();
@@ -1807,13 +1820,13 @@
                 const typeClass = win.type === 'new_tool' ? 'tool' : win.type;
                 const cta = win.type === 'skill' ? 'Install Skill →' : win.type === 'new_tool' ? 'Try Tool →' : 'Start Tutorial →';
                 return `
-                    <a href="${win.url}" target="_blank" rel="noopener" class="quick-win-card ${typeClass}">
+                    <a href="${safeUrl(win.url)}" target="_blank" rel="noopener" class="quick-win-card ${typeClass}">
                         <div class="quick-win-header">
                             <div class="quick-win-icon">${win.icon}</div>
-                            <span class="quick-win-label">${win.label}</span>
+                            <span class="quick-win-label">${escHtml(win.label)}</span>
                         </div>
-                        <h3 class="quick-win-title">${win.title}</h3>
-                        <p class="quick-win-description">${win.description}</p>
+                        <h3 class="quick-win-title">${escHtml(win.title)}</h3>
+                        <p class="quick-win-description">${escHtml(win.description)}</p>
                         <span class="quick-win-cta">${cta}</span>
                     </a>`;
             }).join('');
@@ -1824,14 +1837,14 @@
             const podcast = featuredPodcast || getDefaultPodcast();
             if (!podcast) { document.getElementById('podcastSection').style.display = 'none'; return; }
             container.innerHTML = `
-                <a href="${podcast.url}" target="_blank" rel="noopener" class="podcast-card">
+                <a href="${safeUrl(podcast.url)}" target="_blank" rel="noopener" class="podcast-card">
                     <div class="podcast-icon">🎙️</div>
                     <div class="podcast-content">
                         <div class="podcast-label">Today's Episode</div>
-                        <h3 class="podcast-title">${podcast.title}</h3>
+                        <h3 class="podcast-title">${escHtml(podcast.title)}</h3>
                         <div class="podcast-meta">
-                            <span>📍 ${podcast.source}${formatDate(podcast.published) ? ' · ' + formatDate(podcast.published) : ''}</span>
-                            ${podcast.podcast_duration ? `<span>⏱️ ${podcast.podcast_duration}</span>` : ''}
+                            <span>📍 ${escHtml(podcast.source)}${formatDate(podcast.published) ? ' · ' + formatDate(podcast.published) : ''}</span>
+                            ${podcast.podcast_duration ? `<span>⏱️ ${escHtml(podcast.podcast_duration)}</span>` : ''}
                         </div>
                     </div>
                     <div class="podcast-play">Listen Now →</div>
@@ -1851,34 +1864,21 @@
             document.getElementById('totalReadTime').textContent = `~${totalTime} min total`;
             const list = document.getElementById('mustReadsList');
             list.innerHTML = mustReads.map((a, i) => `
-                <a href="${a.url}" target="_blank" rel="noopener" class="must-read-item">
+                <a href="${safeUrl(a.url)}" target="_blank" rel="noopener" class="must-read-item">
                     <div class="must-read-number">${i + 1}</div>
                     <div class="must-read-content">
                         <div class="must-read-meta">
-                            <span class="source-label">${a.source}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
+                            <span class="source-label">${escHtml(a.source)}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
                         </div>
-                        <h3 class="must-read-title">${a.title}</h3>
-                        <p class="must-read-summary">${a.description || a.summary || ''}</p>
+                        <h3 class="must-read-title">${escHtml(a.title)}</h3>
+                        <p class="must-read-summary">${escHtml(a.description || a.summary || '')}</p>
                     </div>
                     <div class="must-read-time"><span>📖</span><span>${a.readTime || 5} min</span></div>
                 </a>`).join('');
         }
 
         function getDailyYouTubeSearchQuery() {
-            const queries = [
-                "claude code tutorial", "claude code workflow tips", "claude code project setup",
-                "cursor ai tutorial build app", "cursor ai vs copilot", "cursor ai advanced tips",
-                "langchain agent tutorial", "langchain RAG tutorial",
-                "build ai app no code", "build ai saas tutorial",
-                "n8n automation workflow tutorial", "n8n ai automation",
-                "prompt engineering tutorial advanced", "ai coding assistant comparison",
-                "vercel ai sdk tutorial", "build voice ai assistant",
-                "ai agent orchestration tutorial", "ai workflow automation",
-                "chatgpt api integration tutorial", "ai function calling tutorial",
-                "ai multi agent tutorial", "build ai chrome extension",
-                "ai productivity tools tutorial", "ai automation for business",
-                "build saas mvp with ai"
-            ];
+            const queries = youtubeSearchQueries.length > 0 ? youtubeSearchQueries : ['ai tutorial'];
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
             const index = dayOfYear % queries.length;
@@ -1910,14 +1910,14 @@
                 const ytId = video.ytId || extractYouTubeId(video.url || video.video_url);
                 const thumbnail = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
                 return `
-                    <a href="${video.url || video.video_url}" target="_blank" rel="noopener" class="video-card">
+                    <a href="${safeUrl(video.url || video.video_url)}" target="_blank" rel="noopener" class="video-card">
                         <div class="video-thumbnail">
-                            <img src="${thumbnail}" alt="${video.title}" loading="lazy">
+                            <img src="${thumbnail}" alt="${escHtml(video.title)}" loading="lazy">
                             <div class="video-play-overlay">▶</div>
                         </div>
                         <div class="video-info">
-                            <h3 class="video-title">${video.title}</h3>
-                            <p class="video-meta">${video.source || 'YouTube'}${formatDate(video.published) ? ' · ' + formatDate(video.published) : ''}</p>
+                            <h3 class="video-title">${escHtml(video.title)}</h3>
+                            <p class="video-meta">${escHtml(video.source || 'YouTube')}${formatDate(video.published) ? ' · ' + formatDate(video.published) : ''}</p>
                         </div>
                     </a>`;
             }).join('');
@@ -1933,14 +1933,14 @@
             if (posts.length === 0) { document.getElementById('twitterSection').style.display = 'none'; return; }
             const list = document.getElementById('twitterPostsList');
             list.innerHTML = posts.slice(0, 5).map(post => `
-                <a href="${post.url}" target="_blank" rel="noopener" class="twitter-post">
+                <a href="${safeUrl(post.url)}" target="_blank" rel="noopener" class="twitter-post">
                     <div class="twitter-avatar">𝕏</div>
                     <div class="twitter-content">
                         <div class="twitter-header">
-                            <span class="twitter-author">${post.author || post.source}</span>
-                            <span class="twitter-handle">${post.source}${formatDate(post.published) ? ' · ' + formatDate(post.published) : ''}</span>
+                            <span class="twitter-author">${escHtml(post.author || post.source)}</span>
+                            <span class="twitter-handle">${escHtml(post.source)}${formatDate(post.published) ? ' · ' + formatDate(post.published) : ''}</span>
                         </div>
-                        <p class="twitter-text">${post.title}${post.description ? ' — ' + post.description : ''}</p>
+                        <p class="twitter-text">${escHtml(post.title)}${post.description ? ' — ' + escHtml(post.description) : ''}</p>
                     </div>
                 </a>`).join('');
         }
@@ -1952,11 +1952,11 @@
             document.getElementById('podcastCount').textContent = `${morePodcasts.length} more`;
             const grid = document.getElementById('morePodcastsGrid');
             grid.innerHTML = morePodcasts.map(p => `
-                <a href="${p.url}" target="_blank" rel="noopener" class="podcast-mini">
+                <a href="${safeUrl(p.url)}" target="_blank" rel="noopener" class="podcast-mini">
                     <div class="podcast-mini-icon">🎙️</div>
                     <div class="podcast-mini-content">
-                        <h4 class="podcast-mini-title">${p.title}</h4>
-                        <span class="podcast-mini-source">${p.source}${formatDate(p.published) ? ' · ' + formatDate(p.published) : ''} ${p.podcast_duration ? `• ${p.podcast_duration}` : ''}</span>
+                        <h4 class="podcast-mini-title">${escHtml(p.title)}</h4>
+                        <span class="podcast-mini-source">${escHtml(p.source)}${formatDate(p.published) ? ' · ' + formatDate(p.published) : ''} ${p.podcast_duration ? `• ${escHtml(p.podcast_duration)}` : ''}</span>
                     </div>
                 </a>`).join('');
         }
@@ -1966,11 +1966,11 @@
             if (launches.length === 0) { document.getElementById('launchesSection').style.display = 'none'; return; }
             const grid = document.getElementById('launchesGrid');
             grid.innerHTML = launches.map(l => `
-                <a href="${l.url}" target="_blank" rel="noopener" class="launch-card">
-                    ${l.thumbnail ? `<img src="${l.thumbnail}" alt="" class="launch-card-logo">` : `<div class="launch-card-icon">🚀</div>`}
+                <a href="${safeUrl(l.url)}" target="_blank" rel="noopener" class="launch-card">
+                    ${l.thumbnail ? `<img src="${safeUrl(l.thumbnail)}" alt="" class="launch-card-logo">` : `<div class="launch-card-icon">🚀</div>`}
                     <div class="launch-card-content">
-                        <h4 class="launch-card-title">${l.title}</h4>
-                        <span class="launch-card-desc">${l.description || ''}</span>
+                        <h4 class="launch-card-title">${escHtml(l.title)}</h4>
+                        <span class="launch-card-desc">${escHtml(l.description || '')}</span>
                     </div>
                 </a>`).join('');
         }
@@ -1986,11 +1986,11 @@
                 <div class="quick-hit-item">
                     <div class="quick-hit-left">
                         <span class="quick-hit-bullet">•</span>
-                        <span class="quick-hit-title"><a href="${a.url}" target="_blank" rel="noopener">${a.title}</a></span>
+                        <span class="quick-hit-title"><a href="${safeUrl(a.url)}" target="_blank" rel="noopener">${escHtml(a.title)}</a></span>
                     </div>
                     <div class="quick-hit-right">
-                        <span class="quick-hit-source">${a.source}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
-                        <span class="category-badge ${a.category}">${a.category.replace('_', ' ')}</span>
+                        <span class="quick-hit-source">${escHtml(a.source)}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
+                        <span class="category-badge ${escHtml(a.category)}">${escHtml((a.category || '').replace('_', ' '))}</span>
                     </div>
                 </div>`).join('');
         }
@@ -2142,16 +2142,16 @@
             });
             container.innerHTML = Object.keys(grouped).map(date => `
                 <div class="archive-section">
-                    <h3 class="archive-section-title">${date}</h3>
+                    <h3 class="archive-section-title">${escHtml(date)}</h3>
                     ${grouped[date].map(item => `
                         <div class="archive-item">
                             <div class="archive-item-content">
                                 <div class="archive-item-title">
-                                    <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+                                    <a href="${safeUrl(item.url)}" target="_blank" rel="noopener">${escHtml(item.title)}</a>
                                 </div>
                                 <div class="archive-item-meta">
-                                    ${item.source || ''}
-                                    ${item._category ? ' · ' + item._category : ''}
+                                    ${escHtml(item.source || '')}
+                                    ${item._category ? ' · ' + escHtml(item._category) : ''}
                                     ${item.published ? ' · ' + formatDate(item.published) : ''}
                                 </div>
                             </div>

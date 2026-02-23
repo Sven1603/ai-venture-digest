@@ -247,6 +247,9 @@ def fetch_rss(url, source_name, reputation, content_type='article'):
 # CONTENT FETCHERS
 # ============================================================
 
+VIDEO_ID_RE = re.compile(r'^[a-zA-Z0-9_-]{1,20}$')
+
+
 def fetch_youtube_search(config):
     """
     Fetch tutorial videos via YouTube Data API v3 search.
@@ -260,16 +263,14 @@ def fetch_youtube_search(config):
         return []
 
     queries = config.get('youtube_search_queries', [])
-    if not queries:
-        print("  ⚠ No youtube_search_queries in config — skipping")
-        return []
 
     # Deterministic daily selection (reproducible CI reruns)
-    random.seed(datetime.utcnow().strftime('%Y-%m-%d'))
-    selected = random.sample(queries, min(3, len(queries)))
+    rng = random.Random(datetime.now(timezone.utc).strftime('%Y-%m-%d'))
+    selected = rng.sample(queries, min(3, len(queries)))
 
-    published_after = (datetime.utcnow() - timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%SZ')
+    published_after = (datetime.now(timezone.utc) - timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%SZ')
     videos = []
+    seen_ids = set()
 
     for query in selected:
         print(f"  🔍 Searching: {query}")
@@ -286,24 +287,27 @@ def fetch_youtube_search(config):
         url = f"https://www.googleapis.com/youtube/v3/search?{params}"
 
         try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'AI-Venture-Digest/1.0'})
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 AI-Venture-Digest/2.0'})
             with urllib.request.urlopen(req, timeout=15) as resp:
                 data = json.loads(resp.read().decode())
         except urllib.error.HTTPError as e:
             if e.code == 403:
-                print(f"  ⚠ YouTube API quota exhausted or key disabled (403) — stopping search")
+                print("  ⚠ YouTube API quota exhausted or key disabled (403) — stopping search")
                 break
             print(f"  ⚠ YouTube API error ({e.code}): {e.reason}")
             continue
         except Exception as e:
-            print(f"  ⚠ YouTube search failed: {e}")
+            print(f"  ⚠ YouTube search failed for query '{query}'")
             continue
 
         for item in data.get('items', []):
             snippet = item.get('snippet', {})
             video_id = item.get('id', {}).get('videoId', '')
-            if not video_id:
+            if not video_id or not VIDEO_ID_RE.match(video_id):
                 continue
+            if video_id in seen_ids:
+                continue
+            seen_ids.add(video_id)
 
             title = html.unescape(snippet.get('title', ''))
             desc = html.unescape(snippet.get('description', ''))[:300]
@@ -318,6 +322,7 @@ def fetch_youtube_search(config):
             else:
                 continue
 
+            # video_url must be truthy — routes to Videos section, not Must Reads (index.html)
             video_url = f"https://www.youtube.com/watch?v={video_id}"
             videos.append({
                 'title': title,
@@ -329,10 +334,8 @@ def fetch_youtube_search(config):
                 'thumbnail': f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg",
                 'video_url': video_url,
                 'content_type': content_type,
-                'podcast_duration': None,
-                'fetched_at': datetime.utcnow().isoformat(),
+                'fetched_at': datetime.now().isoformat(),
                 'category': category,
-                'score': 0,
             })
             print(f"  ✓ {snippet.get('channelTitle', '?')}: {title[:50]}...")
 
@@ -899,6 +902,7 @@ def main():
         'featured_podcast': featured_podcast,
         'twitter_posts': top_twitter,
         'categories': categories,
+        'youtube_search_queries': config.get('youtube_search_queries', []),
         'articles': all_articles
     }
 
