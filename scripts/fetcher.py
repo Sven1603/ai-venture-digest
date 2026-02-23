@@ -18,6 +18,7 @@ from datetime import datetime, timedelta, timezone
 import re
 import html
 import os
+import random
 
 
 def load_config():
@@ -246,49 +247,94 @@ def fetch_rss(url, source_name, reputation, content_type='article'):
 # CONTENT FETCHERS
 # ============================================================
 
-def fetch_youtube_tutorials(config):
+def fetch_youtube_search(config):
     """
-    Fetch tutorial videos from curated YouTube channels.
-    STRICT filtering for actionable content only.
+    Fetch tutorial videos via YouTube Data API v3 search.
+    Picks 3 random queries (date-seeded) from config, applies strict filters.
+    Gracefully skips if YOUTUBE_API_KEY is missing or API fails.
     """
-    print("\n🎬 Fetching YouTube tutorials...")
+    print("\n🎬 Fetching YouTube tutorials via search API...")
+    api_key = os.environ.get('YOUTUBE_API_KEY', '')
+    if not api_key:
+        print("  ⚠ YOUTUBE_API_KEY not set — skipping YouTube search")
+        return []
+
+    queries = config.get('youtube_search_queries', [])
+    if not queries:
+        print("  ⚠ No youtube_search_queries in config — skipping")
+        return []
+
+    # Deterministic daily selection (reproducible CI reruns)
+    random.seed(datetime.utcnow().strftime('%Y-%m-%d'))
+    selected = random.sample(queries, min(3, len(queries)))
+
+    published_after = (datetime.utcnow() - timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%SZ')
     videos = []
 
-    channels = config['sources'].get('youtube_channels', [])
-
-    for channel in channels:
-        name = channel['name']
-        channel_id = channel['channel_id']
-        reputation = channel['reputation']
-        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    for query in selected:
+        print(f"  🔍 Searching: {query}")
+        params = urllib.parse.urlencode({
+            'part': 'snippet',
+            'type': 'video',
+            'q': query,
+            'maxResults': 10,
+            'order': 'date',
+            'publishedAfter': published_after,
+            'relevanceLanguage': 'en',
+            'key': api_key,
+        })
+        url = f"https://www.googleapis.com/youtube/v3/search?{params}"
 
         try:
-            channel_videos = fetch_rss(url, name, reputation, 'video')
-            accepted = 0
-
-            for video in channel_videos:
-                title = video['title']
-                desc = video.get('description', '')
-
-                # STRICT filter
-                if is_actionable_content(title, desc):
-                    video['content_type'] = 'tutorial'
-                    video['category'] = 'tutorial'
-                    videos.append(video)
-                    accepted += 1
-                    print(f"  ✓ {name}: {title[:50]}...")
-                elif is_tool_content(title, desc):
-                    video['content_type'] = 'tool_demo'
-                    video['category'] = 'tools'
-                    videos.append(video)
-                    accepted += 1
-                    print(f"  ✓ {name}: {title[:50]}...")
-
-            if accepted == 0:
-                print(f"  - {name}: No actionable content found")
-
+            req = urllib.request.Request(url, headers={'User-Agent': 'AI-Venture-Digest/1.0'})
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            if e.code == 403:
+                print(f"  ⚠ YouTube API quota exhausted or key disabled (403) — stopping search")
+                break
+            print(f"  ⚠ YouTube API error ({e.code}): {e.reason}")
+            continue
         except Exception as e:
-            print(f"  ⚠ {name}: {e}")
+            print(f"  ⚠ YouTube search failed: {e}")
+            continue
+
+        for item in data.get('items', []):
+            snippet = item.get('snippet', {})
+            video_id = item.get('id', {}).get('videoId', '')
+            if not video_id:
+                continue
+
+            title = html.unescape(snippet.get('title', ''))
+            desc = html.unescape(snippet.get('description', ''))[:300]
+
+            # Apply existing strict filters
+            if is_actionable_content(title, desc):
+                content_type = 'tutorial'
+                category = 'tutorial'
+            elif is_tool_content(title, desc):
+                content_type = 'tool_demo'
+                category = 'tools'
+            else:
+                continue
+
+            video_url = f"https://www.youtube.com/watch?v={video_id}"
+            videos.append({
+                'title': title,
+                'url': video_url,
+                'description': desc,
+                'source': snippet.get('channelTitle', 'YouTube'),
+                'reputation': 0.85,
+                'published': snippet.get('publishedAt', ''),
+                'thumbnail': f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg",
+                'video_url': video_url,
+                'content_type': content_type,
+                'podcast_duration': None,
+                'fetched_at': datetime.utcnow().isoformat(),
+                'category': category,
+                'score': 0,
+            })
+            print(f"  ✓ {snippet.get('channelTitle', '?')}: {title[:50]}...")
 
     print(f"  → Found {len(videos)} actionable tutorial videos")
     return videos
@@ -759,8 +805,8 @@ def main():
     seen = load_seen_urls()
     all_articles = []
 
-    # 1. YouTube tutorials (strictly filtered)
-    videos = fetch_youtube_tutorials(config)
+    # 1. YouTube tutorials (via Data API v3 search)
+    videos = fetch_youtube_search(config)
     all_articles.extend(videos)
 
     # 2. Podcasts

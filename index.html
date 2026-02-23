@@ -1669,7 +1669,7 @@
                 { id: '1', title: 'How to Build a RAG Chatbot with LangChain in 15 Minutes', summary: 'Step-by-step tutorial covering document loading, embeddings, vector stores, and conversational retrieval.', url: 'https://blog.langchain.dev/rag-tutorial', source: 'LangChain Blog', category: 'tutorial', score: 98 },
                 { id: '2', title: 'Claude Code Best Practices: 17 Workflows That 10x Productivity', summary: 'Practical patterns from power users including plan mode, parallel sessions, and CLAUDE.md optimization.', url: 'https://www.anthropic.com/engineering/claude-code-best-practices', source: 'Anthropic', category: 'deep_dive', score: 96 },
                 { id: '3', title: 'n8n + OpenAI: Automate Content Creation Workflow', summary: 'Build a workflow that generates blog posts, social media content, and newsletters automatically.', url: 'https://blog.n8n.io/ai-content-workflow', source: 'n8n Blog', category: 'workflow', score: 94 },
-                { id: '4', title: 'Cursor IDE Tutorial: From Zero to Production App', summary: 'Complete guide to building and deploying a full-stack app using AI-powered coding.', url: 'https://www.youtube.com/watch?v=cursor-tutorial', source: 'All About AI', category: 'tutorial', score: 92, video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+                { id: '4', title: 'Cursor IDE Tutorial: From Zero to Production App', summary: 'Complete guide to building and deploying a full-stack app using AI-powered coding.', url: 'https://www.youtube.com/watch?v=cursor-tutorial', source: 'All About AI', category: 'tutorial', score: 92, video_url: 'https://www.youtube.com/watch?v=cursor-tutorial' },
                 { id: '5', title: 'Setting Up CLAUDE.md for Team Workflows', summary: 'How to configure CLAUDE.md files for consistent AI assistance across your development team.', url: 'https://www.gend.co/blog/claude-skills-claude-md-guide', source: 'Gend.co', category: 'skill', score: 90 },
                 { id: '6', title: 'Build Voice AI Apps with Whisper + Claude + ElevenLabs', summary: 'Tutorial on creating voice-enabled AI assistants from scratch.', url: 'https://huggingface.co/blog/voice-ai', source: 'Hugging Face', category: 'tutorial', score: 88 }
             ];
@@ -1866,40 +1866,18 @@
 
         function getDailyYouTubeSearchQuery() {
             const queries = [
-                "cursor ai tutorial build app", "claude code tutorial for beginners", "ai agent tutorial langchain",
-                "n8n automation workflow tutorial", "build saas mvp with ai", "prompt engineering tutorial advanced",
-                "ai coding assistant comparison", "claude code best practices", "cursor ai project walkthrough",
-                "build ai app no code", "chatgpt api integration tutorial", "langchain agent tutorial",
-                "ai workflow automation", "vercel ai sdk tutorial", "build rag chatbot tutorial",
-                "claude sonnet 4.5 tutorial", "ai code generation tutorial", "build ai tool 30 minutes",
-                "cursor ai vs copilot", "ai app deployment tutorial", "langchain python tutorial",
-                "build voice ai assistant", "ai automation for business", "cursor ai full project",
-                "claude code project setup", "build ai saas tutorial", "ai agent orchestration tutorial",
-                "prompt engineering techniques", "ai coding workflow tutorial", "build ai chrome extension",
-                "n8n ai automation", "cursor ai advanced tutorial", "ai api integration guide",
-                "build ai chatbot tutorial", "langchain vector database", "ai productivity tools tutorial",
-                "cursor ai keyboard shortcuts", "build ai web app", "ai content generation tutorial",
-                "cursor ai debugging tips", "claude code setup guide", "build ai scraper tutorial",
-                "ai embeddings tutorial", "cursor ai refactoring", "build ai dashboard tutorial",
-                "langchain memory tutorial", "ai workflow optimization", "cursor ai tips tricks",
-                "build ai analytics tool", "ai function calling tutorial", "claude code workflow",
-                "build ai image generator", "ai automation zapier tutorial", "cursor ai project structure",
-                "build ai email assistant", "langchain chains tutorial", "ai testing tutorial",
-                "cursor ai collaborative coding", "build ai slack bot", "ai vector search tutorial",
-                "claude code snippets", "build ai notion integration", "ai streaming responses tutorial",
-                "cursor ai github integration", "build ai calendar assistant", "langchain tools tutorial",
-                "ai error handling tutorial", "cursor ai customization", "build ai twitter bot",
-                "ai rate limiting tutorial", "claude code examples", "build ai pdf parser",
-                "langchain document loaders", "ai authentication tutorial", "cursor ai performance",
-                "build ai research assistant", "ai multi agent tutorial", "claude code patterns",
-                "build ai music generator", "langchain streaming tutorial", "ai caching tutorial",
-                "cursor ai extensions", "build ai video editor", "ai observability tutorial",
-                "claude code debugging", "build ai code reviewer", "langchain routing tutorial",
-                "ai deployment strategies", "cursor ai shortcuts", "build ai transcription app",
-                "ai prompt templates tutorial", "claude code refactoring", "build ai analytics dashboard",
-                "langchain evaluation tutorial", "ai monitoring tutorial", "cursor ai git workflow",
-                "build ai recommendation engine", "ai fine tuning tutorial", "claude code architecture",
-                "build ai game tutorial"
+                "claude code tutorial", "claude code workflow tips", "claude code project setup",
+                "cursor ai tutorial build app", "cursor ai vs copilot", "cursor ai advanced tips",
+                "langchain agent tutorial", "langchain RAG tutorial",
+                "build ai app no code", "build ai saas tutorial",
+                "n8n automation workflow tutorial", "n8n ai automation",
+                "prompt engineering tutorial advanced", "ai coding assistant comparison",
+                "vercel ai sdk tutorial", "build voice ai assistant",
+                "ai agent orchestration tutorial", "ai workflow automation",
+                "chatgpt api integration tutorial", "ai function calling tutorial",
+                "ai multi agent tutorial", "build ai chrome extension",
+                "ai productivity tools tutorial", "ai automation for business",
+                "build saas mvp with ai"
             ];
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
@@ -1916,15 +1894,15 @@
                 return (b.score || 0) - (a.score || 0);
             });
 
-            const defaultVideos = [
-                { title: 'Build a Full SaaS App with Cursor AI', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'All About AI', ytId: 'dQw4w9WgXcQ' },
-                { title: 'Claude Code: Complete Tutorial for Beginners', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'Cole Medin', ytId: 'dQw4w9WgXcQ' },
-                { title: 'AI Agent Tutorial with LangChain', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'AI Jason', ytId: 'dQw4w9WgXcQ' }
-            ];
-
             let videos = allVideos.slice(0, 3);
-            if (videos.length < 3) {
-                videos = videos.concat(defaultVideos.slice(videos.length));
+            if (videos.length === 0) {
+                const grid = document.getElementById('videosGrid');
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem 1rem; opacity: 0.7;">
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No fresh tutorials today</p>
+                        <p style="font-size: 0.9rem;">Check back tomorrow or browse YouTube directly below.</p>
+                    </div>`;
+                return;
             }
 
             const grid = document.getElementById('videosGrid');
