@@ -19,6 +19,17 @@
             --dark: #0A0A2E;
             --white: #FFFFFF;
             --cream: #FFF8F0;
+            --hero-pink: #EDCAD8;
+
+            /* Shadow variants — darker, more saturated */
+            --blue-shadow: #1A24B0;
+            --blue-mid-shadow: #2040C0;
+            --yellow-shadow: #D49700;
+            --green-shadow: #1A8A3E;
+            --orange-shadow: #D06010;
+            --pink-shadow: #D01E40;
+            --white-shadow: #0A0A2E;
+            --dark-shadow: #1A24B0;
 
             /* Semantic aliases for JS inline styles */
             --bg-primary: #FFFFFF;
@@ -63,6 +74,17 @@
         .section-yellow { background: var(--yellow); }
         .section-dark { background: var(--dark); }
         .section-cream { background: var(--cream); }
+
+        /* === Wave Dividers === */
+        /* TODO: thin hairlines still visible between waves and sections at some zoom levels / devices (sub-pixel rendering) */
+        .wave-divider {
+            display: block;
+            width: 100%;
+            height: 60px;
+            padding: 0;
+            line-height: 0;
+            margin: -6px 0;
+        }
 
         /* === Section Typography === */
         .section-label {
@@ -116,14 +138,46 @@
 
         /* === Hero Header === */
         .hero {
-            background: var(--blue);
-            padding: 64px 0 88px;
             position: relative;
             overflow: hidden;
             text-align: center;
         }
 
-        .hero-content { position: relative; z-index: 1; }
+        .hero-bg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Content sits in the blue sky area (top ~55% of the image) */
+        .hero-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 55%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            padding: 0 24px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, var(--hero-pink));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-decos { display: none; }
+
 
         .hero h1 {
             font-family: var(--font-display);
@@ -132,13 +186,15 @@
             line-height: 1.0;
             margin-bottom: 20px;
             text-transform: uppercase;
+            text-shadow: 0 2px 24px rgba(43, 59, 240, 0.5);
         }
 
         .hero-tagline {
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.95);
             font-size: 1.15rem;
             font-weight: 600;
             margin-bottom: 32px;
+            text-shadow: 0 1px 12px rgba(43, 59, 240, 0.4);
         }
 
         .hero-date {
@@ -171,11 +227,11 @@
         }
 
         .btn-yellow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.5);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--yellow-shadow);
         }
 
-        .btn-yellow:active { transform: translateY(0); }
+        .btn-yellow:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--yellow-shadow); }
 
         .btn-dark {
             display: inline-block;
@@ -193,15 +249,15 @@
         }
 
         .btn-dark:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(10, 10, 46, 0.3);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--dark-shadow);
         }
 
-        .btn-dark:active { transform: translateY(0); }
+        .btn-dark:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--dark-shadow); }
 
         /* === Feature Strip === */
         .feature-strip {
-            background: var(--dark);
+            background: var(--hero-pink);
             padding: 14px 0;
             overflow: hidden;
         }
@@ -217,7 +273,7 @@
             font-family: var(--font-body);
             font-size: 0.8rem;
             font-weight: 700;
-            color: var(--yellow);
+            color: var(--dark);
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
@@ -294,26 +350,26 @@
         .quick-win-card.tool {
             background: var(--green);
             color: var(--dark);
-            box-shadow: 0 12px 36px rgba(61, 190, 104, 0.45);
+            --shadow-color: var(--green-shadow);
+            box-shadow: 6px 6px 0 var(--shadow-color);
         }
 
         .quick-win-card.skill {
             background: var(--yellow);
             color: var(--dark);
-            box-shadow: 0 12px 36px rgba(255, 193, 7, 0.45);
+            --shadow-color: var(--yellow-shadow);
+            box-shadow: 6px 6px 0 var(--shadow-color);
         }
 
         .quick-win-card.tutorial {
             background: #4A7BF7;
             color: var(--white);
-            box-shadow: 0 12px 36px rgba(74, 123, 247, 0.45);
+            --shadow-color: var(--blue-mid-shadow);
+            box-shadow: 6px 6px 0 var(--shadow-color);
         }
 
-        .quick-win-card:hover { transform: translateY(-4px); }
-        .quick-win-card.tool:hover { box-shadow: 0 16px 40px rgba(61, 190, 104, 0.5); }
-        .quick-win-card.skill:hover { box-shadow: 0 16px 40px rgba(255, 193, 7, 0.5); }
-        .quick-win-card.tutorial:hover { box-shadow: 0 16px 40px rgba(74, 123, 247, 0.5); }
-        .quick-win-card:active { transform: translateY(-1px); }
+        .quick-win-card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--shadow-color); }
+        .quick-win-card:active { transform: translate(1px, 1px); box-shadow: 4px 4px 0 var(--shadow-color); }
 
         .quick-win-header {
             display: flex;
@@ -460,7 +516,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .podcast-play:hover { box-shadow: 0 4px 16px rgba(255, 193, 7, 0.4); }
+        .podcast-play:hover { box-shadow: 3px 3px 0 var(--yellow-shadow); }
 
         /* === Must Reads (white cards, colored badges) === */
         .must-reads-list { display: flex; flex-direction: column; gap: 16px; }
@@ -472,18 +528,18 @@
             padding: 20px;
             background: var(--white);
             border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(10, 10, 46, 0.08);
+            box-shadow: 4px 4px 0 var(--white-shadow);
             text-decoration: none;
             color: var(--dark);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .must-read-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(10, 10, 46, 0.14);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--white-shadow);
         }
 
-        .must-read-item:active { transform: translateY(0); }
+        .must-read-item:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--white-shadow); }
 
         .must-read-number {
             width: 44px;
@@ -563,7 +619,7 @@
         .video-section {
             background: var(--white);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(10, 10, 46, 0.12);
+            box-shadow: 6px 6px 0 var(--white-shadow);
             overflow: hidden;
         }
 
@@ -609,13 +665,13 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .podcast-mini:nth-child(4n+1) { background: #4A7BF7; color: var(--white); box-shadow: 0 10px 28px rgba(74, 123, 247, 0.4); }
-        .podcast-mini:nth-child(4n+2) { background: var(--yellow); color: var(--dark); box-shadow: 0 10px 28px rgba(255, 193, 7, 0.4); }
-        .podcast-mini:nth-child(4n+3) { background: var(--green); color: var(--dark); box-shadow: 0 10px 28px rgba(61, 190, 104, 0.4); }
-        .podcast-mini:nth-child(4n+4) { background: var(--pink); color: var(--white); box-shadow: 0 10px 28px rgba(255, 77, 109, 0.4); }
+        .podcast-mini:nth-child(4n+1) { background: #4A7BF7; color: var(--white); --shadow-color: var(--blue-mid-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .podcast-mini:nth-child(4n+2) { background: var(--yellow); color: var(--dark); --shadow-color: var(--yellow-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .podcast-mini:nth-child(4n+3) { background: var(--green); color: var(--dark); --shadow-color: var(--green-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .podcast-mini:nth-child(4n+4) { background: var(--pink); color: var(--white); --shadow-color: var(--pink-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
 
-        .podcast-mini:hover { transform: translateY(-3px); }
-        .podcast-mini:active { transform: translateY(0); }
+        .podcast-mini:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--shadow-color); }
+        .podcast-mini:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--shadow-color); }
 
         .podcast-mini-icon {
             width: 42px;
@@ -660,14 +716,14 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .twitter-post:nth-child(5n+1) { background: var(--pink); color: var(--white); box-shadow: 0 10px 28px rgba(255, 77, 109, 0.4); }
-        .twitter-post:nth-child(5n+2) { background: var(--yellow); color: var(--dark); box-shadow: 0 10px 28px rgba(255, 193, 7, 0.4); }
-        .twitter-post:nth-child(5n+3) { background: var(--green); color: var(--dark); box-shadow: 0 10px 28px rgba(61, 190, 104, 0.4); }
-        .twitter-post:nth-child(5n+4) { background: var(--orange); color: var(--dark); box-shadow: 0 10px 28px rgba(255, 140, 66, 0.4); }
-        .twitter-post:nth-child(5n+5) { background: #4A7BF7; color: var(--white); box-shadow: 0 10px 28px rgba(74, 123, 247, 0.4); }
+        .twitter-post:nth-child(5n+1) { background: var(--pink); color: var(--white); --shadow-color: var(--pink-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .twitter-post:nth-child(5n+2) { background: var(--yellow); color: var(--dark); --shadow-color: var(--yellow-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .twitter-post:nth-child(5n+3) { background: var(--green); color: var(--dark); --shadow-color: var(--green-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .twitter-post:nth-child(5n+4) { background: var(--orange); color: var(--dark); --shadow-color: var(--orange-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .twitter-post:nth-child(5n+5) { background: #4A7BF7; color: var(--white); --shadow-color: var(--blue-mid-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
 
-        .twitter-post:hover { transform: translateY(-3px); }
-        .twitter-post:active { transform: translateY(0); }
+        .twitter-post:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--shadow-color); }
+        .twitter-post:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--shadow-color); }
 
         .twitter-avatar {
             width: 40px;
@@ -722,13 +778,13 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .launch-card:nth-child(4n+1) { background: var(--green); color: var(--dark); box-shadow: 0 10px 28px rgba(61, 190, 104, 0.4); }
-        .launch-card:nth-child(4n+2) { background: var(--orange); color: var(--dark); box-shadow: 0 10px 28px rgba(255, 140, 66, 0.4); }
-        .launch-card:nth-child(4n+3) { background: var(--yellow); color: var(--dark); box-shadow: 0 10px 28px rgba(255, 193, 7, 0.4); }
-        .launch-card:nth-child(4n+4) { background: #4A7BF7; color: var(--white); box-shadow: 0 10px 28px rgba(74, 123, 247, 0.4); }
+        .launch-card:nth-child(4n+1) { background: var(--green); color: var(--dark); --shadow-color: var(--green-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .launch-card:nth-child(4n+2) { background: var(--orange); color: var(--dark); --shadow-color: var(--orange-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .launch-card:nth-child(4n+3) { background: var(--yellow); color: var(--dark); --shadow-color: var(--yellow-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
+        .launch-card:nth-child(4n+4) { background: #4A7BF7; color: var(--white); --shadow-color: var(--blue-mid-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
 
-        .launch-card:hover { transform: translateY(-3px); }
-        .launch-card:active { transform: translateY(0); }
+        .launch-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--shadow-color); }
+        .launch-card:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--shadow-color); }
 
         .launch-card-icon {
             width: 42px;
@@ -862,7 +918,7 @@
             padding: 32px;
             max-width: 420px;
             width: 90%;
-            box-shadow: 0 16px 48px rgba(10, 10, 46, 0.2);
+            box-shadow: 8px 8px 0 var(--white-shadow);
         }
 
         .modal h2 {
@@ -912,11 +968,11 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(255, 193, 7, 0.4);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--yellow-shadow);
         }
 
-        .btn-primary:active { transform: translateY(0); }
+        .btn-primary:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--yellow-shadow); }
 
         .btn-secondary {
             background: transparent;
@@ -977,7 +1033,16 @@
         @media (max-width: 768px) {
             .container { padding: 0 16px; }
             section { padding: 40px 0; }
-            .hero { padding: 36px 0 56px; }
+            .hero { min-height: 420px; }
+            .hero-bg {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 30%;
+            }
+            .hero-content { height: auto; padding: 32px 16px; justify-content: flex-start; }
             .hero h1 { font-size: 3.2rem; }
             .hero-emoji { font-size: 36px !important; opacity: 0.45 !important; }
             .section-title { font-size: 1.6rem; }
@@ -1001,6 +1066,7 @@
 <body>
     <!-- Hero Header (not sticky — scrolls normally) -->
     <header class="hero">
+        <img src="assets/header-img.svg" alt="" class="hero-bg" aria-hidden="true">
         <div class="hero-decos" aria-hidden="true">
             <span class="hero-emoji" style="top:5%;left:3%;font-size:72px;opacity:0.7;transform:rotate(-15deg)">⚡</span>
             <span class="hero-emoji" style="top:12%;right:5%;font-size:64px;opacity:0.65;transform:rotate(12deg)">🤖</span>
@@ -1043,13 +1109,19 @@
             </div>
         </section>
 
+        <!-- Wave: White → Yellow -->
+        <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
+
         <!-- Yellow Marquee -->
         <div class="marquee-wrapper" aria-hidden="true">
             <div class="marquee-track">
-                <span>AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦&nbsp;</span>
-                <span>AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦ AI VENTURE DIGEST ✦&nbsp;</span>
+                <span>TechCrunch ✦ OpenAI ✦ Anthropic ✦ Ben's Bites ✦ Fireship ✦ Simon Willison ✦ Latent Space ✦ Product Hunt ✦ Indie Hackers ✦ The Verge ✦ Hacker News ✦ LangChain ✦ n8n ✦ Pieter Levels ✦&nbsp;</span>
+                <span>TechCrunch ✦ OpenAI ✦ Anthropic ✦ Ben's Bites ✦ Fireship ✦ Simon Willison ✦ Latent Space ✦ Product Hunt ✦ Indie Hackers ✦ The Verge ✦ Hacker News ✦ LangChain ✦ n8n ✦ Pieter Levels ✦&nbsp;</span>
             </div>
         </div>
+
+        <!-- Wave: Yellow → Blue -->
+        <svg class="wave-divider" style="background:#2B3BF0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFC107"/></svg>
 
         <!-- Featured Podcast -->
         <section id="podcastSection" class="section-blue">
@@ -1063,6 +1135,9 @@
             </div>
         </section>
 
+        <!-- Wave: Blue → White -->
+        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#2B3BF0"/></svg>
+
         <!-- Must Reads -->
         <section id="mustReadsSection" class="section-white">
             <div class="container">
@@ -1075,6 +1150,9 @@
             </div>
         </section>
 
+        <!-- Wave: White → Yellow -->
+        <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
+
         <!-- Tutorial Video -->
         <section id="videoSection" class="section-yellow">
             <div class="container">
@@ -1085,6 +1163,9 @@
                 <div class="video-section" id="videoContent"></div>
             </div>
         </section>
+
+        <!-- Wave: Yellow → White -->
+        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFC107"/></svg>
 
         <!-- More Podcasts -->
         <section id="morePodcastsSection" class="section-white">
@@ -1098,6 +1179,9 @@
             </div>
         </section>
 
+        <!-- Wave: White → Dark -->
+        <svg class="wave-divider" style="background:#0A0A2E" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#FFFFFF"/></svg>
+
         <!-- X/Twitter Posts -->
         <section id="twitterSection" class="section-dark">
             <div class="container">
@@ -1109,6 +1193,9 @@
                 <div class="twitter-posts-list" id="twitterPostsList"></div>
             </div>
         </section>
+
+        <!-- Wave: Dark → White -->
+        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#0A0A2E"/></svg>
 
         <!-- Product Launches -->
         <section id="launchesSection" class="section-white">
@@ -1122,13 +1209,19 @@
             </div>
         </section>
 
+        <!-- Wave: White → Blue -->
+        <svg class="wave-divider" style="background:#2B3BF0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFFFFF"/></svg>
+
         <!-- Blue Outlined Marquee -->
         <div class="marquee-outlined-wrapper" aria-hidden="true">
             <div class="marquee-outlined-track">
-                <span>» AI VENTURE DIGEST » AI VENTURE DIGEST » AI VENTURE DIGEST » AI VENTURE DIGEST »&nbsp;</span>
-                <span>» AI VENTURE DIGEST » AI VENTURE DIGEST » AI VENTURE DIGEST » AI VENTURE DIGEST »&nbsp;</span>
+                <span>» Google AI » Cursor » Zapier » Greg Isenberg » The Neuron » Hugging Face » Cole Medin » Lenny's Podcast » Reddit » AI Jason »&nbsp;</span>
+                <span>» Google AI » Cursor » Zapier » Greg Isenberg » The Neuron » Hugging Face » Cole Medin » Lenny's Podcast » Reddit » AI Jason »&nbsp;</span>
             </div>
         </div>
+
+        <!-- Wave: Blue → Cream -->
+        <svg class="wave-divider" style="background:#FFF8F0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#2B3BF0"/></svg>
 
         <!-- More Updates -->
         <section id="quickHitsSection" class="section-cream">
