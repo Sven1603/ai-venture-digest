@@ -1343,7 +1343,10 @@
                 <div class="section-label">Deep Reads</div>
                 <div class="section-header">
                     <h2 class="section-title">📚 Top 5 Actionable Reads</h2>
-                    <button class="btn-archive" onclick="openArchive('mustReads')">📦 Archive</button>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="totalReadTime"></span>
+                        <button class="btn-archive" onclick="openArchive('mustReads')">📦 Archive</button>
+                    </div>
                 </div>
                 <div class="must-reads-list" id="mustReadsList"></div>
             </div>
@@ -1373,7 +1376,10 @@
                 <div class="section-label">More Audio</div>
                 <div class="section-header">
                     <h2 class="section-title">🎧 More Podcasts</h2>
-                    <button class="btn-archive" onclick="openArchive('podcasts')">📦 Archive</button>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="podcastCount"></span>
+                        <button class="btn-archive" onclick="openArchive('podcasts')">📦 Archive</button>
+                    </div>
                 </div>
                 <div class="podcasts-grid" id="morePodcastsGrid"></div>
             </div>
@@ -1429,7 +1435,10 @@
                 <div class="section-label">Quick Hits</div>
                 <div class="section-header">
                     <h2 class="section-title">📌 More Updates</h2>
-                    <button class="btn-archive" onclick="openArchive('moreUpdates')">📦 Archive</button>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="quickHitsCount"></span>
+                        <button class="btn-archive" onclick="openArchive('moreUpdates')">📦 Archive</button>
+                    </div>
                 </div>
                 <div class="quick-hits-list" id="quickHitsList"></div>
             </div>
