@@ -1214,7 +1214,7 @@
                 <div class="section-label">Tutorials</div>
                 <div class="section-header">
                     <h2 class="section-title">🎬 Suggested Video Tutorials</h2>
-                    <span class="section-meta">5 handpicked today</span>
+                    <span class="section-meta">3 handpicked today</span>
                 </div>
                 <div class="videos-grid" id="videosGrid"></div>
                 <div class="browse-more-videos">
@@ -1659,13 +1659,11 @@
             const defaultVideos = [
                 { title: 'Build a Full SaaS App with Cursor AI', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'All About AI', ytId: 'dQw4w9WgXcQ' },
                 { title: 'Claude Code: Complete Tutorial for Beginners', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'Cole Medin', ytId: 'dQw4w9WgXcQ' },
-                { title: 'AI Agent Tutorial with LangChain', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'AI Jason', ytId: 'dQw4w9WgXcQ' },
-                { title: 'n8n AI Automation Workflow Tutorial', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'n8n', ytId: 'dQw4w9WgXcQ' },
-                { title: 'Build AI MVP in 30 Minutes', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'Fireship', ytId: 'dQw4w9WgXcQ' }
+                { title: 'AI Agent Tutorial with LangChain', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', source: 'AI Jason', ytId: 'dQw4w9WgXcQ' }
             ];
 
-            let videos = allVideos.slice(0, 5);
-            if (videos.length < 5) {
+            let videos = allVideos.slice(0, 3);
+            if (videos.length < 3) {
                 videos = videos.concat(defaultVideos.slice(videos.length));
             }
 
