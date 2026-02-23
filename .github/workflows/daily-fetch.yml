@@ -24,6 +24,8 @@ jobs:
           python-version: '3.11'
 
       - name: Run fetcher
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python scripts/fetcher.py
 
       - name: Generate newsletter
