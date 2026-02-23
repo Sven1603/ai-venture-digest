@@ -377,29 +377,17 @@ def fetch_engineering_blogs(config):
     return articles
 
 
-def get_github_skills(config, seen_urls=None, max_skills=3):
+def get_github_skills(config):
     """
     Get curated Claude Code skills from config.
-    Rotates through skills to avoid showing the same ones every day.
+    These are manually curated, high-quality resources.
     """
     print("\n⚡ Loading curated Claude skills...")
     skills = []
-    seen_urls = seen_urls or {}
 
     github_skills = config['sources'].get('github_skills', [])
 
-    # Filter out recently shown skills (if URL is in seen_urls)
-    # Skills are exempt from normal dedup but we still want rotation
-    available_skills = [s for s in github_skills if s['url'] not in seen_urls]
-
-    # If we've shown all skills, reset and use all
-    if len(available_skills) < max_skills:
-        available_skills = github_skills
-
-    # Take max_skills for today
-    selected_skills = available_skills[:max_skills]
-
-    for skill in selected_skills:
+    for skill in github_skills:
         skills.append({
             'title': skill['name'],
             'url': skill['url'],
@@ -412,7 +400,7 @@ def get_github_skills(config, seen_urls=None, max_skills=3):
         })
         print(f"  ✓ {skill['name']}")
 
-    print(f"  → Loaded {len(skills)} curated skills ({len(available_skills)} available, {len(github_skills)} total)")
+    print(f"  → Loaded {len(skills)} curated skills")
     return skills
 
 
@@ -783,8 +771,8 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 4. GitHub skills (curated) - pass seen_urls for rotation
-    skills = get_github_skills(config, seen)
+    # 4. GitHub skills (curated)
+    skills = get_github_skills(config)
     all_articles.extend(skills)
 
     # 5. Twitter/X posts from AI builders
@@ -800,7 +788,7 @@ def main():
     for article in all_articles:
         article['score'] = calculate_score(article, config)
 
-    # Deduplicate against history (skills already filtered in get_github_skills)
+    # Deduplicate against history (skills are exempt)
     before_dedup = len(all_articles)
     all_articles = [
         a for a in all_articles
@@ -871,6 +859,14 @@ def main():
     os.makedirs('data', exist_ok=True)
     with open('data/articles.json', 'w') as f:
         json.dump(output, f, indent=2)
+
+    # Save dated snapshot for archive
+    os.makedirs('data/archive', exist_ok=True)
+    archive_date = datetime.now().strftime('%Y-%m-%d')
+    archive_path = f'data/archive/{archive_date}.json'
+    with open(archive_path, 'w') as f:
+        json.dump(output, f, indent=2)
+    print(f"📦 Saved archive snapshot to {archive_path}")
 
     # Record shown URLs in history (including skills for rotation)
     today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
