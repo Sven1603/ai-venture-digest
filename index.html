@@ -1731,9 +1731,25 @@
             document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', {
                 weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
             });
-            renderQuickWins(); renderFeaturedPodcast(); renderMustReads();
-            renderVideo(); renderMorePodcasts(); renderTwitterPosts();
-            renderLaunches(); renderMoreUpdates(); buildTOC();
+            console.log('Rendering all sections...');
+            renderQuickWins();
+            console.log('Quick wins rendered');
+            renderFeaturedPodcast();
+            console.log('Featured podcast rendered');
+            renderMustReads();
+            console.log('Must reads rendered');
+            renderVideo();
+            console.log('Video rendered');
+            renderMorePodcasts();
+            console.log('More podcasts rendered');
+            renderTwitterPosts();
+            console.log('Twitter posts rendered');
+            renderLaunches();
+            console.log('Launches rendered');
+            renderMoreUpdates();
+            console.log('More updates rendered');
+            buildTOC();
+            console.log('TOC built');
         }
 
         function renderQuickWins() {
