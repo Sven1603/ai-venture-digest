@@ -1564,7 +1564,9 @@
                 quickWins = data.quick_wins || [];
                 featuredPodcast = data.featured_podcast || null;
                 twitterPosts = data.twitter_posts || [];
+                console.log('Loaded data:', { articles: articles.length, quickWins: quickWins.length, twitterPosts: twitterPosts.length });
             } catch (e) {
+                console.error('Error loading articles, using defaults:', e);
                 articles = getSampleArticles();
                 quickWins = getDefaultQuickWins();
                 featuredPodcast = getDefaultPodcast();
