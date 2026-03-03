@@ -250,13 +250,12 @@ def fetch_rss(url, source_name, reputation, content_type='article'):
 VIDEO_ID_RE = re.compile(r'^[a-zA-Z0-9_-]{1,20}$')
 
 
-def extract_video_id(url):
-    """Extract video ID from YouTube URL. Returns empty string on failure."""
-    parsed = urllib.parse.urlparse(url)
-    video_id = urllib.parse.parse_qs(parsed.query).get('v', [''])[0]
-    if VIDEO_ID_RE.match(video_id):
-        return video_id
-    return ''
+def _safe_int(val, default=0):
+    """Safely cast to int, returning default on failure."""
+    try:
+        return int(val)
+    except (ValueError, TypeError):
+        return default
 
 
 def fetch_youtube_search(config):
@@ -345,6 +344,7 @@ def fetch_youtube_search(config):
                 'content_type': content_type,
                 'fetched_at': datetime.now().isoformat(),
                 'category': category,
+                'video_id': video_id,
                 'channel_id': snippet.get('channelId', ''),
             })
             print(f"  ✓ {snippet.get('channelTitle', '?')}: {title[:50]}...")
@@ -354,8 +354,9 @@ def fetch_youtube_search(config):
     # Enrich with statistics and apply quality filter
     videos = fetch_youtube_stats(videos, config)
 
-    # Remove internal channel_id field (not needed downstream)
+    # Remove internal fields (not needed downstream)
     for v in videos:
+        v.pop('video_id', None)
         v.pop('channel_id', None)
 
     return videos
@@ -384,8 +385,8 @@ def _fetch_video_statistics(api_key, video_ids):
         else:
             print(f"  ⚠ YouTube videos.list error ({e.code}): {e.reason}")
         return None
-    except Exception as e:
-        print(f"  ⚠ YouTube videos.list failed: {e}")
+    except Exception:
+        print("  ⚠ YouTube videos.list failed unexpectedly")
         return None
 
 
@@ -408,7 +409,7 @@ def _fetch_channel_statistics(api_key, channel_ids):
         result = {}
         for item in data.get('items', []):
             stats = item.get('statistics', {})
-            stats['hiddenSubscriberCount'] = item.get('statistics', {}).get('hiddenSubscriberCount', False)
+            stats.setdefault('hiddenSubscriberCount', False)
             result[item['id']] = stats
         return result
     except urllib.error.HTTPError as e:
@@ -417,8 +418,8 @@ def _fetch_channel_statistics(api_key, channel_ids):
         else:
             print(f"  ⚠ YouTube channels.list error ({e.code}): {e.reason}")
         return None
-    except Exception as e:
-        print(f"  ⚠ YouTube channels.list failed: {e}")
+    except Exception:
+        print("  ⚠ YouTube channels.list failed unexpectedly")
         return None
 
 
@@ -436,8 +437,8 @@ def fetch_youtube_stats(videos, config):
     min_subs = filters.get('youtube_min_subscribers', 1000)
 
     # Extract video IDs and unique channel IDs from search results
-    video_ids = [extract_video_id(v['url']) for v in videos]
-    channel_ids = list({v.get('channel_id') for v in videos if v.get('channel_id')})
+    video_ids = [v['video_id'] for v in videos if v.get('video_id')]
+    channel_ids = list({v['channel_id'] for v in videos if v.get('channel_id')})
 
     # Batch fetch statistics
     print("  📊 Fetching video & channel statistics...")
@@ -452,7 +453,7 @@ def fetch_youtube_stats(videos, config):
     # Apply hard gates
     filtered = []
     for v in videos:
-        vid = extract_video_id(v['url'])
+        vid = v.get('video_id', '')
         cid = v.get('channel_id', '')
 
         # If a video is missing from stats response (deleted/private), skip it
@@ -463,8 +464,8 @@ def fetch_youtube_stats(videos, config):
         vs = video_stats.get(vid, {}) if video_stats else {}
         cs = channel_stats.get(cid, {}) if channel_stats else {}
 
-        views = int(vs.get('viewCount', '0'))
-        subs = int(cs.get('subscriberCount', '0'))
+        views = _safe_int(vs.get('viewCount', '0'))
+        subs = _safe_int(cs.get('subscriberCount', '0'))
         hidden_subs = cs.get('hiddenSubscriberCount', False)
 
         # Hard gate: both must fail to be dropped
