@@ -250,6 +250,14 @@ def fetch_rss(url, source_name, reputation, content_type='article'):
 VIDEO_ID_RE = re.compile(r'^[a-zA-Z0-9_-]{1,20}$')
 
 
+def _safe_int(val, default=0):
+    """Safely cast to int, returning default on failure."""
+    try:
+        return int(val)
+    except (ValueError, TypeError):
+        return default
+
+
 def fetch_youtube_search(config):
     """
     Fetch tutorial videos via YouTube Data API v3 search.
@@ -336,11 +344,145 @@ def fetch_youtube_search(config):
                 'content_type': content_type,
                 'fetched_at': datetime.now().isoformat(),
                 'category': category,
+                'video_id': video_id,
+                'channel_id': snippet.get('channelId', ''),
             })
             print(f"  ✓ {snippet.get('channelTitle', '?')}: {title[:50]}...")
 
     print(f"  → Found {len(videos)} actionable tutorial videos")
+
+    # Enrich with statistics and apply quality filter
+    videos = fetch_youtube_stats(videos, config)
+
+    # Remove internal fields (not needed downstream)
+    for v in videos:
+        v.pop('video_id', None)
+        v.pop('channel_id', None)
+
     return videos
+
+
+def _fetch_video_statistics(api_key, video_ids):
+    """Batch fetch video statistics. Returns dict {video_id: stats} or None on failure."""
+    if not video_ids:
+        return {}
+    params = urllib.parse.urlencode({
+        'part': 'statistics',
+        'id': ','.join(video_ids[:50]),
+        'key': api_key,
+    })
+    url = f"https://www.googleapis.com/youtube/v3/videos?{params}"
+    try:
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0 AI-Venture-Digest/2.0'
+        })
+        with urllib.request.urlopen(req, timeout=15) as response:
+            data = json.loads(response.read().decode('utf-8', errors='ignore'))
+        return {item['id']: item.get('statistics', {}) for item in data.get('items', [])}
+    except urllib.error.HTTPError as e:
+        if e.code == 403:
+            print("  ⚠ YouTube API quota exhausted on videos.list (403)")
+        else:
+            print(f"  ⚠ YouTube videos.list error ({e.code}): {e.reason}")
+        return None
+    except Exception:
+        print("  ⚠ YouTube videos.list failed unexpectedly")
+        return None
+
+
+def _fetch_channel_statistics(api_key, channel_ids):
+    """Batch fetch channel statistics. Returns dict {channel_id: stats} or None on failure."""
+    if not channel_ids:
+        return {}
+    params = urllib.parse.urlencode({
+        'part': 'statistics',
+        'id': ','.join(channel_ids[:50]),
+        'key': api_key,
+    })
+    url = f"https://www.googleapis.com/youtube/v3/channels?{params}"
+    try:
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0 AI-Venture-Digest/2.0'
+        })
+        with urllib.request.urlopen(req, timeout=15) as response:
+            data = json.loads(response.read().decode('utf-8', errors='ignore'))
+        result = {}
+        for item in data.get('items', []):
+            stats = item.get('statistics', {})
+            stats.setdefault('hiddenSubscriberCount', False)
+            result[item['id']] = stats
+        return result
+    except urllib.error.HTTPError as e:
+        if e.code == 403:
+            print("  ⚠ YouTube API quota exhausted on channels.list (403)")
+        else:
+            print(f"  ⚠ YouTube channels.list error ({e.code}): {e.reason}")
+        return None
+    except Exception:
+        print("  ⚠ YouTube channels.list failed unexpectedly")
+        return None
+
+
+def fetch_youtube_stats(videos, config):
+    """
+    Fetch YouTube video/channel statistics and filter by quality thresholds.
+    If stats API calls fail, returns videos unfiltered (graceful degradation).
+    """
+    api_key = os.environ.get('YOUTUBE_API_KEY', '')
+    if not api_key or not videos:
+        return videos
+
+    filters = config['filters']
+    min_views = filters.get('youtube_min_views', 500)
+    min_subs = filters.get('youtube_min_subscribers', 1000)
+
+    # Extract video IDs and unique channel IDs from search results
+    video_ids = [v['video_id'] for v in videos if v.get('video_id')]
+    channel_ids = list({v['channel_id'] for v in videos if v.get('channel_id')})
+
+    # Batch fetch statistics
+    print("  📊 Fetching video & channel statistics...")
+    video_stats = _fetch_video_statistics(api_key, video_ids)
+    channel_stats = _fetch_channel_statistics(api_key, channel_ids)
+
+    # If both API calls failed, return videos unfiltered
+    if video_stats is None and channel_stats is None:
+        print("  ⚠ Both stats calls failed — skipping quality filter")
+        return videos
+
+    # Apply hard gates
+    filtered = []
+    for v in videos:
+        vid = v.get('video_id', '')
+        cid = v.get('channel_id', '')
+
+        # If a video is missing from stats response (deleted/private), skip it
+        if video_stats is not None and vid and vid not in video_stats:
+            print(f"    ✗ Skipped (not in stats): {v['title'][:60]}")
+            continue
+
+        vs = video_stats.get(vid, {}) if video_stats else {}
+        cs = channel_stats.get(cid, {}) if channel_stats else {}
+
+        views = _safe_int(vs.get('viewCount', '0'))
+        subs = _safe_int(cs.get('subscriberCount', '0'))
+        hidden_subs = cs.get('hiddenSubscriberCount', False)
+
+        # Hard gate: both must fail to be dropped
+        passes_views = (video_stats is None) or (views >= min_views)
+        passes_subs = (channel_stats is None) or (subs >= min_subs) or hidden_subs
+
+        if not passes_views and not passes_subs:
+            print(f"    ✗ Filtered: {v['title'][:60]} (views={views}, subs={subs})")
+            continue
+
+        filtered.append(v)
+
+    dropped = len(videos) - len(filtered)
+    if dropped:
+        print(f"  ℹ Filtered {dropped}/{len(videos)} videos below quality thresholds")
+
+    return filtered
 
 
 def fetch_podcasts(config):

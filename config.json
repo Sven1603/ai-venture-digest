@@ -85,7 +85,9 @@
     "source_caps": {
       "Product Hunt": 5
     },
-    "strict_actionable": true
+    "strict_actionable": true,
+    "youtube_min_views": 500,
+    "youtube_min_subscribers": 1000
   },
 
   "newsletter": {
