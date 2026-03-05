@@ -840,7 +840,18 @@ def calculate_score(article, config):
 # QUICK WINS GENERATION
 # ============================================================
 
-def create_quick_wins(articles, skills):
+def select_rotated_skill(skills, seen, today):
+    """Pick a skill the reader hasn't seen recently, date-seeded for determinism."""
+    if not skills:
+        return None
+    available = [s for s in skills if s['url'] not in seen]
+    if not available:
+        # All shown — pick from the oldest-shown to maximize variety
+        available = sorted(skills, key=lambda s: seen.get(s['url'], ''))[:max(1, len(skills) // 4)]
+    return random.Random(today).choice(available)
+
+
+def create_quick_wins(articles, skills, seen, today):
     """
     Create Quick Wins section:
     1. New Tool - Something to try today
@@ -864,8 +875,8 @@ def create_quick_wins(articles, skills):
         })
 
     # 2. Add a Claude skill
-    if skills:
-        skill = skills[0]
+    skill = select_rotated_skill(skills, seen, today)
+    if skill:
         quick_wins.append({
             'type': 'skill',
             'icon': '⚡',
@@ -962,9 +973,8 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 4. GitHub skills (curated)
+    # 4. GitHub skills (curated — used for quick wins only, not main article list)
     skills = get_github_skills(config)
-    all_articles.extend(skills)
 
     # 5. Twitter/X posts from AI builders
     twitter_posts = fetch_twitter_posts(config)
@@ -979,11 +989,11 @@ def main():
     for article in all_articles:
         article['score'] = calculate_score(article, config)
 
-    # Deduplicate against history (skills are exempt)
+    # Deduplicate against history
     before_dedup = len(all_articles)
     all_articles = [
         a for a in all_articles
-        if a['url'] not in seen or a.get('content_type') == 'skill'
+        if a['url'] not in seen
     ]
     blocked = before_dedup - len(all_articles)
     if blocked:
@@ -1010,7 +1020,8 @@ def main():
 
     # Create Quick Wins
     print("\n🎯 Creating Quick Wins...")
-    quick_wins = create_quick_wins(all_articles, skills)
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    quick_wins = create_quick_wins(all_articles, skills, seen, today)
     print(f"  → Created {len(quick_wins)} quick wins")
 
     # Get featured podcast
@@ -1061,7 +1072,6 @@ def main():
     print(f"📦 Saved archive snapshot to {archive_path}")
 
     # Record shown URLs in history (including skills for rotation)
-    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     for article in output.get('articles', []):
         seen[article['url']] = today
     for qw in output.get('quick_wins', []):

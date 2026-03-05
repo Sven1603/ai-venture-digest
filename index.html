@@ -1822,7 +1822,7 @@
                 return `
                     <a href="${safeUrl(win.url)}" target="_blank" rel="noopener" class="quick-win-card ${typeClass}">
                         <div class="quick-win-header">
-                            <div class="quick-win-icon">${win.icon}</div>
+                            <div class="quick-win-icon">${escHtml(win.icon)}</div>
                             <span class="quick-win-label">${escHtml(win.label)}</span>
                         </div>
                         <h3 class="quick-win-title">${escHtml(win.title)}</h3>
