@@ -844,14 +844,11 @@ def select_rotated_skill(skills, seen, today):
     """Pick a skill the reader hasn't seen recently, date-seeded for determinism."""
     if not skills:
         return None
-    skill_urls = {s['url'] for s in skills}
-    recently_shown = {url for url in skill_urls if url in seen}
-    available = [s for s in skills if s['url'] not in recently_shown]
+    available = [s for s in skills if s['url'] not in seen]
     if not available:
-        # All shown — pick least-recently-shown
-        available = sorted(skills, key=lambda s: seen.get(s['url'], ''))
-    rng = random.Random(today)
-    return rng.choice(available)
+        # All shown — pick from the oldest-shown to maximize variety
+        available = sorted(skills, key=lambda s: seen.get(s['url'], ''))[:max(1, len(skills) // 4)]
+    return random.Random(today).choice(available)
 
 
 def create_quick_wins(articles, skills, seen, today):
@@ -976,9 +973,8 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 4. GitHub skills (curated)
+    # 4. GitHub skills (curated — used for quick wins only, not main article list)
     skills = get_github_skills(config)
-    all_articles.extend(skills)
 
     # 5. Twitter/X posts from AI builders
     twitter_posts = fetch_twitter_posts(config)
