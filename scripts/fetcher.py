@@ -139,6 +139,39 @@ def is_newsworthy(title, description=''):
     return bool(re.search(r'\b(ai|agent|agents|model|models)\b', text))
 
 
+def classify_category(title, description='', source_type=''):
+    """
+    Classify a newsworthy item into exactly one of the four news categories:
+    releases / launches / business / research. Order matters (most specific first);
+    'business' is the catch-all for general industry/strategy news.
+    """
+    text = (title + ' ' + description).lower()
+
+    research = ['study', 'benchmark', 'research shows', 'breakthrough',
+                'paper finds', 'evaluation', 'outperforms', 'beats humans']
+    if any(k in text for k in research):
+        return 'research'
+
+    if source_type == 'product_launch' or any(k in text for k in
+            ['new app', 'new tool', 'we built', 'built with', 'just launched',
+             'launching', 'now on product hunt']):
+        return 'launches'
+
+    releases = ['introducing', 'now available', 'generally available',
+                'new model', 'new feature', 'rolls out', 'release', 'released',
+                'unveils', 'announces', 'update to', 'version']
+    if any(k in text for k in releases):
+        return 'releases'
+
+    business = ['raises', 'raised', 'funding', 'valuation', 'acquires',
+                'acquisition', 'partnership', 'partners with', 'ipo',
+                'regulation', 'policy', 'deal']
+    if any(k in text for k in business):
+        return 'business'
+
+    return 'business'
+
+
 def is_tool_content(title, description=''):
     """Check if content is about a specific AI tool that builders can use."""
     text = (title + ' ' + description).lower()

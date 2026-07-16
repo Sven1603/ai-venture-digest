@@ -39,3 +39,29 @@ class TestIsNewsworthy(unittest.TestCase):
         # 'sues' must not match inside 'issues'/'pursues'
         self.assertTrue(fetcher.is_newsworthy(
             "OpenAI issues new safety guidelines", "the company issues an update"))
+
+
+class TestClassifyCategory(unittest.TestCase):
+    def test_release(self):
+        self.assertEqual(fetcher.classify_category(
+            "Introducing Claude Opus 4.8", "now available in the API"), 'releases')
+
+    def test_business(self):
+        self.assertEqual(fetcher.classify_category(
+            "OpenAI acquires io for $6.5B", "acquisition deal"), 'business')
+
+    def test_research(self):
+        self.assertEqual(fetcher.classify_category(
+            "New study shows LLMs beat humans on benchmark", "research"), 'research')
+
+    def test_launch_from_source_type(self):
+        self.assertEqual(fetcher.classify_category(
+            "CoolAI App", "a neat new app", source_type='product_launch'), 'launches')
+
+    def test_defaults_to_business(self):
+        self.assertEqual(fetcher.classify_category(
+            "AI adoption grows across enterprises", "industry trends"), 'business')
+
+
+if __name__ == '__main__':
+    unittest.main()
