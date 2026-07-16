@@ -96,6 +96,44 @@ def is_actionable_content(title, description=''):
     return False
 
 
+def is_newsworthy(title, description=''):
+    """
+    Is this AI news worth surfacing for a non-engineer builder audience?
+    Inverts the old is_actionable_content gate: news/announcements are welcome,
+    how-to content is no longer required.
+    """
+    text = (title + ' ' + description).lower()
+
+    hard_exclude = [
+        # Nature/wildlife noise (wrong-channel content)
+        'anaconda', 'jungle', 'amazon rainforest', 'wildlife',
+        'nature documentary', 'expedition', 'predator', 'prey',
+        # Raw academic papers
+        'arxiv', 'research paper', 'paper review', 'paper analysis',
+        'variational autoencoder', 'proof that', 'theorem',
+        # Drama / controversy
+        'drama', 'controversy', 'beef', 'feud', 'lawsuit', 'sues', 'slams',
+        'clap back', 'shots fired',
+        # Roundups / other digests
+        'weekly roundup', 'news recap', 'this week in', 'weekly digest',
+        'daily digest', 'top 10', 'top ten',
+    ]
+    if any(kw in text for kw in hard_exclude):
+        return False
+
+    # Substring-safe AI tokens
+    strong_ai = [
+        'llm', 'gpt', 'claude', 'gemini', 'chatgpt', 'openai', 'anthropic',
+        'copilot', 'generative ai', 'machine learning', 'neural network',
+        'mistral', 'llama', 'deepseek', 'grok', 'perplexity', 'hugging face',
+    ]
+    if any(kw in text for kw in strong_ai):
+        return True
+
+    # Word-boundary tokens (avoid matching 'said', 'chain', etc.)
+    return bool(re.search(r'\b(ai|a\.i\.|agent|agents|model|models)\b', text))
+
+
 def is_tool_content(title, description=''):
     """Check if content is about a specific AI tool that builders can use."""
     text = (title + ' ' + description).lower()
