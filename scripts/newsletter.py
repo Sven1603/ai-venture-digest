@@ -19,6 +19,7 @@ CONFIG_PATH = Path(__file__).parent.parent / "config.json"
 DATA_PATH = Path(__file__).parent.parent / "data"
 TEMPLATES_PATH = Path(__file__).parent.parent / "templates"
 WEBSITE_URL = "https://ai-venture-digest.vercel.app"
+NEWS_CATEGORIES = ('releases', 'launches', 'business', 'research')
 
 
 def load_config() -> dict:
@@ -41,12 +42,13 @@ def load_articles() -> list[dict]:
 def generate_newsletter_html(articles: list[dict], config: dict) -> str:
     """Generate newsletter HTML content."""
     max_items = config['newsletter'].get('max_items', 10)
-    top_articles = articles[:max_items]
+    news_articles = [a for a in articles if a.get('category') in NEWS_CATEGORIES]
+    top_articles = news_articles[:max_items]
 
     # Group by category
     by_category = {}
     for article in top_articles:
-        cat = article.get('category', 'news')
+        cat = article.get('category', 'business')
         if cat not in by_category:
             by_category[cat] = []
         by_category[cat].append(article)
@@ -61,12 +63,11 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
 
     # Build sections in fixed order
     sections_html = ""
-    order = ['releases', 'launches', 'business', 'research']
-    for category in order:
+    for category in NEWS_CATEGORIES:
         items = by_category.get(category)
         if not items:
             continue
-        info = category_info.get(category, {'emoji': '📌', 'title': category.title()})
+        info = category_info[category]
         items_html = ""
         for item in items:
             items_html += f"""
@@ -222,7 +223,8 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
 def generate_newsletter_text(articles: list[dict], config: dict) -> str:
     """Generate plain text version of newsletter."""
     max_items = config['newsletter'].get('max_items', 10)
-    top_articles = articles[:max_items]
+    news_articles = [a for a in articles if a.get('category') in NEWS_CATEGORIES]
+    top_articles = news_articles[:max_items]
 
     lines = [
         "=" * 50,
@@ -238,10 +240,9 @@ def generate_newsletter_text(articles: list[dict], config: dict) -> str:
     for article in top_articles:
         by_category.setdefault(article.get('category', 'business'), []).append(article)
 
-    order = ['releases', 'launches', 'business', 'research']
     titles = {'releases': 'RELEASES', 'launches': 'LAUNCHES',
               'business': 'BUSINESS & STRATEGY', 'research': 'RESEARCH'}
-    for category in order:
+    for category in NEWS_CATEGORIES:
         items = by_category.get(category)
         if not items:
             continue
