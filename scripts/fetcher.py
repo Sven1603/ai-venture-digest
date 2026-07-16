@@ -112,7 +112,7 @@ def is_newsworthy(title, description=''):
         'arxiv', 'research paper', 'paper review', 'paper analysis',
         'variational autoencoder', 'proof that', 'theorem',
         # Drama / controversy
-        'drama', 'controversy', 'beef', 'feud', 'lawsuit', 'sues', 'slams',
+        'drama', 'controversy', 'beef', 'feud', 'lawsuit', 'slams',
         'clap back', 'shots fired',
         # Roundups / other digests
         'weekly roundup', 'news recap', 'this week in', 'weekly digest',
@@ -121,17 +121,22 @@ def is_newsworthy(title, description=''):
     if any(kw in text for kw in hard_exclude):
         return False
 
+    # 'sues'/'sued' need a word boundary — bare substring matches 'issues', 'pursues'
+    if re.search(r'\b(sues|sued)\b', text):
+        return False
+
     # Substring-safe AI tokens
     strong_ai = [
         'llm', 'gpt', 'claude', 'gemini', 'chatgpt', 'openai', 'anthropic',
         'copilot', 'generative ai', 'machine learning', 'neural network',
         'mistral', 'llama', 'deepseek', 'grok', 'perplexity', 'hugging face',
+        'a.i.',
     ]
     if any(kw in text for kw in strong_ai):
         return True
 
     # Word-boundary tokens (avoid matching 'said', 'chain', etc.)
-    return bool(re.search(r'\b(ai|a\.i\.|agent|agents|model|models)\b', text))
+    return bool(re.search(r'\b(ai|agent|agents|model|models)\b', text))
 
 
 def is_tool_content(title, description=''):

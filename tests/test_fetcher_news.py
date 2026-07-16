@@ -34,3 +34,8 @@ class TestIsNewsworthy(unittest.TestCase):
     def test_rejects_roundup(self):
         self.assertFalse(fetcher.is_newsworthy(
             "This week in AI: weekly roundup", "your weekly digest"))
+
+    def test_accepts_issues_word_not_sues(self):
+        # 'sues' must not match inside 'issues'/'pursues'
+        self.assertTrue(fetcher.is_newsworthy(
+            "OpenAI issues new safety guidelines", "the company issues an update"))
