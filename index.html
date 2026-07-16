@@ -1108,7 +1108,7 @@
         <div class="container hero-content">
             <p class="hero-date" id="dateDisplay"></p>
             <h1>AI Venture<br>Digest</h1>
-            <p class="hero-tagline">The AI news that matters — for people who build.</p>
+            <p class="hero-tagline">The AI news that matters — for people who build</p>
             <button class="btn-yellow" onclick="openSubscribeModal()" style="padding:16px 48px;font-size:1.1rem">Subscribe Now</button>
         </div>
     </header>
@@ -1144,17 +1144,17 @@
         <svg class="wave-divider" style="background:#FFF8F0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
 
         <!-- Launches -->
-        <section id="launchesCatSection" class="section-cream">
+        <section id="launchesSection" class="section-cream">
             <div class="container">
                 <div class="section-label">Product Hunt & Beyond</div>
                 <div class="section-header">
                     <h2 class="section-title">🎉 Launches</h2>
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <span class="section-meta" id="launchesCatReadTime"></span>
+                        <span class="section-meta" id="launchesReadTime"></span>
                         <button class="btn-archive" onclick="openArchive('launches')">📦 Archive</button>
                     </div>
                 </div>
-                <div class="must-reads-list" id="launchesCatList"></div>
+                <div class="must-reads-list" id="launchesList"></div>
             </div>
         </section>
 
@@ -1451,7 +1451,7 @@
             nav.innerHTML = '';
 
             const labels = {
-                releasesSection: 'Releases', launchesCatSection: 'Launches',
+                releasesSection: 'Releases', launchesSection: 'Launches',
                 businessSection: 'Business', researchSection: 'Research',
                 videoSection: 'Videos', morePodcastsSection: 'More Pods',
                 twitterSection: 'X / Twitter', podcastSection: 'Podcast'
@@ -1562,7 +1562,7 @@
                 weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
             });
             renderCategorySection('releases', 'releasesSection', 'releasesList', 'releasesReadTime');
-            renderCategorySection('launches', 'launchesCatSection', 'launchesCatList', 'launchesCatReadTime');
+            renderCategorySection('launches', 'launchesSection', 'launchesList', 'launchesReadTime');
             renderCategorySection('business', 'businessSection', 'businessList', 'businessReadTime');
             renderCategorySection('research', 'researchSection', 'researchList', 'researchReadTime');
             renderFeaturedPodcast(); renderVideos(); renderMorePodcasts(); renderTwitterPosts();
@@ -1584,13 +1584,29 @@
                 </a>`;
         }
 
+        // A wave-divider between two sections should only render when BOTH its
+        // neighboring sections are visible — otherwise it's a stray color band
+        // leading into (or out of) empty space. Re-evaluated from each section's
+        // own render call, so it self-corrects regardless of call order.
+        function updateAdjacentWave(sibling) {
+            if (!sibling || !sibling.classList || !sibling.classList.contains('wave-divider')) return;
+            const prev = sibling.previousElementSibling;
+            const next = sibling.nextElementSibling;
+            const prevHidden = !!prev && prev.tagName === 'SECTION' && prev.style.display === 'none';
+            const nextHidden = !!next && next.tagName === 'SECTION' && next.style.display === 'none';
+            sibling.style.display = (prevHidden || nextHidden) ? 'none' : '';
+        }
+
         function renderCategorySection(category, sectionId, listId, readTimeId) {
             const section = document.getElementById(sectionId);
             const items = articles
                 .filter(a => a.category === category && !a.video_url)
                 .sort((a, b) => (b.score || 0) - (a.score || 0));
-            if (items.length === 0) { section.style.display = 'none'; return; }
-            section.style.display = '';
+            const isEmpty = items.length === 0;
+            section.style.display = isEmpty ? 'none' : '';
+            updateAdjacentWave(section.previousElementSibling);
+            updateAdjacentWave(section.nextElementSibling);
+            if (isEmpty) return;
             const totalTime = items.reduce((sum, a) => sum + (a.readTime || 5), 0);
             const readTimeEl = document.getElementById(readTimeId);
             if (readTimeEl) readTimeEl.textContent = `~${totalTime} min total`;
