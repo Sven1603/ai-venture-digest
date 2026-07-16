@@ -54,10 +54,6 @@ class TestClassifyCategory(unittest.TestCase):
         self.assertEqual(fetcher.classify_category(
             "New study shows LLMs beat humans on benchmark", "research"), 'research')
 
-    def test_launch_from_content_type(self):
-        self.assertEqual(fetcher.classify_category(
-            "CoolAI App", "a neat new app", content_type='product_launch'), 'launches')
-
     def test_launch_from_keywords(self):
         self.assertEqual(fetcher.classify_category(
             "We built a new app", "just launched today"), 'launches')

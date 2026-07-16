@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-AI Venture Digest - Actionable Content Fetcher
-For venture builders who ship.
+AI Venture Digest - News Fetcher
 
-Content types:
-1. Quick Wins - New tools, Claude skills, quick tutorials
-2. Tutorial Videos - Step-by-step guides (NOT news/announcements)
-3. Podcast Episodes - Builder-focused discussions
-4. Deep Dives - Engineering blogs with practical implementations
+Fetches AI news from RSS feeds, YouTube, podcasts, Twitter/X, and Product Hunt,
+filters for newsworthiness (is_newsworthy), classifies each item into one of four
+categories (releases / launches / business / research via classify_category),
+scores by source reputation + recency + relevance + news-significance signals, and
+writes data/articles.json for the web and email digests.
 """
 
 import json
@@ -27,8 +26,7 @@ def load_config():
 
 
 # ============================================================
-# STRICT CONTENT FILTERS
-# These are the gatekeepers - be VERY selective
+# NEWS FILTERS — inclusive gate: keep AI news, drop noise/drama/roundups
 # ============================================================
 
 def is_newsworthy(title, description=''):
@@ -74,7 +72,7 @@ def is_newsworthy(title, description=''):
     return bool(re.search(r'\b(ai|agent|agents|model|models)\b', text))
 
 
-def classify_category(title, description='', content_type=''):
+def classify_category(title, description=''):
     """
     Classify a newsworthy item into exactly one of the four news categories:
     releases / launches / business / research. Order matters (most specific first);
@@ -89,7 +87,7 @@ def classify_category(title, description='', content_type=''):
 
     launches = ['new app', 'new tool', 'we built', 'built with',
                 'just launched', 'launching', 'now on product hunt']
-    if content_type == 'product_launch' or any(k in text for k in launches):
+    if any(k in text for k in launches):
         return 'launches'
 
     releases = ['introducing', 'now available', 'generally available',
@@ -730,7 +728,7 @@ def get_default_twitter_posts():
 # ============================================================
 
 def calculate_score(article, config):
-    """Calculate article score favoring actionable content."""
+    """Calculate article score favoring fresh, high-signal news."""
     score = 0
     topics = config.get('topics', [])
     filters = config['filters']
@@ -831,11 +829,11 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 5. Twitter/X posts from AI builders
+    # 4. Twitter/X posts from AI builders
     twitter_posts = fetch_twitter_posts(config)
     all_articles.extend(twitter_posts)
 
-    # 6. Product Hunt launches
+    # 5. Product Hunt launches
     ph_launches = fetch_producthunt(config)
     all_articles.extend(ph_launches)
 
