@@ -53,17 +53,19 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
 
     # Category display info
     category_info = {
-        'news': {'emoji': '📰', 'title': 'AI News'},
-        'tools': {'emoji': '🛠️', 'title': 'Tools & APIs'},
+        'releases': {'emoji': '🚀', 'title': 'Releases'},
+        'launches': {'emoji': '🆕', 'title': 'Launches'},
+        'business': {'emoji': '📈', 'title': 'Business & Strategy'},
         'research': {'emoji': '🔬', 'title': 'Research'},
-        'examples': {'emoji': '💡', 'title': 'Use Cases & Examples'},
-        'business': {'emoji': '📈', 'title': 'Business & Funding'},
-        'launch': {'emoji': '🚀', 'title': 'Product Launches'},
     }
 
-    # Build sections
+    # Build sections in fixed order
     sections_html = ""
-    for category, items in by_category.items():
+    order = ['releases', 'launches', 'business', 'research']
+    for category in order:
+        items = by_category.get(category)
+        if not items:
+            continue
         info = category_info.get(category, {'emoji': '📌', 'title': category.title()})
         items_html = ""
         for item in items:
@@ -157,9 +159,9 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                     <span style="color: #a0a0b0; font-size: 12px;">CATEGORIES</span>
                   </td>
                   <td align="center" width="33%">
-                    <span style="color: #8b5cf6; font-size: 24px; font-weight: 700;">{sum(1 for a in top_articles if a.get('content_type') == 'tutorial')}</span>
+                    <span style="color: #8b5cf6; font-size: 24px; font-weight: 700;">{len(set(a.get('source', '') for a in top_articles))}</span>
                     <br>
-                    <span style="color: #a0a0b0; font-size: 12px;">TUTORIALS</span>
+                    <span style="color: #a0a0b0; font-size: 12px;">SOURCES</span>
                   </td>
                 </tr>
               </table>
@@ -196,7 +198,7 @@ def generate_newsletter_html(articles: list[dict], config: dict) -> str:
                 <tr>
                   <td align="center">
                     <p style="color: #a0a0b0; font-size: 12px; margin: 0 0 12px 0;">
-                      Curated with AI for venture builders
+                      The AI news that matters — for people who build
                     </p>
                     <p style="color: #666; font-size: 11px; margin: 0;">
                       <a href="*|UNSUB|*" style="color: #4a9eff; text-decoration: none;">Unsubscribe</a> •
@@ -232,18 +234,31 @@ def generate_newsletter_text(articles: list[dict], config: dict) -> str:
         "",
     ]
 
-    for i, article in enumerate(top_articles, 1):
-        lines.extend([
-            f"{i}. {article['title']}",
-            f"   Source: {article['source']}",
-            f"   {article.get('description', '')[:150]}...",
-            f"   → {article['url']}",
-            "",
-        ])
+    by_category = {}
+    for article in top_articles:
+        by_category.setdefault(article.get('category', 'business'), []).append(article)
+
+    order = ['releases', 'launches', 'business', 'research']
+    titles = {'releases': 'RELEASES', 'launches': 'LAUNCHES',
+              'business': 'BUSINESS & STRATEGY', 'research': 'RESEARCH'}
+    for category in order:
+        items = by_category.get(category)
+        if not items:
+            continue
+        lines.append(titles[category])
+        lines.append("-" * len(titles[category]))
+        for article in items:
+            lines.extend([
+                f"• {article['title']}",
+                f"  Source: {article['source']}",
+                f"  {article.get('description', '')[:150]}...",
+                f"  → {article['url']}",
+                "",
+            ])
 
     lines.extend([
         "-" * 50,
-        "Curated with AI for venture builders",
+        "The AI news that matters — for people who build",
         "Unsubscribe: *|UNSUB|*",
     ])
 
