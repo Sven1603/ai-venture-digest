@@ -874,10 +874,10 @@ def calculate_score(article, config):
     # Significance bonus — news importance signals
     significance_keywords = [
         'introducing', 'now available', 'generally available', 'launches',
-        'launched', 'acquires', 'acquisition', 'raises', 'partnership',
+        'launched', 'acquires', 'acquisition', 'partnership',
         'new model', 'release', 'unveils',
     ]
-    if any(kw in text for kw in significance_keywords):
+    if any(kw in text for kw in significance_keywords) or re.search(r'\b(raises|raised)\b', text):
         score += 0.15
 
     # Recency

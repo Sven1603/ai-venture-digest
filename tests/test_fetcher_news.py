@@ -95,6 +95,25 @@ class TestCalculateScore(unittest.TestCase):
             {'title': 'ai model', 'reputation': 1.0}, self.CONFIG)
         self.assertGreater(high, low)
 
+    def test_praises_not_significance(self):
+        # 'raises' must not match inside 'praises'
+        praised = fetcher.calculate_score(
+            {'title': 'Everyone praises this tool', 'description': 'ai model',
+             'reputation': 0.5}, self.CONFIG)
+        plain = fetcher.calculate_score(
+            {'title': 'Everyone likes this tool', 'description': 'ai model',
+             'reputation': 0.5}, self.CONFIG)
+        self.assertEqual(praised, plain)
+
+    def test_raises_funding_gets_bonus(self):
+        funded = fetcher.calculate_score(
+            {'title': 'Startup raises $50M', 'description': 'ai model',
+             'reputation': 0.5}, self.CONFIG)
+        plain = fetcher.calculate_score(
+            {'title': 'Startup grows', 'description': 'ai model',
+             'reputation': 0.5}, self.CONFIG)
+        self.assertGreater(funded, plain)
+
 
 if __name__ == '__main__':
     unittest.main()
