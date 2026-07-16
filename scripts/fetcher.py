@@ -871,23 +871,14 @@ def calculate_score(article, config):
     relevance = min(matches / 3, 1.0)
     score += relevance * filters['relevance_weight']
 
-    # Content type bonus
-    content_type = article.get('content_type', '')
-    type_bonuses = {
-        'tutorial': 0.25,
-        'deep_dive': 0.20,
-        'skill': 0.20,
-        'tool_demo': 0.15,
-        'product_launch': 0.12,
-        'tool_update': 0.10,
-        'podcast': 0.12
-    }
-    score += type_bonuses.get(content_type, 0)
-
-    # Strong actionable keywords bonus
-    strong_keywords = ['step by step', 'from scratch', 'complete guide', 'hands-on']
-    if any(kw in text for kw in strong_keywords):
-        score += 0.10
+    # Significance bonus — news importance signals
+    significance_keywords = [
+        'introducing', 'now available', 'generally available', 'launches',
+        'launched', 'acquires', 'acquisition', 'raises', 'partnership',
+        'new model', 'release', 'unveils',
+    ]
+    if any(kw in text for kw in significance_keywords):
+        score += 0.15
 
     # Recency
     try:

@@ -72,5 +72,29 @@ class TestClassifyCategory(unittest.TestCase):
             "AI adoption grows across enterprises", "industry trends"), 'business')
 
 
+class TestCalculateScore(unittest.TestCase):
+    CONFIG = {
+        'topics': ['ai', 'agents', 'model'],
+        'filters': {'reputation_weight': 0.30, 'relevance_weight': 0.20,
+                    'recency_weight': 0.30, 'max_age_hours': 48},
+    }
+
+    def test_significance_bonus_applied(self):
+        base = fetcher.calculate_score(
+            {'title': 'AI thing', 'description': 'ai model', 'reputation': 0.5},
+            self.CONFIG)
+        boosted = fetcher.calculate_score(
+            {'title': 'Introducing new model', 'description': 'now available ai',
+             'reputation': 0.5}, self.CONFIG)
+        self.assertGreater(boosted, base)
+
+    def test_reputation_contributes(self):
+        low = fetcher.calculate_score(
+            {'title': 'ai model', 'reputation': 0.1}, self.CONFIG)
+        high = fetcher.calculate_score(
+            {'title': 'ai model', 'reputation': 1.0}, self.CONFIG)
+        self.assertGreater(high, low)
+
+
 if __name__ == '__main__':
     unittest.main()
