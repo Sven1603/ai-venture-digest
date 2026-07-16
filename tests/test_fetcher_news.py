@@ -54,9 +54,18 @@ class TestClassifyCategory(unittest.TestCase):
         self.assertEqual(fetcher.classify_category(
             "New study shows LLMs beat humans on benchmark", "research"), 'research')
 
-    def test_launch_from_source_type(self):
+    def test_launch_from_content_type(self):
         self.assertEqual(fetcher.classify_category(
-            "CoolAI App", "a neat new app", source_type='product_launch'), 'launches')
+            "CoolAI App", "a neat new app", content_type='product_launch'), 'launches')
+
+    def test_launch_from_keywords(self):
+        self.assertEqual(fetcher.classify_category(
+            "We built a new app", "just launched today"), 'launches')
+
+    def test_conversion_not_misclassified_as_release(self):
+        # 'version' must not match inside 'conversion'
+        self.assertEqual(fetcher.classify_category(
+            "AI tool boosts conversion rates for marketers", "growth"), 'business')
 
     def test_defaults_to_business(self):
         self.assertEqual(fetcher.classify_category(

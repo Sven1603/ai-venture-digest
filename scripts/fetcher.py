@@ -139,11 +139,11 @@ def is_newsworthy(title, description=''):
     return bool(re.search(r'\b(ai|agent|agents|model|models)\b', text))
 
 
-def classify_category(title, description='', source_type=''):
+def classify_category(title, description='', content_type=''):
     """
     Classify a newsworthy item into exactly one of the four news categories:
     releases / launches / business / research. Order matters (most specific first);
-    'business' is the catch-all for general industry/strategy news.
+    'business' is the catch-all for general industry/strategy/funding news.
     """
     text = (title + ' ' + description).lower()
 
@@ -152,23 +152,19 @@ def classify_category(title, description='', source_type=''):
     if any(k in text for k in research):
         return 'research'
 
-    if source_type == 'product_launch' or any(k in text for k in
-            ['new app', 'new tool', 'we built', 'built with', 'just launched',
-             'launching', 'now on product hunt']):
+    launches = ['new app', 'new tool', 'we built', 'built with',
+                'just launched', 'launching', 'now on product hunt']
+    if content_type == 'product_launch' or any(k in text for k in launches):
         return 'launches'
 
     releases = ['introducing', 'now available', 'generally available',
-                'new model', 'new feature', 'rolls out', 'release', 'released',
-                'unveils', 'announces', 'update to', 'version']
+                'new model', 'new feature', 'rolls out', 'release',
+                'unveils', 'announces', 'update to', 'new version']
     if any(k in text for k in releases):
         return 'releases'
 
-    business = ['raises', 'raised', 'funding', 'valuation', 'acquires',
-                'acquisition', 'partnership', 'partners with', 'ipo',
-                'regulation', 'policy', 'deal']
-    if any(k in text for k in business):
-        return 'business'
-
+    # Catch-all: funding, M&A, partnerships, regulation, and general
+    # industry/strategy news all fall here.
     return 'business'
 
 
