@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Venture Digest - Actionable AI for Builders</title>
+    <title>AI Venture Digest - The AI news that matters</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1116,8 +1116,8 @@
     <!-- Feature Strip -->
     <div class="feature-strip" aria-hidden="true">
         <div class="feature-strip-track">
-            <span>&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;</span>
-            <span>&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;</span>
+            <span>&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;</span>
+            <span>&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;</span>
         </div>
     </div>
 
@@ -1205,18 +1205,18 @@
             </div>
         </div>
 
-        <!-- Tutorial Videos -->
+        <!-- Videos -->
         <section id="videoSection" class="section-yellow">
             <div class="container">
-                <div class="section-label">Tutorials</div>
+                <div class="section-label">Watch</div>
                 <div class="section-header">
-                    <h2 class="section-title">🎬 Suggested Video Tutorials</h2>
+                    <h2 class="section-title">🎬 AI News in Video</h2>
                     <button class="btn-archive" onclick="openArchive('videos')">📦 Archive</button>
                 </div>
                 <div class="videos-grid" id="videosGrid"></div>
                 <div class="browse-more-videos">
                     <a href="#" id="browseMoreVideosBtn" target="_blank" rel="noopener" class="btn-dark">
-                        <span>🔍 Browse More Tutorials</span>
+                        <span>🔍 Browse More Videos</span>
                     </a>
                 </div>
             </div>
@@ -1283,7 +1283,7 @@
     <div class="modal-overlay" id="subscribeModal">
         <div class="modal">
             <h2>📧 Get the Daily Digest</h2>
-            <p>Receive actionable AI tutorials, tools, and skills every morning.</p>
+            <p>Get the AI news that matters, every morning.</p>
             <input type="email" id="subscribeEmail" placeholder="your@email.com">
             <input type="text" id="subscribeWebsite" name="website" autocomplete="off"
                    tabindex="-1" style="position:absolute;left:-9999px;opacity:0;">
@@ -1435,7 +1435,7 @@
                 { id: '1', title: 'GPT-5.2 Turbo Released with Native Agent Orchestration', summary: 'OpenAI ships a faster, cheaper flagship model with built-in multi-agent tool routing.', url: 'https://openai.com/blog/gpt-5-2-turbo', source: 'OpenAI', category: 'releases', score: 98 },
                 { id: '2', title: 'Claude Code Best Practices: 17 Workflows That 10x Productivity', summary: 'Practical patterns from power users including plan mode, parallel sessions, and CLAUDE.md optimization.', url: 'https://www.anthropic.com/engineering/claude-code-best-practices', source: 'Anthropic', category: 'business', score: 96 },
                 { id: '3', title: 'Indie Hacker Launches AI Resume Builder, Hits $10k MRR in a Month', summary: 'A solo founder shares the exact Product Hunt launch playbook that got them there.', url: 'https://www.producthunt.com/posts/ai-resume-builder', source: 'Product Hunt', category: 'launches', score: 94 },
-                { id: '4', title: 'Cursor IDE Tutorial: From Zero to Production App', summary: 'Complete guide to building and deploying a full-stack app using AI-powered coding.', url: 'https://www.youtube.com/watch?v=cursor-tutorial', source: 'All About AI', category: 'releases', score: 92, video_url: 'https://www.youtube.com/watch?v=cursor-tutorial' },
+                { id: '4', title: 'OpenAI Ships New Model to the API, Undercutting GPT-4 on Price', summary: 'The quiet release adds function calling upgrades and a longer context window.', url: 'https://www.youtube.com/watch?v=openai-model-news', source: 'All About AI', category: 'releases', score: 92, video_url: 'https://www.youtube.com/watch?v=openai-model-news' },
                 { id: '5', title: 'New Paper Shows Smaller Models Can Match GPT-4 on Reasoning', summary: 'Researchers find distillation techniques close the gap for a fraction of the compute cost.', url: 'https://arxiv.org/abs/2026.01234', source: 'arXiv', category: 'research', score: 90 },
                 { id: '6', title: 'Why Every SaaS Founder Is Rebuilding Onboarding Around AI Copilots', summary: 'A look at the strategic shift happening across indie and VC-backed products alike.', url: 'https://www.lennysnewsletter.com/ai-copilot-onboarding', source: "Lenny's Newsletter", category: 'business', score: 88 }
             ];
@@ -1633,7 +1633,7 @@
         }
 
         function getDailyYouTubeSearchQuery() {
-            const queries = youtubeSearchQueries.length > 0 ? youtubeSearchQueries : ['ai tutorial'];
+            const queries = youtubeSearchQueries.length > 0 ? youtubeSearchQueries : ['ai news'];
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
             const index = dayOfYear % queries.length;
@@ -1642,19 +1642,14 @@
 
         function renderVideos() {
             const allVideos = articles.filter(a => extractYouTubeId(a.url || a.video_url) !== null);
-            allVideos.sort((a, b) => {
-                const aT = (a.category === 'tutorial' || a.content_type === 'tutorial') ? 1 : 0;
-                const bT = (b.category === 'tutorial' || b.content_type === 'tutorial') ? 1 : 0;
-                if (aT !== bT) return bT - aT;
-                return (b.score || 0) - (a.score || 0);
-            });
+            allVideos.sort((a, b) => (b.score || 0) - (a.score || 0));
 
             let videos = allVideos.slice(0, 3);
             if (videos.length === 0) {
                 const grid = document.getElementById('videosGrid');
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 2rem 1rem; opacity: 0.7;">
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No fresh tutorials today</p>
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No fresh videos today</p>
                         <p style="font-size: 0.9rem;">Check back tomorrow or browse YouTube directly below.</p>
                     </div>`;
                 return;

@@ -241,11 +241,11 @@ def _safe_int(val, default=0):
 
 def fetch_youtube_search(config):
     """
-    Fetch tutorial videos via YouTube Data API v3 search.
-    Picks 3 random queries (date-seeded) from config, applies strict filters.
+    Fetch news videos via YouTube Data API v3 search.
+    Picks 3 random queries (date-seeded) from config, applies the newsworthiness gate.
     Gracefully skips if YOUTUBE_API_KEY is missing or API fails.
     """
-    print("\n🎬 Fetching YouTube tutorials via search API...")
+    print("\n🎬 Fetching YouTube news videos via search API...")
     api_key = os.environ.get('YOUTUBE_API_KEY', '')
     if not api_key:
         print("  ⚠ YOUTUBE_API_KEY not set — skipping YouTube search")
@@ -682,9 +682,9 @@ def get_top_twitter_posts(posts, limit=5):
     for post in posts:
         score = post.get('reputation', 0.5)
 
-        # Bonus for actionable content
+        # Bonus for high-signal news
         text = (post.get('title', '') + ' ' + post.get('description', '')).lower()
-        if any(kw in text for kw in ['build', 'ship', 'tutorial', 'how to', 'just launched']):
+        if any(kw in text for kw in ['launches', 'launched', 'introducing', 'now available', 'acquires', 'raises', 'announces', 'unveils']):
             score += 0.2
 
         scored.append((score, post))

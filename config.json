@@ -46,7 +46,7 @@
       {"handle": "alexalbert__", "name": "Alex Albert (Anthropic)", "focus": "claude_prompts", "reputation": 0.9},
       {"handle": "mcaborabora", "name": "McKay Wrigley", "focus": "ai_tools", "reputation": 0.9},
       {"handle": "nutlope", "name": "Hassan El Mghari", "focus": "ai_apps", "reputation": 0.9},
-      {"handle": "aiaboratory", "name": "AI Jason", "focus": "tutorials", "reputation": 0.9}
+      {"handle": "aiaboratory", "name": "AI Jason", "focus": "ai_news", "reputation": 0.9}
     ],
     "nitter_instances": [
       "https://nitter.poast.org",
