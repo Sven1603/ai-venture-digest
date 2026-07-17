@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-AI Venture Digest - Actionable Content Fetcher
-For venture builders who ship.
+AI Venture Digest - News Fetcher
 
-Content types:
-1. Quick Wins - New tools, Claude skills, quick tutorials
-2. Tutorial Videos - Step-by-step guides (NOT news/announcements)
-3. Podcast Episodes - Builder-focused discussions
-4. Deep Dives - Engineering blogs with practical implementations
+Fetches AI news from RSS feeds, YouTube, podcasts, Twitter/X, and Product Hunt,
+filters for newsworthiness (is_newsworthy), classifies each item into one of four
+categories (releases / launches / business / research via classify_category),
+scores by source reputation + recency + relevance + news-significance signals, and
+writes data/articles.json for the web and email digests.
 """
 
 import json
@@ -27,97 +26,79 @@ def load_config():
 
 
 # ============================================================
-# STRICT CONTENT FILTERS
-# These are the gatekeepers - be VERY selective
+# NEWS FILTERS — inclusive gate: keep AI news, drop noise/drama/roundups
 # ============================================================
 
-def is_actionable_content(title, description=''):
+def is_newsworthy(title, description=''):
     """
-    STRICT filter: Is this content actionable for a venture builder?
-    Must teach HOW to do something, not just announce news.
+    Is this AI news worth surfacing for a non-engineer builder audience?
+    Inverts the old strict how-to-only gate: news/announcements are welcome,
+    how-to content is no longer required.
     """
     text = (title + ' ' + description).lower()
 
-    # MUST have actionable indicators
-    actionable_keywords = [
-        'how to', 'tutorial', 'build', 'create', 'step by step', 'guide',
-        'in 5 min', 'in 10 min', 'in 15 min', 'in 30 min', 'from scratch',
-        'complete guide', 'hands-on', 'walkthrough', 'implement', 'setup',
-        'integrate', 'automate', 'workflow', 'template', 'boilerplate',
-        'quickstart', 'getting started', 'beginner', 'practical',
-        'i built', 'let\'s build', 'building a', 'making a', 'code along',
-        'full stack', 'saas', 'mvp', 'launch', 'ship'
-    ]
-
-    # HARD EXCLUDE - these never pass
     hard_exclude = [
-        # Nature/wildlife (wrong channel content)
-        'anaconda', 'jungle', 'amazon rainforest', 'wildlife', 'animal', 'snake',
-        'nature documentary', 'expedition', 'tribe', 'predator', 'prey',
-        # Academic papers (not actionable)
-        'paper analysis', 'paper review', 'arxiv', 'research paper',
-        'variational autoencoder', 'theoretical', 'proof that',
-        # Pure news/announcements
-        'breaking:', 'just announced', 'exclusive:', 'leaked',
-        'drama', 'controversy', 'beef', 'drama between',
-        # Funding/business news
-        'raises $', 'raised $', 'funding round', 'valuation', 'ipo',
-        'acquires', 'acquisition', 'layoffs', 'laid off',
-        'series a', 'series b', 'seed round',
-        # General news format
+        # Nature/wildlife noise (wrong-channel content)
+        'anaconda', 'jungle', 'amazon rainforest', 'wildlife',
+        'nature documentary', 'expedition', 'predator', 'prey',
+        # Raw academic papers
+        'arxiv', 'research paper', 'paper review', 'paper analysis',
+        'variational autoencoder', 'proof that', 'theorem',
+        # Drama / controversy
+        'drama', 'controversy', 'beef', 'feud', 'lawsuit', 'slams',
+        'clap back', 'shots fired',
+        # Roundups / other digests
         'weekly roundup', 'news recap', 'this week in', 'weekly digest',
-        "what's new in", 'announcing', 'we\'re excited to announce'
+        'daily digest', 'top 10', 'top ten',
     ]
-
-    # Soft exclude - can pass if also has actionable keywords
-    soft_exclude = [
-        'news', 'announcement', 'update', 'reaction', 'thoughts on',
-        'my opinion', 'review', 'first look', 'impressions',
-        'interview', 'podcast', 'discussion'  # podcasts handled separately
-    ]
-
-    # Hard exclude always fails
     if any(kw in text for kw in hard_exclude):
         return False
 
-    # Check actionable
-    has_actionable = any(kw in text for kw in actionable_keywords)
-    has_soft_exclude = any(kw in text for kw in soft_exclude)
+    # 'sues'/'sued' need a word boundary — bare substring matches 'issues', 'pursues'
+    if re.search(r'\b(sues|sued)\b', text):
+        return False
 
-    # If has actionable keywords and no soft exclude, pass
-    if has_actionable and not has_soft_exclude:
+    # Substring-safe AI tokens
+    strong_ai = [
+        'llm', 'gpt', 'claude', 'gemini', 'chatgpt', 'openai', 'anthropic',
+        'copilot', 'generative ai', 'machine learning', 'neural network',
+        'mistral', 'llama', 'deepseek', 'grok', 'perplexity', 'hugging face',
+        'a.i.',
+    ]
+    if any(kw in text for kw in strong_ai):
         return True
 
-    # If has actionable AND soft exclude, only pass if actionable is strong
-    strong_actionable = ['how to', 'tutorial', 'step by step', 'build', 'from scratch', 'code along']
-    if has_actionable and has_soft_exclude:
-        return any(kw in text for kw in strong_actionable)
-
-    return False
+    # Word-boundary tokens (avoid matching 'said', 'chain', etc.)
+    return bool(re.search(r'\b(ai|agent|agents|model|models)\b', text))
 
 
-def is_tool_content(title, description=''):
-    """Check if content is about a specific AI tool that builders can use."""
+def classify_category(title, description=''):
+    """
+    Classify a newsworthy item into exactly one of the four news categories:
+    releases / launches / business / research. Order matters (most specific first);
+    'business' is the catch-all for general industry/strategy/funding news.
+    """
     text = (title + ' ' + description).lower()
 
-    tool_keywords = [
-        'cursor', 'claude', 'claude code', 'chatgpt', 'gpt-4', 'gpt-5',
-        'copilot', 'v0', 'bolt', 'lovable', 'replit', 'windsurf',
-        'langchain', 'langgraph', 'llamaindex', 'autogen', 'crewai',
-        'n8n', 'make.com', 'zapier', 'dify', 'flowise', 'langflow',
-        'remotion', 'elevenlabs', 'runway', 'midjourney', 'stable diffusion',
-        'perplexity', 'phind', 'gemini', 'anthropic', 'openai api',
-        'supabase', 'vercel', 'netlify', 'railway', 'render'
-    ]
+    research = ['study', 'benchmark', 'research shows', 'breakthrough',
+                'paper finds', 'evaluation', 'outperforms', 'beats humans']
+    if any(k in text for k in research):
+        return 'research'
 
-    # Must mention a tool AND be somewhat actionable
-    has_tool = any(kw in text for kw in tool_keywords)
+    launches = ['new app', 'new tool', 'we built', 'built with',
+                'just launched', 'launching', 'now on product hunt']
+    if any(k in text for k in launches):
+        return 'launches'
 
-    # Exclude pure product announcements
-    announcement_words = ['raises', 'funding', 'valuation', 'announces', 'partnership']
-    is_announcement = any(w in text for w in announcement_words)
+    releases = ['introducing', 'now available', 'generally available',
+                'new model', 'new feature', 'rolls out', 'release',
+                'unveils', 'announces', 'update to', 'new version']
+    if any(k in text for k in releases):
+        return 'releases'
 
-    return has_tool and not is_announcement
+    # Catch-all: funding, M&A, partnerships, regulation, and general
+    # industry/strategy news all fall here.
+    return 'business'
 
 
 def is_podcast_relevant(title, description=''):
@@ -260,11 +241,11 @@ def _safe_int(val, default=0):
 
 def fetch_youtube_search(config):
     """
-    Fetch tutorial videos via YouTube Data API v3 search.
-    Picks 3 random queries (date-seeded) from config, applies strict filters.
+    Fetch news videos via YouTube Data API v3 search.
+    Picks 3 random queries (date-seeded) from config, applies the newsworthiness gate.
     Gracefully skips if YOUTUBE_API_KEY is missing or API fails.
     """
-    print("\n🎬 Fetching YouTube tutorials via search API...")
+    print("\n🎬 Fetching YouTube news videos via search API...")
     api_key = os.environ.get('YOUTUBE_API_KEY', '')
     if not api_key:
         print("  ⚠ YOUTUBE_API_KEY not set — skipping YouTube search")
@@ -320,15 +301,10 @@ def fetch_youtube_search(config):
             title = html.unescape(snippet.get('title', ''))
             desc = html.unescape(snippet.get('description', ''))[:300]
 
-            # Apply existing strict filters
-            if is_actionable_content(title, desc):
-                content_type = 'tutorial'
-                category = 'tutorial'
-            elif is_tool_content(title, desc):
-                content_type = 'tool_demo'
-                category = 'tools'
-            else:
+            if not is_newsworthy(title, desc):
                 continue
+            content_type = 'video'
+            category = 'video'
 
             # video_url must be truthy — routes to Videos section, not Must Reads (index.html)
             video_url = f"https://www.youtube.com/watch?v={video_id}"
@@ -349,7 +325,7 @@ def fetch_youtube_search(config):
             })
             print(f"  ✓ {snippet.get('channelTitle', '?')}: {title[:50]}...")
 
-    print(f"  → Found {len(videos)} actionable tutorial videos")
+    print(f"  → Found {len(videos)} newsworthy videos")
 
     # Enrich with statistics and apply quality filter
     videos = fetch_youtube_stats(videos, config)
@@ -545,54 +521,21 @@ def fetch_engineering_blogs(config):
                 title = article['title']
                 desc = article.get('description', '')
 
-                if is_actionable_content(title, desc):
-                    article['content_type'] = 'deep_dive'
-                    article['category'] = 'deep_dive'
-                    articles.append(article)
-                    accepted += 1
-                    print(f"  ✓ {name}: {title[:50]}...")
-                elif is_tool_content(title, desc):
-                    article['content_type'] = 'tool_update'
-                    article['category'] = 'tools'
+                if is_newsworthy(title, desc):
+                    article['category'] = classify_category(title, desc)
+                    article['content_type'] = article['category']
                     articles.append(article)
                     accepted += 1
                     print(f"  ✓ {name}: {title[:50]}...")
 
             if accepted == 0:
-                print(f"  - {name}: No actionable content")
+                print(f"  - {name}: No newsworthy content")
 
         except Exception as e:
             print(f"  ⚠ {name}: {e}")
 
-    print(f"  → Found {len(articles)} actionable blog posts")
+    print(f"  → Found {len(articles)} newsworthy blog posts")
     return articles
-
-
-def get_github_skills(config):
-    """
-    Get curated Claude Code skills from config.
-    These are manually curated, high-quality resources.
-    """
-    print("\n⚡ Loading curated Claude skills...")
-    skills = []
-
-    github_skills = config['sources'].get('github_skills', [])
-
-    for skill in github_skills:
-        skills.append({
-            'title': skill['name'],
-            'url': skill['url'],
-            'description': skill['description'],
-            'source': 'GitHub',
-            'reputation': 0.95,
-            'content_type': 'skill',
-            'category': 'skill',
-            'fetched_at': datetime.now().isoformat()
-        })
-        print(f"  ✓ {skill['name']}")
-
-    print(f"  → Loaded {len(skills)} curated skills")
-    return skills
 
 
 def fetch_twitter_posts(config):
@@ -713,8 +656,8 @@ def fetch_producthunt(config):
                 ]
 
                 if any(kw in f' {text} ' for kw in ai_keywords):
-                    item['category'] = 'launch'
-                    item['content_type'] = 'product_launch'
+                    item['category'] = 'launches'
+                    item['content_type'] = 'launches'
                     launches.append(item)
                     accepted += 1
                     print(f"  ✓ {name}: {title[:50]}...")
@@ -739,9 +682,9 @@ def get_top_twitter_posts(posts, limit=5):
     for post in posts:
         score = post.get('reputation', 0.5)
 
-        # Bonus for actionable content
+        # Bonus for high-signal news
         text = (post.get('title', '') + ' ' + post.get('description', '')).lower()
-        if any(kw in text for kw in ['build', 'ship', 'tutorial', 'how to', 'just launched']):
+        if any(kw in text for kw in ['launches', 'launched', 'introducing', 'now available', 'acquires', 'raises', 'announces', 'unveils']):
             score += 0.2
 
         scored.append((score, post))
@@ -785,7 +728,7 @@ def get_default_twitter_posts():
 # ============================================================
 
 def calculate_score(article, config):
-    """Calculate article score favoring actionable content."""
+    """Calculate article score favoring fresh, high-signal news."""
     score = 0
     topics = config.get('topics', [])
     filters = config['filters']
@@ -799,23 +742,14 @@ def calculate_score(article, config):
     relevance = min(matches / 3, 1.0)
     score += relevance * filters['relevance_weight']
 
-    # Content type bonus
-    content_type = article.get('content_type', '')
-    type_bonuses = {
-        'tutorial': 0.25,
-        'deep_dive': 0.20,
-        'skill': 0.20,
-        'tool_demo': 0.15,
-        'product_launch': 0.12,
-        'tool_update': 0.10,
-        'podcast': 0.12
-    }
-    score += type_bonuses.get(content_type, 0)
-
-    # Strong actionable keywords bonus
-    strong_keywords = ['step by step', 'from scratch', 'complete guide', 'hands-on']
-    if any(kw in text for kw in strong_keywords):
-        score += 0.10
+    # Significance bonus — news importance signals
+    significance_keywords = [
+        'introducing', 'now available', 'generally available', 'launches',
+        'launched', 'acquires', 'acquisition', 'partnership',
+        'new model', 'release', 'unveils',
+    ]
+    if any(kw in text for kw in significance_keywords) or re.search(r'\b(raises|raised)\b', text):
+        score += 0.15
 
     # Recency
     try:
@@ -834,84 +768,6 @@ def calculate_score(article, config):
         score += 0.3 * filters['recency_weight']
 
     return score
-
-
-# ============================================================
-# QUICK WINS GENERATION
-# ============================================================
-
-def select_rotated_skill(skills, seen, today):
-    """Pick a skill the reader hasn't seen recently, date-seeded for determinism."""
-    if not skills:
-        return None
-    available = [s for s in skills if s['url'] not in seen]
-    if not available:
-        # All shown — pick from the oldest-shown to maximize variety
-        available = sorted(skills, key=lambda s: seen.get(s['url'], ''))[:max(1, len(skills) // 4)]
-    return random.Random(today).choice(available)
-
-
-def create_quick_wins(articles, skills, seen, today):
-    """
-    Create Quick Wins section:
-    1. New Tool - Something to try today
-    2. Claude Skill - A skill to install
-    3. Quick Tutorial - A fast tutorial to follow
-    """
-    quick_wins = []
-
-    # 1. Find best new tool
-    tools = [a for a in articles if a.get('category') in ['tools', 'launch'] or a.get('content_type') in ['tool_demo', 'tool_update', 'product_launch']]
-    if tools:
-        tool = max(tools, key=lambda x: x.get('score', 0))
-        quick_wins.append({
-            'type': 'new_tool',
-            'icon': '🆕',
-            'label': 'New Tool',
-            'title': tool['title'][:80],
-            'description': tool.get('description', '')[:120],
-            'url': tool['url'],
-            'source': tool.get('source', '')
-        })
-
-    # 2. Add a Claude skill
-    skill = select_rotated_skill(skills, seen, today)
-    if skill:
-        quick_wins.append({
-            'type': 'skill',
-            'icon': '⚡',
-            'label': 'Claude Skill',
-            'title': skill['title'],
-            'description': skill.get('description', '')[:120],
-            'url': skill['url'],
-            'source': 'GitHub'
-        })
-
-    # 3. Find quick tutorial (prefer short ones)
-    tutorials = [a for a in articles if a.get('category') == 'tutorial' or a.get('content_type') == 'tutorial']
-    short_indicators = ['5 min', '10 min', '15 min', 'quick', 'fast', 'simple']
-    short_tutorials = [t for t in tutorials if any(x in t.get('title', '').lower() for x in short_indicators)]
-
-    if short_tutorials:
-        tut = max(short_tutorials, key=lambda x: x.get('score', 0))
-    elif tutorials:
-        tut = max(tutorials, key=lambda x: x.get('score', 0))
-    else:
-        tut = None
-
-    if tut:
-        quick_wins.append({
-            'type': 'tutorial',
-            'icon': '🎯',
-            'label': 'Quick Tutorial',
-            'title': tut['title'][:80],
-            'description': tut.get('description', '')[:120],
-            'url': tut['url'],
-            'source': tut.get('source', ''),
-            'video_url': tut.get('video_url')
-        })
-
-    return quick_wins
 
 
 def get_featured_podcast(podcasts):
@@ -953,15 +809,15 @@ def save_seen_urls(seen, archive_days):
 
 def main():
     print("=" * 60)
-    print("🚀 AI Venture Digest - Actionable Content Fetcher v2.1")
-    print("   For Venture Builders Who Ship")
+    print("🚀 AI Venture Digest - News Fetcher v2.1")
+    print("   The AI news that matters")
     print("=" * 60)
 
     config = load_config()
     seen = load_seen_urls()
     all_articles = []
 
-    # 1. YouTube tutorials (via Data API v3 search)
+    # 1. YouTube videos (via Data API v3 search)
     videos = fetch_youtube_search(config)
     all_articles.extend(videos)
 
@@ -973,14 +829,11 @@ def main():
     blogs = fetch_engineering_blogs(config)
     all_articles.extend(blogs)
 
-    # 4. GitHub skills (curated — used for quick wins only, not main article list)
-    skills = get_github_skills(config)
-
-    # 5. Twitter/X posts from AI builders
+    # 4. Twitter/X posts from AI builders
     twitter_posts = fetch_twitter_posts(config)
     all_articles.extend(twitter_posts)
 
-    # 6. Product Hunt launches
+    # 5. Product Hunt launches
     ph_launches = fetch_producthunt(config)
     all_articles.extend(ph_launches)
 
@@ -1018,11 +871,7 @@ def main():
     print(f"\n🎯 Source diversity: capped at {max_per_source} per source ({len(all_articles)} → {len(diverse_articles)} articles)")
     all_articles = diverse_articles
 
-    # Create Quick Wins
-    print("\n🎯 Creating Quick Wins...")
     today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-    quick_wins = create_quick_wins(all_articles, skills, seen, today)
-    print(f"  → Created {len(quick_wins)} quick wins")
 
     # Get featured podcast
     featured_podcast = get_featured_podcast(podcasts)
@@ -1051,7 +900,6 @@ def main():
     output = {
         'generated_at': datetime.now().isoformat(),
         'article_count': len(all_articles),
-        'quick_wins': quick_wins,
         'featured_podcast': featured_podcast,
         'twitter_posts': top_twitter,
         'categories': categories,
@@ -1071,11 +919,9 @@ def main():
         json.dump(output, f, indent=2)
     print(f"📦 Saved archive snapshot to {archive_path}")
 
-    # Record shown URLs in history (including skills for rotation)
+    # Record shown URLs in history for cross-day dedup
     for article in output.get('articles', []):
         seen[article['url']] = today
-    for qw in output.get('quick_wins', []):
-        seen[qw['url']] = today
     if output.get('featured_podcast'):
         seen[output['featured_podcast']['url']] = today
     for tweet in output.get('twitter_posts', []):
@@ -1089,9 +935,7 @@ def main():
         print(f"🔁 Dedup: pruned {num_pruned} entries older than {archive_days} days")
 
     print(f"\n💾 Saved {len(all_articles)} articles to data/articles.json")
-    print(f"   - {len(quick_wins)} quick wins")
     print(f"   - {len(podcasts)} podcast episodes")
-    print(f"   - {len([a for a in all_articles if a.get('category') == 'tutorial'])} tutorials")
     print(f"   - {len(top_twitter)} Twitter posts")
     print("✅ Done!")
     print("=" * 60)

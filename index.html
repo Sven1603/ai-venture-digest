@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Venture Digest - Actionable AI for Builders</title>
+    <title>AI Venture Digest - The AI news that matters</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -329,101 +329,6 @@
 
         @media print { .toc-nav { display: none; } }
 
-        /* === Quick Wins (colored cards) === */
-        .quick-wins-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .quick-win-card {
-            border-radius: 24px;
-            padding: 28px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: block;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .quick-win-card.tool {
-            background: var(--green);
-            color: var(--dark);
-            --shadow-color: var(--green-shadow);
-            box-shadow: 6px 6px 0 var(--shadow-color);
-        }
-
-        .quick-win-card.skill {
-            background: var(--yellow);
-            color: var(--dark);
-            --shadow-color: var(--yellow-shadow);
-            box-shadow: 6px 6px 0 var(--shadow-color);
-        }
-
-        .quick-win-card.tutorial {
-            background: #4A7BF7;
-            color: var(--white);
-            --shadow-color: var(--blue-mid-shadow);
-            box-shadow: 6px 6px 0 var(--shadow-color);
-        }
-
-        .quick-win-card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--shadow-color); }
-        .quick-win-card:active { transform: translate(1px, 1px); box-shadow: 4px 4px 0 var(--shadow-color); }
-
-        .quick-win-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .quick-win-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
-        .quick-win-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            opacity: 0.7;
-        }
-
-        .quick-win-title {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-
-        .quick-win-description {
-            font-size: 0.85rem;
-            opacity: 0.75;
-            margin-bottom: 16px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .quick-win-cta {
-            display: inline-block;
-            background: var(--dark);
-            color: var(--white);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
         /* === Yellow Marquee === */
         .marquee-wrapper {
             background: var(--yellow);
@@ -569,23 +474,6 @@
             gap: 10px;
             margin-bottom: 6px;
         }
-
-        .category-badge {
-            font-size: 0.7rem;
-            padding: 3px 10px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .category-badge.tutorial { background: rgba(255, 140, 66, 0.15); color: var(--orange); }
-        .category-badge.tools { background: rgba(61, 190, 104, 0.15); color: var(--green); }
-        .category-badge.skill { background: rgba(43, 59, 240, 0.12); color: var(--blue); }
-        .category-badge.workflow { background: rgba(8, 145, 178, 0.12); color: var(--accent-cyan); }
-        .category-badge.deep_dive { background: rgba(43, 59, 240, 0.12); color: var(--blue); }
-        .category-badge.podcast { background: rgba(109, 40, 217, 0.12); color: var(--accent-purple); }
-        .category-badge.video { background: rgba(255, 77, 109, 0.12); color: var(--pink); }
-        .category-badge.launch { background: rgba(255, 140, 66, 0.15); color: var(--orange); }
 
         .source-label { font-size: 0.75rem; color: var(--text-muted); }
 
@@ -815,74 +703,6 @@
             overflow: hidden;
         }
 
-        /* === Launches (colored cards) === */
-        .launches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .launch-card {
-            border-radius: 24px;
-            padding: 20px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .launch-card:nth-child(4n+1) { background: var(--green); color: var(--dark); --shadow-color: var(--green-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
-        .launch-card:nth-child(4n+2) { background: var(--orange); color: var(--dark); --shadow-color: var(--orange-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
-        .launch-card:nth-child(4n+3) { background: var(--yellow); color: var(--dark); --shadow-color: var(--yellow-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
-        .launch-card:nth-child(4n+4) { background: #4A7BF7; color: var(--white); --shadow-color: var(--blue-mid-shadow); box-shadow: 5px 5px 0 var(--shadow-color); }
-
-        .launch-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--shadow-color); }
-        .launch-card:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--shadow-color); }
-
-        .launch-card-icon {
-            width: 42px;
-            height: 42px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .launch-card-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .launch-card-content { flex: 1; min-width: 0; }
-
-        .launch-card-title {
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-            color: inherit;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .launch-card-desc {
-            font-size: 0.75rem;
-            color: inherit;
-            opacity: 0.65;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
         /* === Blue Outlined Marquee === */
         .marquee-outlined-wrapper {
             background: var(--blue);
@@ -910,48 +730,6 @@
             0% { transform: translateX(-50%); }
             100% { transform: translateX(0); }
         }
-
-        /* === Quick Hits / More Updates === */
-        .quick-hits-list { display: flex; flex-direction: column; }
-
-        .quick-hit-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s;
-        }
-
-        .quick-hit-item:last-child { border-bottom: none; }
-
-        .quick-hit-item:hover {
-            background: var(--white);
-            margin: 0 -16px;
-            padding: 14px 16px;
-            border-radius: 12px;
-        }
-
-        .quick-hit-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-        .quick-hit-bullet { color: var(--blue); font-weight: bold; font-size: 1.2rem; }
-
-        .quick-hit-title {
-            font-size: 0.95rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .quick-hit-title a {
-            color: var(--dark);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .quick-hit-title a:hover { color: var(--blue); }
-
-        .quick-hit-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-        .quick-hit-source { font-size: 0.75rem; color: var(--text-muted); }
 
         /* === Subscribe Modal === */
         .modal-overlay {
@@ -1054,9 +832,7 @@
                 justify-content: center;
             }
 
-            .quick-win-card:hover,
             .podcast-mini:hover,
-            .launch-card:hover,
             .twitter-post:hover,
             .must-read-item:hover,
             .podcast-card:hover {
@@ -1299,7 +1075,6 @@
             .hero h1 { font-size: 3.2rem; }
             .hero-emoji { font-size: 36px !important; opacity: 0.45 !important; }
             .section-title { font-size: 1.6rem; }
-            .quick-wins-grid { grid-template-columns: 1fr; }
             .videos-grid { grid-template-columns: 1fr; gap: 16px; }
             .twitter-posts-list { grid-template-columns: 1fr; }
             .podcast-card { flex-direction: column; text-align: center; }
@@ -1308,7 +1083,6 @@
             .must-read-item { grid-template-columns: 36px 1fr; gap: 12px; }
             .must-read-number { width: 36px; height: 36px; font-size: 0.9rem; }
             .must-read-time { display: none; }
-            .quick-hit-source { display: none; }
             .toc-nav { padding: 0 16px; }
             .marquee-track span { font-size: 1.2rem; }
             .marquee-outlined-track span { font-size: 2rem; }
@@ -1334,7 +1108,7 @@
         <div class="container hero-content">
             <p class="hero-date" id="dateDisplay"></p>
             <h1>AI Venture<br>Digest</h1>
-            <p class="hero-tagline">Actionable AI for builders who ship</p>
+            <p class="hero-tagline">The AI news that matters — for people who build</p>
             <button class="btn-yellow" onclick="openSubscribeModal()" style="padding:16px 48px;font-size:1.1rem">Subscribe Now</button>
         </div>
     </header>
@@ -1342,8 +1116,8 @@
     <!-- Feature Strip -->
     <div class="feature-strip" aria-hidden="true">
         <div class="feature-strip-track">
-            <span>&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;</span>
-            <span>&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ AI Tools&nbsp;&nbsp;✦ Tutorials&nbsp;&nbsp;✦ Workflows&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;</span>
+            <span>&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;</span>
+            <span>&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;✦ Releases&nbsp;&nbsp;✦ Launches&nbsp;&nbsp;✦ Business&nbsp;&nbsp;✦ Research&nbsp;&nbsp;✦ Podcasts&nbsp;&nbsp;</span>
         </div>
     </div>
 
@@ -1351,20 +1125,77 @@
     <nav id="tocNav" class="toc-nav" aria-label="Table of contents"></nav>
 
     <main>
-        <!-- Quick Wins -->
-        <section id="quickWinsSection" class="section-white">
+        <!-- Releases -->
+        <section id="releasesSection" class="section-white">
             <div class="container">
-                <div class="section-label">Curated Daily</div>
+                <div class="section-label">Ship Log</div>
                 <div class="section-header">
-                    <h2 class="section-title">⚡ Today's Quick Wins</h2>
-                    <button class="btn-archive" onclick="openArchive('quickWins')">📦 Archive</button>
+                    <h2 class="section-title">🚀 Releases</h2>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="releasesReadTime"></span>
+                        <button class="btn-archive" onclick="openArchive('releases')">📦 Archive</button>
+                    </div>
                 </div>
-                <div class="quick-wins-grid" id="quickWinsGrid"></div>
+                <div class="must-reads-list" id="releasesList"></div>
             </div>
         </section>
 
-        <!-- Wave: White → Yellow -->
-        <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
+        <!-- Wave: White → Cream -->
+        <svg class="wave-divider" style="background:#FFF8F0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
+
+        <!-- Launches -->
+        <section id="launchesSection" class="section-cream">
+            <div class="container">
+                <div class="section-label">Product Hunt & Beyond</div>
+                <div class="section-header">
+                    <h2 class="section-title">🎉 Launches</h2>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="launchesReadTime"></span>
+                        <button class="btn-archive" onclick="openArchive('launches')">📦 Archive</button>
+                    </div>
+                </div>
+                <div class="must-reads-list" id="launchesList"></div>
+            </div>
+        </section>
+
+        <!-- Wave: Cream → White -->
+        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFF8F0"/></svg>
+
+        <!-- Business & Strategy -->
+        <section id="businessSection" class="section-white">
+            <div class="container">
+                <div class="section-label">Industry & Strategy</div>
+                <div class="section-header">
+                    <h2 class="section-title">💼 Business & Strategy</h2>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="businessReadTime"></span>
+                        <button class="btn-archive" onclick="openArchive('business')">📦 Archive</button>
+                    </div>
+                </div>
+                <div class="must-reads-list" id="businessList"></div>
+            </div>
+        </section>
+
+        <!-- Wave: White → Cream -->
+        <svg class="wave-divider" style="background:#FFF8F0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#FFFFFF"/></svg>
+
+        <!-- Research -->
+        <section id="researchSection" class="section-cream">
+            <div class="container">
+                <div class="section-label">Papers & Breakthroughs</div>
+                <div class="section-header">
+                    <h2 class="section-title">🔬 Research</h2>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span class="section-meta" id="researchReadTime"></span>
+                        <button class="btn-archive" onclick="openArchive('research')">📦 Archive</button>
+                    </div>
+                </div>
+                <div class="must-reads-list" id="researchList"></div>
+            </div>
+        </section>
+
+        <!-- Wave: Cream → Yellow -->
+        <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFF8F0"/></svg>
 
         <!-- Yellow Marquee -->
         <div class="marquee-wrapper" aria-hidden="true">
@@ -1374,54 +1205,18 @@
             </div>
         </div>
 
-        <!-- Wave: Yellow → Blue -->
-        <svg class="wave-divider" style="background:#2B3BF0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFC107"/></svg>
-
-        <!-- Featured Podcast -->
-        <section id="podcastSection" class="section-blue">
-            <div class="container">
-                <div class="section-label">Featured</div>
-                <div class="section-header">
-                    <h2 class="section-title">🎙️ Featured Podcast</h2>
-                    <button class="btn-archive" onclick="openArchive('podcasts')">📦 Archive</button>
-                </div>
-                <div id="featuredPodcast"></div>
-            </div>
-        </section>
-
-        <!-- Wave: Blue → White -->
-        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#2B3BF0"/></svg>
-
-        <!-- Must Reads -->
-        <section id="mustReadsSection" class="section-white">
-            <div class="container">
-                <div class="section-label">Deep Reads</div>
-                <div class="section-header">
-                    <h2 class="section-title">📚 Top 5 Actionable Reads</h2>
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <span class="section-meta" id="totalReadTime"></span>
-                        <button class="btn-archive" onclick="openArchive('mustReads')">📦 Archive</button>
-                    </div>
-                </div>
-                <div class="must-reads-list" id="mustReadsList"></div>
-            </div>
-        </section>
-
-        <!-- Wave: White → Yellow -->
-        <svg class="wave-divider" style="background:#FFC107" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#FFFFFF"/></svg>
-
-        <!-- Tutorial Videos -->
+        <!-- Videos -->
         <section id="videoSection" class="section-yellow">
             <div class="container">
-                <div class="section-label">Tutorials</div>
+                <div class="section-label">Watch</div>
                 <div class="section-header">
-                    <h2 class="section-title">🎬 Suggested Video Tutorials</h2>
+                    <h2 class="section-title">🎬 AI News in Video</h2>
                     <button class="btn-archive" onclick="openArchive('videos')">📦 Archive</button>
                 </div>
                 <div class="videos-grid" id="videosGrid"></div>
                 <div class="browse-more-videos">
                     <a href="#" id="browseMoreVideosBtn" target="_blank" rel="noopener" class="btn-dark">
-                        <span>🔍 Browse More Tutorials</span>
+                        <span>🔍 Browse More Videos</span>
                     </a>
                 </div>
             </div>
@@ -1460,23 +1255,8 @@
             </div>
         </section>
 
-        <!-- Wave: Dark → White -->
-        <svg class="wave-divider" style="background:#FFFFFF" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#0A0A2E"/></svg>
-
-        <!-- Product Launches -->
-        <section id="launchesSection" class="section-white">
-            <div class="container">
-                <div class="section-label">New Releases</div>
-                <div class="section-header">
-                    <h2 class="section-title">🚀 AI Product Launches</h2>
-                    <button class="btn-archive" onclick="openArchive('launches')">📦 Archive</button>
-                </div>
-                <div class="launches-grid" id="launchesGrid"></div>
-            </div>
-        </section>
-
-        <!-- Wave: White → Blue -->
-        <svg class="wave-divider" style="background:#2B3BF0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,30 C1300,8 1100,58 900,32 C600,-2 300,62 0,38 Z" fill="#FFFFFF"/></svg>
+        <!-- Wave: Dark → Blue -->
+        <svg class="wave-divider" style="background:#2B3BF0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,20 C1200,55 960,5 720,30 C480,55 240,5 0,25 Z" fill="#0A0A2E"/></svg>
 
         <!-- Blue Outlined Marquee -->
         <div class="marquee-outlined-wrapper" aria-hidden="true">
@@ -1486,21 +1266,15 @@
             </div>
         </div>
 
-        <!-- Wave: Blue → Cream -->
-        <svg class="wave-divider" style="background:#FFF8F0" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,0 L1440,0 L1440,15 C1350,48 1200,48 1080,22 C900,-8 720,-2 540,22 C360,48 180,52 0,22 Z" fill="#2B3BF0"/></svg>
-
-        <!-- More Updates -->
-        <section id="quickHitsSection" class="section-cream">
+        <!-- Featured Podcast -->
+        <section id="podcastSection" class="section-blue">
             <div class="container">
-                <div class="section-label">Quick Hits</div>
+                <div class="section-label">Featured</div>
                 <div class="section-header">
-                    <h2 class="section-title">📌 More Updates</h2>
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <span class="section-meta" id="quickHitsCount"></span>
-                        <button class="btn-archive" onclick="openArchive('moreUpdates')">📦 Archive</button>
-                    </div>
+                    <h2 class="section-title">🎙️ Featured Podcast</h2>
+                    <button class="btn-archive" onclick="openArchive('podcasts')">📦 Archive</button>
                 </div>
-                <div class="quick-hits-list" id="quickHitsList"></div>
+                <div id="featuredPodcast"></div>
             </div>
         </section>
     </main>
@@ -1509,7 +1283,7 @@
     <div class="modal-overlay" id="subscribeModal">
         <div class="modal">
             <h2>📧 Get the Daily Digest</h2>
-            <p>Receive actionable AI tutorials, tools, and skills every morning.</p>
+            <p>Get the AI news that matters, every morning.</p>
             <input type="email" id="subscribeEmail" placeholder="your@email.com">
             <input type="text" id="subscribeWebsite" name="website" autocomplete="off"
                    tabindex="-1" style="position:absolute;left:-9999px;opacity:0;">
@@ -1529,14 +1303,12 @@
                 <div class="archive-controls">
                     <input type="text" id="archiveSearch" class="archive-search" placeholder="Search archived items...">
                     <select id="archiveFilter" class="archive-filter">
-                        <option value="all">All Categories</option>
-                        <option value="quickWins">Quick Wins</option>
-                        <option value="podcasts">Podcasts</option>
-                        <option value="mustReads">Must Reads</option>
-                        <option value="videos">Videos</option>
-                        <option value="twitter">X Posts</option>
+                        <option value="all">All</option>
+                        <option value="releases">Releases</option>
                         <option value="launches">Launches</option>
-                        <option value="moreUpdates">More Updates</option>
+                        <option value="business">Business</option>
+                        <option value="research">Research</option>
+                        <option value="videos">Videos</option>
                     </select>
                 </div>
             </div>
@@ -1546,7 +1318,6 @@
 
     <script>
         let articles = [];
-        let quickWins = [];
         let featuredPodcast = null;
         let twitterPosts = [];
         let youtubeSearchQueries = [];
@@ -1582,14 +1353,6 @@
         function estimateReadTime(text) {
             const words = text.split(/\s+/).length;
             return Math.max(2, Math.ceil(words / 200) + Math.floor(Math.random() * 3));
-        }
-
-        function getCategoryEmoji(category) {
-            const emojis = {
-                tutorial: '📖', tools: '🛠️', skill: '⚡', workflow: '⚙️',
-                deep_dive: '🔬', video: '🎬', podcast: '🎙️', launch: '🚀'
-            };
-            return emojis[category] || '📌';
         }
 
         function extractYouTubeId(url) {
@@ -1639,13 +1402,11 @@
                 if (!response.ok) throw new Error('No data');
                 const data = await response.json();
                 articles = data.articles || [];
-                quickWins = data.quick_wins || [];
                 featuredPodcast = data.featured_podcast || null;
                 twitterPosts = data.twitter_posts || [];
                 youtubeSearchQueries = data.youtube_search_queries || [];
             } catch (e) {
                 articles = getSampleArticles();
-                quickWins = getDefaultQuickWins();
                 featuredPodcast = getDefaultPodcast();
                 twitterPosts = getDefaultTwitterPosts();
             }
@@ -1653,14 +1414,6 @@
                 a.readTime = a.readTime || estimateReadTime((a.summary || a.description || '') + ' ' + a.title);
             });
             renderAll();
-        }
-
-        function getDefaultQuickWins() {
-            return [
-                { type: 'new_tool', icon: '🆕', label: 'New Tool', title: 'Cursor 2.0 - AI-First Code Editor', description: 'Multi-file editing, automatic test generation, seamless Claude/GPT integration.', url: 'https://cursor.com', source: 'Cursor' },
-                { type: 'skill', icon: '⚡', label: 'Claude Skill', title: 'obra/superpowers', description: 'Battle-tested skills: /brainstorm, /write-plan, /execute-plan, TDD patterns', url: 'https://github.com/obra/superpowers', source: 'GitHub' },
-                { type: 'tutorial', icon: '🎯', label: 'Quick Tutorial', title: 'Build a SaaS MVP in 30 Minutes with AI', description: 'Step-by-step guide using Cursor, Claude, and Vercel.', url: 'https://www.youtube.com/results?search_query=build+saas+mvp+cursor+ai', source: 'YouTube' }
-            ];
         }
 
         function getDefaultPodcast() {
@@ -1679,12 +1432,12 @@
 
         function getSampleArticles() {
             return [
-                { id: '1', title: 'How to Build a RAG Chatbot with LangChain in 15 Minutes', summary: 'Step-by-step tutorial covering document loading, embeddings, vector stores, and conversational retrieval.', url: 'https://blog.langchain.dev/rag-tutorial', source: 'LangChain Blog', category: 'tutorial', score: 98 },
-                { id: '2', title: 'Claude Code Best Practices: 17 Workflows That 10x Productivity', summary: 'Practical patterns from power users including plan mode, parallel sessions, and CLAUDE.md optimization.', url: 'https://www.anthropic.com/engineering/claude-code-best-practices', source: 'Anthropic', category: 'deep_dive', score: 96 },
-                { id: '3', title: 'n8n + OpenAI: Automate Content Creation Workflow', summary: 'Build a workflow that generates blog posts, social media content, and newsletters automatically.', url: 'https://blog.n8n.io/ai-content-workflow', source: 'n8n Blog', category: 'workflow', score: 94 },
-                { id: '4', title: 'Cursor IDE Tutorial: From Zero to Production App', summary: 'Complete guide to building and deploying a full-stack app using AI-powered coding.', url: 'https://www.youtube.com/watch?v=cursor-tutorial', source: 'All About AI', category: 'tutorial', score: 92, video_url: 'https://www.youtube.com/watch?v=cursor-tutorial' },
-                { id: '5', title: 'Setting Up CLAUDE.md for Team Workflows', summary: 'How to configure CLAUDE.md files for consistent AI assistance across your development team.', url: 'https://www.gend.co/blog/claude-skills-claude-md-guide', source: 'Gend.co', category: 'skill', score: 90 },
-                { id: '6', title: 'Build Voice AI Apps with Whisper + Claude + ElevenLabs', summary: 'Tutorial on creating voice-enabled AI assistants from scratch.', url: 'https://huggingface.co/blog/voice-ai', source: 'Hugging Face', category: 'tutorial', score: 88 }
+                { id: '1', title: 'GPT-5.2 Turbo Released with Native Agent Orchestration', summary: 'OpenAI ships a faster, cheaper flagship model with built-in multi-agent tool routing.', url: 'https://openai.com/blog/gpt-5-2-turbo', source: 'OpenAI', category: 'releases', score: 98 },
+                { id: '2', title: 'Claude Code Best Practices: 17 Workflows That 10x Productivity', summary: 'Practical patterns from power users including plan mode, parallel sessions, and CLAUDE.md optimization.', url: 'https://www.anthropic.com/engineering/claude-code-best-practices', source: 'Anthropic', category: 'business', score: 96 },
+                { id: '3', title: 'Indie Hacker Launches AI Resume Builder, Hits $10k MRR in a Month', summary: 'A solo founder shares the exact Product Hunt launch playbook that got them there.', url: 'https://www.producthunt.com/posts/ai-resume-builder', source: 'Product Hunt', category: 'launches', score: 94 },
+                { id: '4', title: 'OpenAI Ships New Model to the API, Undercutting GPT-4 on Price', summary: 'The quiet release adds function calling upgrades and a longer context window.', url: 'https://www.youtube.com/watch?v=openai-model-news', source: 'All About AI', category: 'releases', score: 92, video_url: 'https://www.youtube.com/watch?v=openai-model-news' },
+                { id: '5', title: 'New Paper Shows Smaller Models Can Match GPT-4 on Reasoning', summary: 'Researchers find distillation techniques close the gap for a fraction of the compute cost.', url: 'https://arxiv.org/abs/2026.01234', source: 'arXiv', category: 'research', score: 90 },
+                { id: '6', title: 'Why Every SaaS Founder Is Rebuilding Onboarding Around AI Copilots', summary: 'A look at the strategic shift happening across indie and VC-backed products alike.', url: 'https://www.lennysnewsletter.com/ai-copilot-onboarding', source: "Lenny's Newsletter", category: 'business', score: 88 }
             ];
         }
 
@@ -1698,10 +1451,10 @@
             nav.innerHTML = '';
 
             const labels = {
-                quickWinsSection: 'Quick Wins', podcastSection: 'Podcast',
-                mustReadsSection: 'Must Reads', videoSection: 'Tutorial',
-                morePodcastsSection: 'More Pods', twitterSection: 'X / Twitter',
-                launchesSection: 'Launches', quickHitsSection: 'More Updates'
+                releasesSection: 'Releases', launchesSection: 'Launches',
+                businessSection: 'Business', researchSection: 'Research',
+                videoSection: 'Videos', morePodcastsSection: 'More Pods',
+                twitterSection: 'X / Twitter', podcastSection: 'Podcast'
             };
 
             const sections = [];
@@ -1808,28 +1561,56 @@
             document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', {
                 weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
             });
-            renderQuickWins(); renderFeaturedPodcast(); renderMustReads();
-            renderVideos(); renderMorePodcasts(); renderTwitterPosts();
-            renderLaunches(); renderMoreUpdates(); buildTOC();
+            renderCategorySection('releases', 'releasesSection', 'releasesList', 'releasesReadTime');
+            renderCategorySection('launches', 'launchesSection', 'launchesList', 'launchesReadTime');
+            renderCategorySection('business', 'businessSection', 'businessList', 'businessReadTime');
+            renderCategorySection('research', 'researchSection', 'researchList', 'researchReadTime');
+            renderFeaturedPodcast(); renderVideos(); renderMorePodcasts(); renderTwitterPosts();
+            buildTOC();
         }
 
-        function renderQuickWins() {
-            const wins = quickWins.length > 0 ? quickWins : getDefaultQuickWins();
-            const grid = document.getElementById('quickWinsGrid');
-            grid.innerHTML = wins.map(win => {
-                const typeClass = win.type === 'new_tool' ? 'tool' : win.type;
-                const cta = win.type === 'skill' ? 'Install Skill →' : win.type === 'new_tool' ? 'Try Tool →' : 'Start Tutorial →';
-                return `
-                    <a href="${safeUrl(win.url)}" target="_blank" rel="noopener" class="quick-win-card ${typeClass}">
-                        <div class="quick-win-header">
-                            <div class="quick-win-icon">${escHtml(win.icon)}</div>
-                            <span class="quick-win-label">${escHtml(win.label)}</span>
+        function renderMustReadItem(a, i) {
+            return `
+                <a href="${safeUrl(a.url)}" target="_blank" rel="noopener" class="must-read-item">
+                    <div class="must-read-number">${i + 1}</div>
+                    <div class="must-read-content">
+                        <div class="must-read-meta">
+                            <span class="source-label">${escHtml(a.source)}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
                         </div>
-                        <h3 class="quick-win-title">${escHtml(win.title)}</h3>
-                        <p class="quick-win-description">${escHtml(win.description)}</p>
-                        <span class="quick-win-cta">${cta}</span>
-                    </a>`;
-            }).join('');
+                        <h3 class="must-read-title">${escHtml(a.title)}</h3>
+                        <p class="must-read-summary">${escHtml(a.description || a.summary || '')}</p>
+                    </div>
+                    <div class="must-read-time"><span>📖</span><span>${a.readTime || 5} min</span></div>
+                </a>`;
+        }
+
+        // A wave-divider between two sections should only render when BOTH its
+        // neighboring sections are visible — otherwise it's a stray color band
+        // leading into (or out of) empty space. Re-evaluated from each section's
+        // own render call, so it self-corrects regardless of call order.
+        function updateAdjacentWave(sibling) {
+            if (!sibling || !sibling.classList || !sibling.classList.contains('wave-divider')) return;
+            const prev = sibling.previousElementSibling;
+            const next = sibling.nextElementSibling;
+            const prevHidden = !!prev && prev.tagName === 'SECTION' && prev.style.display === 'none';
+            const nextHidden = !!next && next.tagName === 'SECTION' && next.style.display === 'none';
+            sibling.style.display = (prevHidden || nextHidden) ? 'none' : '';
+        }
+
+        function renderCategorySection(category, sectionId, listId, readTimeId) {
+            const section = document.getElementById(sectionId);
+            const items = articles
+                .filter(a => a.category === category && !a.video_url)
+                .sort((a, b) => (b.score || 0) - (a.score || 0));
+            const isEmpty = items.length === 0;
+            section.style.display = isEmpty ? 'none' : '';
+            updateAdjacentWave(section.previousElementSibling);
+            updateAdjacentWave(section.nextElementSibling);
+            if (isEmpty) return;
+            const totalTime = items.reduce((sum, a) => sum + (a.readTime || 5), 0);
+            const readTimeEl = document.getElementById(readTimeId);
+            if (readTimeEl) readTimeEl.textContent = `~${totalTime} min total`;
+            document.getElementById(listId).innerHTML = items.map((a, i) => renderMustReadItem(a, i)).join('');
         }
 
         function renderFeaturedPodcast() {
@@ -1851,34 +1632,8 @@
                 </a>`;
         }
 
-        function renderMustReads() {
-            const priorityCategories = ['tutorial', 'deep_dive', 'workflow', 'skill', 'tools'];
-            const mustReads = articles
-                .filter(a => a.category !== 'podcast' && !a.video_url)
-                .sort((a, b) => {
-                    const aBoost = priorityCategories.includes(a.category) ? 0.2 : 0;
-                    const bBoost = priorityCategories.includes(b.category) ? 0.2 : 0;
-                    return (b.score + bBoost) - (a.score + aBoost);
-                }).slice(0, 5);
-            const totalTime = mustReads.reduce((sum, a) => sum + (a.readTime || 5), 0);
-            document.getElementById('totalReadTime').textContent = `~${totalTime} min total`;
-            const list = document.getElementById('mustReadsList');
-            list.innerHTML = mustReads.map((a, i) => `
-                <a href="${safeUrl(a.url)}" target="_blank" rel="noopener" class="must-read-item">
-                    <div class="must-read-number">${i + 1}</div>
-                    <div class="must-read-content">
-                        <div class="must-read-meta">
-                            <span class="source-label">${escHtml(a.source)}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
-                        </div>
-                        <h3 class="must-read-title">${escHtml(a.title)}</h3>
-                        <p class="must-read-summary">${escHtml(a.description || a.summary || '')}</p>
-                    </div>
-                    <div class="must-read-time"><span>📖</span><span>${a.readTime || 5} min</span></div>
-                </a>`).join('');
-        }
-
         function getDailyYouTubeSearchQuery() {
-            const queries = youtubeSearchQueries.length > 0 ? youtubeSearchQueries : ['ai tutorial'];
+            const queries = youtubeSearchQueries.length > 0 ? youtubeSearchQueries : ['ai news'];
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
             const index = dayOfYear % queries.length;
@@ -1887,19 +1642,14 @@
 
         function renderVideos() {
             const allVideos = articles.filter(a => extractYouTubeId(a.url || a.video_url) !== null);
-            allVideos.sort((a, b) => {
-                const aT = (a.category === 'tutorial' || a.content_type === 'tutorial') ? 1 : 0;
-                const bT = (b.category === 'tutorial' || b.content_type === 'tutorial') ? 1 : 0;
-                if (aT !== bT) return bT - aT;
-                return (b.score || 0) - (a.score || 0);
-            });
+            allVideos.sort((a, b) => (b.score || 0) - (a.score || 0));
 
             let videos = allVideos.slice(0, 3);
             if (videos.length === 0) {
                 const grid = document.getElementById('videosGrid');
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 2rem 1rem; opacity: 0.7;">
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No fresh tutorials today</p>
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No fresh videos today</p>
                         <p style="font-size: 0.9rem;">Check back tomorrow or browse YouTube directly below.</p>
                     </div>`;
                 return;
@@ -1959,40 +1709,6 @@
                         <span class="podcast-mini-source">${escHtml(p.source)}${formatDate(p.published) ? ' · ' + formatDate(p.published) : ''} ${p.podcast_duration ? `• ${escHtml(p.podcast_duration)}` : ''}</span>
                     </div>
                 </a>`).join('');
-        }
-
-        function renderLaunches() {
-            const launches = articles.filter(a => a.category === 'launch');
-            if (launches.length === 0) { document.getElementById('launchesSection').style.display = 'none'; return; }
-            const grid = document.getElementById('launchesGrid');
-            grid.innerHTML = launches.map(l => `
-                <a href="${safeUrl(l.url)}" target="_blank" rel="noopener" class="launch-card">
-                    ${l.thumbnail ? `<img src="${safeUrl(l.thumbnail)}" alt="" class="launch-card-logo">` : `<div class="launch-card-icon">🚀</div>`}
-                    <div class="launch-card-content">
-                        <h4 class="launch-card-title">${escHtml(l.title)}</h4>
-                        <span class="launch-card-desc">${escHtml(l.description || '')}</span>
-                    </div>
-                </a>`).join('');
-        }
-
-        function renderMoreUpdates() {
-            const usedTitles = new Set();
-            articles.filter(a => a.category !== 'podcast' && !a.video_url).slice(0, 5).forEach(a => usedTitles.add(a.title));
-            if (featuredPodcast) usedTitles.add(featuredPodcast.title);
-            const moreUpdates = articles.filter(a => !usedTitles.has(a.title) && a.category !== 'podcast' && a.category !== 'launch').slice(0, 6);
-            document.getElementById('quickHitsCount').textContent = `${moreUpdates.length} more`;
-            const list = document.getElementById('quickHitsList');
-            list.innerHTML = moreUpdates.map(a => `
-                <div class="quick-hit-item">
-                    <div class="quick-hit-left">
-                        <span class="quick-hit-bullet">•</span>
-                        <span class="quick-hit-title"><a href="${safeUrl(a.url)}" target="_blank" rel="noopener">${escHtml(a.title)}</a></span>
-                    </div>
-                    <div class="quick-hit-right">
-                        <span class="quick-hit-source">${escHtml(a.source)}${formatDate(a.published) ? ' · ' + formatDate(a.published) : ''}</span>
-                        <span class="category-badge ${escHtml(a.category)}">${escHtml((a.category || '').replace('_', ' '))}</span>
-                    </div>
-                </div>`).join('');
         }
 
         let subscribeOpenedAt = 0;
@@ -2065,13 +1781,13 @@
         function updateArchiveTitle(category) {
             const titles = {
                 all: 'All Archives',
-                quickWins: 'Quick Wins Archive',
-                podcasts: 'Podcasts Archive',
-                mustReads: 'Must Reads Archive',
-                videos: 'Videos Archive',
-                twitter: 'X Posts Archive',
+                releases: 'Releases Archive',
                 launches: 'Launches Archive',
-                moreUpdates: 'More Updates Archive'
+                business: 'Business Archive',
+                research: 'Research Archive',
+                videos: 'Videos Archive',
+                podcasts: 'Podcasts Archive',
+                twitter: 'X Posts Archive'
             };
             document.getElementById('archiveTitle').textContent = titles[category] || 'Archive';
         }
@@ -2101,24 +1817,27 @@
             let items = [];
             snapshots.forEach(({ date, data }) => {
                 const displayDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                if (category === 'all' || category === 'quickWins') {
-                    (data.quick_wins || []).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Quick Win' }));
+                if (category === 'all' || category === 'releases') {
+                    (data.articles || []).filter(a => a.category === 'releases' && !a.video_url).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Release' }));
+                }
+                if (category === 'all' || category === 'launches') {
+                    (data.articles || []).filter(a => a.category === 'launches' && !a.video_url).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Launch' }));
+                }
+                if (category === 'all' || category === 'business') {
+                    (data.articles || []).filter(a => a.category === 'business' && !a.video_url).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Business' }));
+                }
+                if (category === 'all' || category === 'research') {
+                    (data.articles || []).filter(a => a.category === 'research' && !a.video_url).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Research' }));
+                }
+                if (category === 'all' || category === 'videos') {
+                    (data.articles || []).filter(a => a.video_url || a.url?.includes('youtube.com') || a.url?.includes('youtu.be')).slice(0, 1).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Video' }));
                 }
                 if (category === 'all' || category === 'podcasts') {
                     if (data.featured_podcast) items.push({ ...data.featured_podcast, _date: displayDate, _category: 'Podcast' });
                     (data.articles || []).filter(a => a.category === 'podcast').forEach(item => items.push({ ...item, _date: displayDate, _category: 'Podcast' }));
                 }
-                if (category === 'all' || category === 'mustReads') {
-                    (data.articles || []).filter(a => a.category !== 'podcast' && !a.video_url).slice(0, 5).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Must Read' }));
-                }
-                if (category === 'all' || category === 'videos') {
-                    (data.articles || []).filter(a => a.video_url || a.url?.includes('youtube.com') || a.url?.includes('youtu.be')).slice(0, 1).forEach(item => items.push({ ...item, _date: displayDate, _category: 'Video' }));
-                }
                 if (category === 'all' || category === 'twitter') {
                     (data.twitter_posts || []).forEach(item => items.push({ ...item, _date: displayDate, _category: 'X Post' }));
-                }
-                if (category === 'all' || category === 'launches') {
-                    (data.articles || []).filter(a => a.category === 'launch').forEach(item => items.push({ ...item, _date: displayDate, _category: 'Launch' }));
                 }
             });
             if (searchTerm) {

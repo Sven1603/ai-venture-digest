@@ -1,6 +1,15 @@
 """
 Vercel Cron Job: Fetch and curate AI news daily
-Runs at 7 AM UTC via Vercel Cron
+
+DORMANT as of the 2026-07 news-focus pivot. The scheduled cron entry was removed
+from vercel.json, so this endpoint no longer runs automatically. The canonical
+daily pipeline is GitHub Actions (.github/workflows/daily-fetch.yml), which runs
+scripts/fetcher.py + scripts/newsletter.py with the current news logic.
+
+This module still contains the OLD teaching-era fetch/classification and its own
+newsletter copy; it was NOT migrated. If the Vercel path is ever re-enabled, port
+is_newsworthy/classify_category and the four-category newsletter from scripts/
+first, or it will send stale, off-brand email.
 """
 
 import json
