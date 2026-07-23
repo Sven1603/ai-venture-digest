@@ -75,7 +75,7 @@
   "newsletter": {
     "service": "mailchimp",
     "frequency": "daily",
-    "send_time": "08:00",
+    "send_time": "08:30",
     "timezone": "Europe/Amsterdam",
     "max_items": 10,
     "include_summary": true

@@ -6,10 +6,12 @@ Generates daily digest email and sends via Mailchimp.
 
 import json
 import os
+import time
 import hashlib
 import urllib.request
 import urllib.parse
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Optional
 import base64
@@ -336,6 +338,33 @@ class MailchimpClient:
         self._request('POST', f'campaigns/{campaign_id}/actions/schedule', data)
 
 
+def compute_send_target_utc(send_time_local: str, tz_name: str):
+    """Return (target_utc, is_past) for today's send_time_local in tz_name.
+
+    Free Mailchimp can't schedule campaigns, so the job waits until this UTC
+    moment and then sends immediately. Handles DST automatically via zoneinfo,
+    so 08:30 Europe/Amsterdam maps to 06:30 UTC in summer (CEST) and 07:30 UTC
+    in winter (CET). is_past is True when the slot has effectively arrived or
+    passed, meaning the caller should send now rather than wait.
+    """
+    try:
+        local_tz = ZoneInfo(tz_name)
+    except Exception:
+        local_tz = ZoneInfo('UTC')
+
+    try:
+        hh, mm = (int(part) for part in send_time_local.split(':'))
+    except (ValueError, AttributeError):
+        hh, mm = 8, 30
+
+    now_local = datetime.now(local_tz)
+    target_local = now_local.replace(hour=hh, minute=mm, second=0, microsecond=0)
+    is_past = target_local <= now_local
+
+    target_utc = target_local.astimezone(ZoneInfo('UTC'))
+    return target_utc, is_past
+
+
 def send_newsletter(config: dict):
     """Generate and send newsletter via Mailchimp."""
     # Check for required environment variables
@@ -378,19 +407,30 @@ def send_newsletter(config: dict):
     campaign_id = client.create_campaign(subject, html_content, text_content)
     print(f"   ✓ Created campaign: {campaign_id}")
 
-    # Check if we should send now or schedule
-    send_time = config['newsletter'].get('send_time', '08:00')
+    # Free Mailchimp can't schedule campaigns, so we control delivery time here:
+    # the job starts early (cron), waits until the fixed local send_time, then
+    # sends immediately. This makes delivery independent of GitHub Actions cron
+    # drift as long as the job started before send_time. NEWSLETTER_SEND_NOW
+    # skips the wait for manual/test sends.
+    send_time = config['newsletter'].get('send_time', '08:30')
+    tz_name = config['newsletter'].get('timezone', 'UTC')
     send_now = os.environ.get('NEWSLETTER_SEND_NOW', 'false').lower() == 'true'
 
-    if send_now:
-        print("📧 Sending newsletter...")
-        client.send_campaign(campaign_id)
-        print("   ✓ Newsletter sent!")
-    else:
-        # Schedule for next occurrence of send_time
-        tz = config['newsletter'].get('timezone', 'UTC')
-        schedule_time = f"{datetime.now().strftime('%Y-%m-%d')}T{send_time}:00+00:00"
-        print(f"⏰ Newsletter scheduled for {schedule_time}")
+    if not send_now:
+        target_utc, is_past = compute_send_target_utc(send_time, tz_name)
+        if is_past:
+            # Slot already passed (job started very late) — send now rather
+            # than deferring to tomorrow.
+            print(f"⚠️  {send_time} {tz_name} already passed; sending now.")
+        else:
+            wait_seconds = (target_utc - datetime.now(ZoneInfo('UTC'))).total_seconds()
+            print(f"⏳ Waiting until {send_time} {tz_name} "
+                  f"({target_utc.strftime('%H:%M UTC')}) — {wait_seconds / 60:.0f} min")
+            time.sleep(max(0, wait_seconds))
+
+    print("📧 Sending newsletter...")
+    client.send_campaign(campaign_id)
+    print("   ✓ Newsletter sent!")
 
 
 def main():

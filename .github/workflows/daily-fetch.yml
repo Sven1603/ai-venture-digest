@@ -2,8 +2,12 @@ name: Daily AI Digest Fetch
 
 on:
   schedule:
-    # Run at 7 AM UTC every day
-    - cron: '0 7 * * *'
+    # Start at 04:20 UTC (off the top of the hour). The job fetches + commits
+    # site data immediately, then newsletter.py WAITS until 08:30 Europe/Amsterdam
+    # (06:30 UTC summer / 07:30 UTC winter) before sending — free Mailchimp can't
+    # schedule, so we hold the (free, public-repo) runner until the exact moment.
+    # The early start gives ~2h+ of buffer to absorb GitHub Actions cron drift.
+    - cron: '20 4 * * *'
   workflow_dispatch:
     # Allow manual trigger
 
@@ -28,14 +32,8 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python scripts/fetcher.py
 
-      - name: Generate newsletter
-        env:
-          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
-          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
-          MAILCHIMP_REPLY_TO: ${{ secrets.MAILCHIMP_REPLY_TO }}
-          NEWSLETTER_SEND_NOW: 'true'
-        run: python scripts/newsletter.py
-
+      # Commit site data right after fetch so the website updates promptly and
+      # a killed runner during the newsletter wait can't lose the day's data.
       - name: Commit updated data
         run: |
           git config --local user.email "action@github.com"
@@ -43,3 +41,12 @@ jobs:
           git add data/
           git diff --quiet && git diff --staged --quiet || git commit -m "📰 Daily digest update - $(date +'%Y-%m-%d')"
           git push
+
+      # Waits until 08:30 Europe/Amsterdam (see config.json newsletter.send_time),
+      # then sends immediately. Set NEWSLETTER_SEND_NOW=true to skip the wait.
+      - name: Generate and send newsletter
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
+          MAILCHIMP_REPLY_TO: ${{ secrets.MAILCHIMP_REPLY_TO }}
+        run: python scripts/newsletter.py
